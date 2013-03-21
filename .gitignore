@@ -1,0 +1,15 @@
+#################
+## Eclipse
+#################
+
+.project
+.metadata
+bin/
+.classpath
+.settings/
+
+clojure-src.jar
+clojure.jar
+target
+
+
