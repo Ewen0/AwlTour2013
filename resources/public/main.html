@@ -8,7 +8,7 @@
 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
 	<link rel="shortcut icon" href="kawwa/img/k-theme1/favicon.png" />
 
@@ -35,8 +35,9 @@
 	<script type="text/javascript" src="kawwa/js/k-general.js"></script>
 
 	<script type="text/javascript" src="kawwa/js/k-load.js"></script>
-  
-  <script type="text/javascript" src="js/cljs.js"></script>
+
+	<script type="text/javascript"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSLxl6-fJYZrCh9ESKJzRBblwH6Bpjupc&sensor=true"></script>
 
 </head>
 
@@ -112,7 +113,8 @@
 		
 
 		<div id="main" role="main">
-gfsdsdsd
+		  <div id="map-canvas">
+		  </div>
 		</div><!-- /main -->
 
 			
@@ -142,6 +144,8 @@ gfsdsdsd
 
 
 </body>
+
+<script type="text/javascript" src="js/cljs.js"></script>
 
 </html>
 

@@ -11,7 +11,7 @@
 (enlive/defsnippet layout "public/main.html" [[:body]] [ff]
                    [:#body] (enlive/content "e"))
 
-(enlive/deftemplate main-tml "public/main.html" [])
+(enlive/deftemplate main-tml "public/main.html" []
+  #_[[:header (enlive/attr= :role "banner")]] #_(enlive/content ""))
 
-(main-tml)
 

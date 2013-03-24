@@ -11,5 +11,9 @@ bin/
 clojure-src.jar
 clojure.jar
 target
+out
+
+.repl
+*~
 
 
