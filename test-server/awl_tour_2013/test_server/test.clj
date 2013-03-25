@@ -12,7 +12,9 @@
   (.load ks ks-f (.toCharArray "password"))
   (.load ts ts-f (.toCharArray "password")))
 
-#_(def server (run-jetty handler/app {:ssl true
+(def server (run-jetty handler/app {:port 3000}))
+
+#_(def server (run-jetty handler/app {:ssl false
                                       :ssl-port 3443
                                       :keystore ks
                                       :key-password "password"

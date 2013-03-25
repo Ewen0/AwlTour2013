@@ -4,7 +4,10 @@
             [compojure.route :as route]
             [ring.adapter.jetty :refer [run-jetty]]
             [awl-tour-2013.template :refer [main-tml]])
-  (:import [java.io.File]))
+  (:import [java.io.File]
+           [java.security KeyStore]))
+
+
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
