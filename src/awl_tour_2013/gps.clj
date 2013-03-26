@@ -8,8 +8,9 @@
 (defn connect-db []
   (let [^MongoOptions opts (mg/mongo-options :threads-allowed-to-block-for-connection-multiplier 300)
         ^ServerAddress sa (mg/server-address "127.0.0.1" 27017)]
-    (mg/connect! sa opts))
-  (mg/set-db! (mg/get-db "gps")))
+    #_(mg/connect! sa opts)
+    #_(mg/set-db! (mg/get-db "gps"))
+    (mg/connect-via-uri! "mongodb://heroku:62966bc12b046e9525a0459b09b7cfec@linus.mongohq.com:10044/app14009883")))
 
 (defn disconnect-db []
   (mg/disconnect!))

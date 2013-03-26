@@ -11,7 +11,7 @@
 
 
 (defremote ^{:remote-name :get-coords} remote-get-coords []
-  (gps/get-coords))
+  (-> (map #(dissoc % :_id) (gps/get-coords)) (seq) (str)))
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
@@ -22,4 +22,5 @@
   (-> app-routes (wrap-rpc) (compojure.handler/site)))
 
 (defn -main [port]
+  (gps/connect-db)
   (run-jetty app {:port (Integer. port)}))
