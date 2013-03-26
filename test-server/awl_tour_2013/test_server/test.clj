@@ -5,14 +5,15 @@
             [ojo.watch :refer [defwatch start-watch cease-watch]])
   (:import [java.security KeyStore]))
 
-(with-open [ks-f (java.io.FileInputStream. "resources/keystore.jks")
+#_(with-open [ks-f (java.io.FileInputStream. "resources/keystore.jks")
             ts-f (java.io.FileInputStream. "resources/truststore.jks")]
   (def ks (KeyStore/getInstance "JKS"))
   (def ts (KeyStore/getInstance "JKS"))
   (.load ks ks-f (.toCharArray "password"))
   (.load ts ts-f (.toCharArray "password")))
 
-(def server (run-jetty handler/app {:port 3000}))
+#_(def server (run-jetty handler/app {:port 3000
+                                    :join? false}))
 
 #_(def server (run-jetty handler/app {:ssl false
                                       :ssl-port 3443

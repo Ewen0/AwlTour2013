@@ -1,7 +1,8 @@
 (ns awl-tour-2013.goog-map
   (:require [domina.css :refer [sel]]
             [domina :refer [single-node]]
-            [com.ewen.utils-cljs.utils :refer [add-load-event]]))
+            [com.ewen.utils-cljs.utils :refer [add-load-event]]
+            [shoreleave.remotes.http-rpc :as rpc]))
 
 (def map-opts (js-obj "center" (google.maps/LatLng. 48.961 2.194)
                       "zoom" 6
