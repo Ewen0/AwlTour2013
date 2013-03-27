@@ -11,7 +11,7 @@
 
 
 (defremote ^{:remote-name :get-coords} remote-get-coords []
-  (-> (map #(dissoc % :_id) (gps/get-coords)) (seq) (str)))
+  (-> (map #(dissoc % :_id) (gps/get-coords)) vec str))
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))

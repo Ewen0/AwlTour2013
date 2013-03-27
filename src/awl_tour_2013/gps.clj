@@ -1,6 +1,6 @@
 (ns awl-tour-2013.gps
   (:require [monger.core :as mg]
-            [monger.collection :refer [insert find-maps]]
+            [monger.collection :refer [insert find-maps] :as mc]
             [cemerick.shoreleave.rpc :refer [defremote]])
   (:import [com.mongodb MongoOptions ServerAddress]
            [org.bson.types ObjectId]))
@@ -19,6 +19,7 @@
   (insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 2.194 :timestamp (System/currentTimeMillis)}))
 
 #_(insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 3.194 :timestamp (System/currentTimeMillis)})
+#_(mc/remove "coord")
 
 (defn get-coords []
   (find-maps "coord"))
