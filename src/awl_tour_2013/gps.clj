@@ -15,9 +15,10 @@
 (defn disconnect-db []
   (mg/disconnect!))
 
-(defn put-coord []
-  (insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 2.194 :timestamp (System/currentTimeMillis)}))
+(defn put-coord [lat lng]
+  (insert "coord" { :_id (ObjectId.) :lat lat :lng lng :timestamp (System/currentTimeMillis)}))
 
+#_(insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 2.194 :timestamp (System/currentTimeMillis)})
 #_(insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 3.194 :timestamp (System/currentTimeMillis)})
 #_(mc/remove "coord")
 

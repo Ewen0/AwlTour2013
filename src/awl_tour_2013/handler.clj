@@ -15,6 +15,7 @@
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
+#_(GET "/" [] )
   (route/files "/" {:root "resources/public"})
   (route/not-found "Not Found"))
 
