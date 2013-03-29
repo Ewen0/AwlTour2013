@@ -25,10 +25,68 @@
 (defn get-coords []
   (find-maps "coord"))
 
-(defn push-coord [coord] 
+#_(defn push-coord [coord] 
   (let [normalized-coord (reduce #(assoc %1 %2 (Double/parseDouble (%1 %2)))
                                  coord
                                  ["lat" "lng" "timestamp"])]
     (insert "coord" (assoc normalized-coord :_id (ObjectId.)))))
 
+
+
+(defn square [x]
+  (Math/pow x 2))
+
+(defn square-root [x]
+  (Math/pow x 0.5))
+
+(defn distance [coord1 coord2]
+  (square-root (+ (square (- (:lat coord2) (:lat coord1)))
+                  (square (- (:lng coord2) (:lng coord1))))))
+
+(def min-distance 0.35)
+
+(defn last-but-one [in-vec]
+  (-> in-vec rseq rest vec rseq last))
+
+(comment "normalized coord example"
+          {:lat 50.61 :lng 3.05 :timestamp (System/currentTimeMillis)}
+          {:lat 50.31 :lng 2.90 :timestamp (System/currentTimeMillis)})
+
+(defn push-coord [coord] 
+  (let [normalized-coord (reduce #(assoc %1 %2 (Double/parseDouble (%1 %2)))
+                                 coord
+                                 ["lat" "lng"])
+        normalized-coord (update-in normalized-coord ["timestamp"] #(Long/parseLong %))
+        normalized-coord (zipmap (map keyword (keys normalized-coord))
+                                 (vals normalized-coord))
+        coords (-> (find-maps "coord") vec)]
+    (cond 
+     (= 0 (count coords)) (insert "coord" (assoc normalized-coord :_id (ObjectId.)))
+     (= 1 (count coords)) (insert "coord" (assoc normalized-coord :_id (ObjectId.)))
+     :else 
+     (let [actual-distance (distance (last-but-one coords) normalized-coord)]
+       (if (> min-distance actual-distance)
+         (mc/update "coord" {:_id (:_id (last coords))}
+                    normalized-coord :multi false)
+         (do (mc/update "coord" {:_id (:_id (last coords))}
+                        normalized-coord :multi false)
+             (insert "coord" (assoc normalized-coord :_id (ObjectId.)))))))))
+
+#_(find-maps "coord")
+#_(mc/remove "coord")
+#_{"timestamp" "1364593504919" "lng" "2.9" "lat" "50.31"}
+#_{:timestamp 1364593504919 :lng 2.9 :lat 50.31}
+
 #_(mg/connect-via-uri! "mongodb://heroku:62966bc12b046e9525a0459b09b7cfec@linus.mongohq.com:10044/app14009883")
+
+
+
+#_(push-coord {"lat" "50.61" "lng" "3.05" "timestamp" (str (System/currentTimeMillis))})
+#_(push-coord {"lat" "50.39" "lng" "2.91" "timestamp" (str (System/currentTimeMillis))})
+#_(push-coord {"lat" "50.316" "lng" "2.906" "timestamp" (str (System/currentTimeMillis))})
+#_(push-coord {"lat" "50.18" "lng" "2.87" "timestamp" (str (System/currentTimeMillis))})
+#_(push-coord {"lat" "50.08" "lng" "2.77" "timestamp" (str (System/currentTimeMillis))})
+#_(push-coord {"lat" "49.70" "lng" "2.47" "timestamp" (str (System/currentTimeMillis))})
+
+
+

@@ -5,8 +5,6 @@
             [shoreleave.remotes.http-rpc :as rpc]
             [cljs.reader :refer [read-string]]))
 
-(def coords nil)
-
 (def map-opts (js-obj "center" (google.maps/LatLng. 48 2.194)
                       "zoom" 6
                       "mapTypeId" js/google.maps.MapTypeId.ROADMAP))
@@ -22,6 +20,11 @@
        vec
        clj->js))
 
+
+
+
+;Polylines
+
 (defn draw-path [coords]
   (let [path (js/google.maps.Polyline. 
               (js-obj "path" coords
@@ -32,15 +35,20 @@
 
 
 
-(defn square [x]
-  (.pow js/Math x 2))
+;Markers
 
-(defn root-square [x]
-  (.pow js/Math x 0.5))
+(defn make-markers [coords]
+  (doseq [coord coords]
+    (js/google.maps.Marker.
+     (js-obj "position" coord
+             "map" map-obj
+             "title" (str (.lat coord) " " (.lng coord))))))
 
-(defn distance [{lat1 :lat1 lng1 :lng :as coord1} {lat2 :lat2 lng2 :lng :as coord2}]
-  (root-square (+ (square lat1) (square lat2))))
 
-(rpc/remote-callback :get-coords [] #(->> % read-string (set! coords) to-coords draw-path))
+
+
+(rpc/remote-callback :get-coords [] #(let [coords (->> % read-string to-coords)]
+                                       (draw-path coords)
+                                       (make-markers coords)))
 
  
