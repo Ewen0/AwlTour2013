@@ -1,5 +1,5 @@
 (ns awl-tour-2013.handler
-  (:require [compojure.core :refer [GET defroutes]]
+  (:require [compojure.core :refer [GET POST ANY defroutes]]
             [compojure.handler]
             [compojure.route :as route]
             [ring.adapter.jetty :refer [run-jetty]]
@@ -15,7 +15,7 @@
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
-#_(GET "/" [] )
+  (ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
   (route/files "/" {:root "resources/public"})
   (route/not-found "Not Found"))
 

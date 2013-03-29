@@ -21437,16 +21437,30 @@ domina.css.sel = function() {
   return a
 }();
 var awl_tour_2013 = {goog_map:{}};
-awl_tour_2013.goog_map.map_opts = {center:new google.maps.LatLng(48.961, 2.194), zoom:6, mapTypeId:google.maps.MapTypeId.ROADMAP};
+awl_tour_2013.goog_map.coords = null;
+awl_tour_2013.goog_map.map_opts = {center:new google.maps.LatLng(48, 2.194), zoom:6, mapTypeId:google.maps.MapTypeId.ROADMAP};
 awl_tour_2013.goog_map.map_obj = new google.maps.Map(domina.single_node.call(null, domina.css.sel.call(null, "#map-canvas")), awl_tour_2013.goog_map.map_opts);
 awl_tour_2013.goog_map.to_coords = function(a) {
   return cljs.core.clj__GT_js.call(null, cljs.core.vec.call(null, cljs.core.map.call(null, function(a) {
     return new google.maps.LatLng((new cljs.core.Keyword("\ufdd0:lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:lng")).call(null, a))
-  }, cljs.reader.read_string.call(null, a))))
+  }, a)))
 };
 awl_tour_2013.goog_map.draw_path = function(a) {
   return(new google.maps.Polyline({path:a, strokeColor:"#FF0000", strokeOpacity:1, strokeWeight:2})).setMap(awl_tour_2013.goog_map.map_obj)
 };
+awl_tour_2013.goog_map.square = function(a) {
+  return Math.pow(a, 2)
+};
+awl_tour_2013.goog_map.root_square = function(a) {
+  return Math.pow(a, 0.5)
+};
+awl_tour_2013.goog_map.distance = function(a, b) {
+  var c = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, d = cljs.core._lookup.call(null, c, "\ufdd0:lat1", null);
+  cljs.core._lookup.call(null, c, "\ufdd0:lng", null);
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, e = cljs.core._lookup.call(null, c, "\ufdd0:lat2", null);
+  cljs.core._lookup.call(null, c, "\ufdd0:lng", null);
+  return awl_tour_2013.goog_map.root_square.call(null, awl_tour_2013.goog_map.square.call(null, d) + awl_tour_2013.goog_map.square.call(null, e))
+};
 shoreleave.remotes.http_rpc.remote_callback.call(null, "\ufdd0:get-coords", cljs.core.PersistentVector.EMPTY, function(a) {
-  return awl_tour_2013.goog_map.draw_path.call(null, awl_tour_2013.goog_map.to_coords.call(null, a))
+  return awl_tour_2013.goog_map.draw_path.call(null, awl_tour_2013.goog_map.to_coords.call(null, awl_tour_2013.goog_map.coords = cljs.reader.read_string.call(null, a)))
 });

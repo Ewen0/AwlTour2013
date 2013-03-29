@@ -25,4 +25,10 @@
 (defn get-coords []
   (find-maps "coord"))
 
-(mg/connect-via-uri! "mongodb://heroku:62966bc12b046e9525a0459b09b7cfec@linus.mongohq.com:10044/app14009883")
+(defn push-coord [coord] 
+  (let [normalized-coord (reduce #(assoc %1 %2 (Double/parseDouble (%1 %2)))
+                                 coord
+                                 ["lat" "lng" "timestamp"])]
+    (insert "coord" (assoc normalized-coord :_id (ObjectId.)))))
+
+#_(mg/connect-via-uri! "mongodb://heroku:62966bc12b046e9525a0459b09b7cfec@linus.mongohq.com:10044/app14009883")

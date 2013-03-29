@@ -15,6 +15,8 @@
 #_(def server (run-jetty handler/app {:port 3000
                                     :join? false}))
 
+
+
 #_(def server (run-jetty handler/app {:ssl false
                                       :ssl-port 3443
                                       :keystore ks
@@ -42,7 +44,4 @@
 
 #_(.start (Thread. #(start-watch w)))
 #_(cease-watch w)
-
-
-
 
