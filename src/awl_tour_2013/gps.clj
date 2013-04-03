@@ -88,5 +88,11 @@
 #_(push-coord {"lat" "50.08" "lng" "2.77" "timestamp" (str (System/currentTimeMillis))})
 #_(push-coord {"lat" "49.70" "lng" "2.47" "timestamp" (str (System/currentTimeMillis))})
 
+#_(map #(push-coord {"lat" (str %1) "lng" (str %2) "timestamp" (str (System/currentTimeMillis))}) 
+       (range 48 49.60 0.10) (range 0.87 2.47 0.10))
+
+#_(map #(push-coord {"lat" (str %1) "lng" (str %2) "timestamp" (str (System/currentTimeMillis))}) 
+       (range 45 48 0.10) (range -3 0 0.10))
+
 
 
