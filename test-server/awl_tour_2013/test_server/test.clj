@@ -1,6 +1,6 @@
 (ns test-server.awl-tour-2013.test-server.test
   (:require [awl-tour-2013.handler :as handler]
-            [ring.adapter.jetty :refer [run-jetty]]
+            [org.httpkit.server :refer [run-server]]
             [cljs.repl.browser]
             [ojo.watch :refer [defwatch start-watch cease-watch]])
   (:import [java.security KeyStore]))
@@ -12,23 +12,22 @@
   (.load ks ks-f (.toCharArray "password"))
   (.load ts ts-f (.toCharArray "password")))
 
-#_(def server (run-jetty handler/app {:port 3000
-                                    :join? false}))
+#_(def server (run-server handler/app {:port 3000}))
 
 
 
-#_(def server (run-jetty handler/app {:ssl false
-                                      :ssl-port 3443
-                                      :keystore ks
-                                      :key-password "password"
-                                      :truststore ts
-                                      :trust-password "password"
-                                      :client-auth :need
-                                      :port 3000
-                                      :join? false}))
+#_(def server (run-jetty
+               :ssl-port 3443
+               :keystore ks
+               :key-password "password"
+               :truststore ts
+               :trust-password "password"
+               :client-auth :need
+               :port 3000
+               :join? false}))
 
 #_(.stop server)
-
+#_ (server)
 
 ;Starts the browser connected REPL
 #_(cemerick.piggieback/cljs-repl

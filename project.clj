@@ -8,7 +8,7 @@
                  [org.clojure/clojurescript "0.0-1586"]
                  [com.cemerick/piggieback "0.0.4" :scope "test"]
                  [compojure "1.1.3"]
-                 [ring/ring-jetty-adapter "1.2.0-beta1"]
+                 [http-kit "2.0.0"]
                  [hiccup "1.0.2"]
                  [enlive "1.0.1"]
                  [enfocus "1.0.1-SNAPSHOT"]
@@ -23,7 +23,8 @@
                      [lein-marginalia "0.7.1"]]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-marginalia "0.7.1"]
-            [lein-deps-tree "0.1.2"]]
+            [lein-deps-tree "0.1.2"]
+            [lein-ring "0.8.3"]]
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src-cljs" "browser-repl"]
                         :compiler {:output-to "resources/public/js/cljs.js"
@@ -34,4 +35,6 @@
                         :compiler {:output-to "resources/public/js/cljs.js"
                                    :optimizations :advanced
                                    :pretty-print false}}]}
-  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]})
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  :ring {:handler awl-tour-2013.handler/app}
+  :main awl-tour-2013.handler)

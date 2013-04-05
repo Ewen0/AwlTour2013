@@ -2,7 +2,7 @@
   (:require [compojure.core :refer [GET POST ANY defroutes]]
             [compojure.handler]
             [compojure.route :as route]
-            [ring.adapter.jetty :refer [run-jetty]]
+            [org.httpkit.server :refer [run-server]]
             [awl-tour-2013.template :refer [main-tml]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]
             [awl-tour-2013.gps :as gps])
@@ -22,6 +22,6 @@
 (def app
   (-> app-routes (wrap-rpc) (compojure.handler/site)))
 
-(defn -main [port]
+(defn -main [command port]
   (gps/connect-db)
-  (run-jetty app {:port (Integer. port)}))
+  (run-server app {:port (Integer. port)}))
