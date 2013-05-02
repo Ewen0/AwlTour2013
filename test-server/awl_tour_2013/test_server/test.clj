@@ -16,7 +16,7 @@
 
 
 
-#_(def server (run-jetty
+#_(def server (run-jetty {
                :ssl-port 3443
                :keystore ks
                :key-password "password"
@@ -27,7 +27,7 @@
                :join? false}))
 
 #_(.stop server)
-#_ (server)
+#_(server)
 
 ;Starts the browser connected REPL
 #_(cemerick.piggieback/cljs-repl

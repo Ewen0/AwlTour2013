@@ -11,17 +11,16 @@
 
 
 (defremote ^{:remote-name :get-coords} remote-get-coords []
-  (-> (map #(dissoc % :_id) (gps/get-coords)) vec str))
+  (-> (gps/get-coords) vec str))
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
   (ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
-  (route/files "/" {:root "resources/public"})
+  (route/files "/static" {:root "resources/public"})
   (route/not-found "Not Found"))
 
 (def app
   (-> app-routes (wrap-rpc) (compojure.handler/site)))
 
 (defn -main [command port]
-  (gps/connect-db)
   (run-server app {:port (Integer. port)}))

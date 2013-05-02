@@ -26,8 +26,9 @@
 ;Polylines
 
 (defn draw-path [coords]
-  (let [path (js/google.maps.Polyline. 
-              (js-obj "path" coords
+  (let [maps-coords (to-coords coords)
+        path (js/google.maps.Polyline. 
+              (js-obj "path" maps-coords
                       "strokeColor" "#FF0000"
                       "strokeOpacity" 1.0
                       "strokeWeight" 2))]
@@ -40,15 +41,17 @@
 (defn make-markers [coords]
   (doseq [coord coords]
     (js/google.maps.Marker.
-     (js-obj "position" coord
+     (js-obj "position" (js/google.maps.LatLng. 
+                         (:lat coord) (:lng coord))
              "map" map-obj
-             "title" (str (.lat coord) " " (.lng coord))))))
+             "title" (str (:time coord))))))
 
 
 
 
-(rpc/remote-callback :get-coords [] #(let [coords (->> % read-string to-coords)]
-                                       (draw-path coords)
-                                       (make-markers coords)))
+(rpc/remote-callback :get-coords [] 
+                     #(let [coords (->> % read-string)]
+                        (draw-path coords)
+                        (make-markers coords)))
 
  

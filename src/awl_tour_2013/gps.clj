@@ -1,37 +1,134 @@
 (ns awl-tour-2013.gps
   (:require [monger.core :as mg]
             [monger.collection :refer [insert find-maps] :as mc]
-            [cemerick.shoreleave.rpc :refer [defremote]])
+            [cemerick.shoreleave.rpc :refer [defremote]]
+            [datomic.api :as dat]
+            [lamina.core :refer [channel permanent-channel map* filter* enqueue on-realized close]
+             :as lamina]
+            [lamina.executor :refer [task]])
   (:import [com.mongodb MongoOptions ServerAddress]
            [org.bson.types ObjectId]))
 
-(defn connect-db []
-  (let [^MongoOptions opts (mg/mongo-options :threads-allowed-to-block-for-connection-multiplier 300)
-        ^ServerAddress sa (mg/server-address "127.0.0.1" 27017)]
-    #_(mg/connect! sa opts)
-    #_(mg/set-db! (mg/get-db "gps"))
-    (mg/connect-via-uri! "mongodb://heroku:62966bc12b046e9525a0459b09b7cfec@linus.mongohq.com:10044/app14009883")))
+#_(dat/create-database "datomic:free://localhost:4334/coords")
+#_(dat/delete-database "datomic:free://localhost:4334/coords")
 
-(defn disconnect-db []
-  (mg/disconnect!))
-
-(defn put-coord [lat lng]
-  (insert "coord" { :_id (ObjectId.) :lat lat :lng lng :timestamp (System/currentTimeMillis)}))
-
-#_(insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 2.194 :timestamp (System/currentTimeMillis)})
-#_(insert "coord" { :_id (ObjectId.) :lat 48.961 :lng 3.194 :timestamp (System/currentTimeMillis)})
-#_(mc/remove "coord")
-
-(defn get-coords []
-  (find-maps "coord"))
-
-#_(defn push-coord [coord] 
-  (let [normalized-coord (reduce #(assoc %1 %2 (Double/parseDouble (%1 %2)))
-                                 coord
-                                 ["lat" "lng" "timestamp"])]
-    (insert "coord" (assoc normalized-coord :_id (ObjectId.)))))
+(def conn (dat/connect "datomic:free://localhost:4334/coords"))
+#_(dat/release conn)
 
 
+#_(dat/transact conn [{:db/id #db/id[:db.part/db]
+                       :db/ident :coord/lat
+                       :db/valueType :db.type/double
+                       :db/cardinality :db.cardinality/one
+                       :db/doc "Latitude coordinate"
+                       :db.install/_attribute :db.part/db
+                       :db/noHistory false}
+
+                      {:db/id #db/id[:db.part/db]
+                       :db/ident :coord/lng
+                       :db/valueType :db.type/double
+                       :db/cardinality :db.cardinality/one
+                       :db/doc "Longitude coordinate"
+                       :db.install/_attribute :db.part/db
+                       :db/noHistory false}])
+
+#_(dat/transact conn [{:db/id #db/id[:db.part/db]
+                       :db/ident :coord/min-distance
+                       :db/valueType :db.type/double
+                       :db/cardinality :db.cardinality/one
+                       :db/doc "Coords having this attribute set respect a minimum distance interval between each other. The value of the minimum distance is the value of the attribute."
+                       :db.install/_attribute :db.part/db}
+                      {:db/id #db/id[:db.part/db]
+                       :db/ident :coord/orig-tx-inst
+                       :db/valueType :db.type/instant
+                       :db/cardinality :db.cardinality/one
+                       :db/doc "The transaction time the original coord was added to the DB."
+                       :db.install/_attribute :db.part/db}])
+
+#_(dat/transact conn [{:db/id #db/id[:db.part/db]
+                     :db/ident :coord/trans-type
+                     :db/valueType :db.type/string
+                     :db/cardinality :db.cardinality/one
+                     :db/doc "Metadata for a transaction that add a coord object. Usefull to distinguish between transactions that add coordinates with different values for the \"min-distance\" attribute."
+                     :db.install/_attribute :db.part/db}])
+
+
+#_(dat/q '[:find ?lat ?lng ?time-lat ?time-lng
+           :where 
+           [?coords :coord/lat ?lat ?tx-lat]
+           [?coords :coord/lng ?lng ?tx-lng]
+           [?tx-lat :db/txInstant ?time-lat]
+           [?tx-lng :db/txInstant ?time-lng]] 
+         (dat/db conn))
+
+#_(dat/q '[:find ?when
+           :where 
+           [?tx :db/txInstant ?when]
+           [?coords :coord/lat]
+           [?coords :coord/lng]
+           [?coords _ _ ?tx]] 
+         (dat/db conn))
+
+(dat/q '[:find ?coord ?lat ?lng
+           :where 
+           [?coord :coord/lat ?lat]
+           [?coord :coord/lng ?lng]] 
+         (dat/db conn))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn attr-missing? [db eid attr]
+  (-> (dat/entity db eid) attr not))
+
+(defn get-coord-id []
+  (let [coord-id (-> (dat/q '[:find ?coord-id
+                              :where 
+                              [?coord-id :coord/lat]
+                              [?coord-id :coord/lng]
+                              [(awl-tour-2013.gps/attr-missing? $ ?coord-id :coord/min-distance)]] 
+                            (dat/db conn)) 
+                     first first)]
+    (if (nil? coord-id) (dat/tempid :db.part/user) coord-id)))
+
+
+#_(def min-dist-db-fn '(dat/q [:find ?]))
+
+(defn retract-entity [id]
+  [:db.fn/retractEntity id])
+
+(defn remove-coords [] 
+  (let [coords (dat/q '[:find ?coord-id :where
+                        [?coord-id :coord/lat]] (dat/db conn))
+        retract (->> coords (map first) (map retract-entity) vec)]
+    (dat/transact conn retract)))
+
+#_(dat/transact conn [{:db/id #db/id[:db.part/user] 
+                       :coord/lat 48.961
+                       :coord/lng 2.194}])
+
+#_(dat/transact conn [{:db/id #db/id[:db.part/user] 
+                       :coord/lat 48.961
+                       :coord/lng 3.194}])
+
+
+(def min-distance 0.35)
 
 (defn square [x]
   (Math/pow x 2))
@@ -39,11 +136,233 @@
 (defn square-root [x]
   (Math/pow x 0.5))
 
-(defn distance [coord1 coord2]
+(defmulti distance #(into #{} (concat (keys %1) (keys %2))))
+
+(defmethod distance #{:lng :lat :time} [coord1 coord2]
   (square-root (+ (square (- (:lat coord2) (:lat coord1)))
                   (square (- (:lng coord2) (:lng coord1))))))
 
-(def min-distance 0.35)
+(defmethod distance #{:coord/lat :coord/lng :coord/min-distance :coord/orig-tx-inst :db/id}
+  [coord1 coord2]
+  (square-root (+ (square (- (:coord/lat coord2) 
+                             (:coord/lat coord1)))
+                  (square (- (:coord/lng coord2) 
+                             (:coord/lng coord1))))))
+
+
+(defn above-min-distance? [coord1 coord2]
+  (or (and (nil? (:lng coord1)) (nil? (:lat coord1))
+           (nil? (:coord/lng coord1)) (nil? (:coor/lng coord1))) 
+      (and (nil? (:lng coord2)) (nil? (:lat coord2))
+           (nil? (:coord/lng coord2)) (nil? (:coor/lng coord2)))
+      (>= (distance coord1 coord2) min-distance)))
+
+(defn build-add-coord [lat lng]
+  (let [[coord-id] (first (dat/q 
+                           '[:find (first ?id)
+                             :where 
+                             [?id :coord/lat]
+                             [?id :coord/lng]] 
+                           (dat/db conn)))
+        [min-dist-lat min-dist-lng] (first (dat/q 
+                                            `[:find ?lat ?lng
+                                              :where 
+                                              [~coord-id :coord/lat ?lat]
+                                              [~coord-id :coord/lng ?lng]
+                                              [~coord-id :coord/min-distance ~min-distance]] 
+                                            (dat/db conn)))
+        new-coord {:db/id coord-id
+                   :coord/lat lat
+                   :coord/lng lng}]
+    (if (or (nil? min-dist-lat) (nil? min-dist-lng) 
+            (above-min-distance? 
+             {:lat lat :lng lng} 
+             {:lat min-dist-lat :lng min-dist-lng}))
+      [(assoc new-coord :coord/min-distance min-distance)]
+      [new-coord [:retract :db/id coord-id :coord/min-distance]])))
+
+(defn get-coords []
+  (let [coords (dat/q '[:find ?coords ?lat ?lng ?time ?tt
+                        :where 
+                        [?coords :coord/lat ?lat _ ]
+                        [?coords :coord/lng ?lng _ ?tt]
+                        [?coords _ _ ?tx]
+                        [?tx :db/txInstant ?time]]
+                      (-> (dat/db conn) dat/history))
+        coords (map #(zipmap [:coords :lat :lng :time] %) coords)]
+    coords))
+
+;Perform a datomic request on an entity history (returning a history composed by all the datums that have been added)
+;Then build (using the datums retreived earlier) the successive entities as they are at the different points (transaction times) in history.
+(defn coord-history [db-value coord-id] 
+  (let [build-coord-map (fn [dat-maps] 
+                          (reduce 
+                           #(assoc %1 
+                              (->> (:attr %2) (dat/ident db-value)) (:val %2) 
+                              :coord/orig-tx-inst (:time %2)) 
+                           {} dat-maps))]
+    (->> (dat/q '[:find ?attr ?val ?time
+                  :in $ ?id
+                  :where
+                  [?id ?attr ?val ?tx true]
+                  [?tx :db/txInstant ?time]]
+                (-> db-value dat/history) 
+                coord-id)
+         (map #(zipmap [:attr :val :time] %))
+         (group-by :time)
+         (into (sorted-map))
+         (map last)
+         (map build-coord-map)
+         (reduce #(conj %1 (merge (last %1) %2)) []))))
+
+#_(prn (dat/q '[:find ?attr ?val ?time ?tx
+                 :in $ ?id
+                 :where
+                 [?id ?attr ?val ?tx true]
+                 [?tx :db/txInstant ?time]]
+               (-> (dat/db conn) (dat/since #inst "2013-04-28T21:09:36.352-00:00") dat/history) 
+               (get-coord-id)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defonce tx-channel (permanent-channel))
+
+(defonce tx-channel-thread 
+  (Thread. 
+   (fn [] 
+     (while true 
+       (enqueue tx-channel 
+                (.take (dat/tx-report-queue conn)))))))
+
+(if-not (.isAlive tx-channel-thread) (.start tx-channel-thread))
+
+(defn filter-coord-tx [tx-event]
+  (let [tx-type-coord? '[:find ?e
+                         :in $ [[?e ?a ?v _ _]]
+                         :where
+                         [?e ?a ?v]
+                         [?e :coord/trans-type "coord"]]]
+    (not-empty (dat/q 
+                tx-type-coord?
+                (:db-after tx-event) 
+                (:tx-data tx-event)))))
+
+(defn coord-min-dist-id [min-dist]
+  (-> (dat/q 
+       '[:find ?entid
+         :in $ ?min-distance
+         :where 
+         [?entid :coord/min-distance ?min-distance]]  
+       (dat/db conn) min-dist)
+      first first))
+
+(defn last-coord-min-dist []
+  (let [coord-map (->> (dat/q 
+                        '[:find ?entid ?lat ?lng ?time ?min-distance
+                          :in $ ?min-distance
+                          :where 
+                          [?entid :coord/min-distance ?min-distance]
+                          [?entid :coord/lat ?lat]
+                          [?entid :coord/lng ?lng]
+                          [?entid :coord/orig-tx-inst ?time]]  
+                        (dat/db conn) min-distance)
+                       (first)
+                       (zipmap [:db/id :coord/lat :coord/lng 
+                                :coord/orig-tx-inst 
+                                :coord/min-distance]))]
+    (if (empty? coord-map) 
+      [{:coord/min-distance min-distance 
+        :db/id (dat/tempid :db.part/user)}] 
+      [coord-map])))
+
+
+(defn coords-after-last-min-dist [tx-event] 
+  (let [time-last-coord-min-dist '[:find ?time
+                                   :where [?e :coord/min-distance]
+                                   [?e :coord/orig-tx-inst ?time]]
+        time-last-coord-min-dist (dat/q 
+                                  time-last-coord-min-dist
+                                  (dat/db conn))]
+    (prn time-last-coord-min-dist)
+    (if (empty? time-last-coord-min-dist)
+      (coord-history (:db-after tx-event) (get-coord-id))
+      (coord-history 
+       (-> (:db-after tx-event) 
+           (dat/since (-> time-last-coord-min-dist first first))
+           (get-coord-id))))))
+
+(defn reduce-min-dist [res arg] 
+  (let [updated-arg (merge (last res) arg)]
+    (if (above-min-distance? updated-arg (last res)) 
+      (conj res updated-arg) res)))
+
+(defn assoc-min-dist-attrs [map]
+  (assoc map :db/id (dat/tempid (dat/db conn)) :coord/min-distance min-distance))
+
+(defn add-coord-min-dist [map]
+  (dat/transact conn [map]))
+
+#_(def cc (->> tx-channel 
+               (filter* filter-coord-tx) 
+               (map* coords-after-last-min-dist)
+               (map* #(reduce reduce-min-dist (last-coord-min-dist) %))
+               (map* #(-> % rest vec))
+               (map* #(dorun (map add-coord-min-dist %)))
+               #_(map* prn)))
+
+
+#_(dat/q 
+ '[:find ?time
+   :where [?e :coord/min-distance _ ?tx]
+   [?tx :db/txInstant ?time]]
+ (dat/db conn))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#_(defn push-coord [{lat "lat" lng "lng"}] 
+  (let [lat (.doubleValue lat)
+        lng (.doubleValue lng)]
+    (dat/transact conn (build-add-coord lat lng))))
+
+(defn push-coord [{lat "lat" lng "lng"}] 
+  (let [lat (.doubleValue lat)
+        lng (.doubleValue lng)]
+    (dat/transact conn [{:db/id #db/id[:db.part/tx]
+                         :coord/trans-type "coord"}
+                        {:db/id (get-coord-id) 
+                         :coord/lat lat 
+                         :coord/lng lng}])))
+
+
 
 (defn last-but-one [in-vec]
   (-> in-vec rseq rest vec rseq last))
@@ -52,7 +371,7 @@
           {:lat 50.61 :lng 3.05 :timestamp (System/currentTimeMillis)}
           {:lat 50.31 :lng 2.90 :timestamp (System/currentTimeMillis)})
 
-(defn push-coord [coord] 
+#_(defn push-coord [coord] 
   (let [normalized-coord (reduce #(assoc %1 %2 (Double/parseDouble (%1 %2)))
                                  coord
                                  ["lat" "lng"])
