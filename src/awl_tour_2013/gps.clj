@@ -81,7 +81,18 @@
                               [?coord-id :coord/lng]
                               [(awl-tour-2013.gps/attr-missing? $ ?coord-id :coord/min-distance)]] 
                             (dat/db conn)) 
-                     first first)]
+                     ffirst)]
+    (if (nil? coord-id) (dat/tempid :db.part/user) coord-id)))
+
+(defn get-coord-id-min-dist [min-dist]
+  (let [coord-id (-> (dat/q '[:find ?coord-id
+                              :in $ ?min-dist
+                              :where 
+                              [?coord-id :coord/lat]
+                              [?coord-id :coord/lng]
+                              [?coord-id :coord/min-distance ?min-distance]] 
+                            (dat/db conn) min-dist) 
+                     ffirst)]
     (if (nil? coord-id) (dat/tempid :db.part/user) coord-id)))
 
 
@@ -310,7 +321,7 @@
 
 
 
-(defn push-coord [{lat "lat" lng "lng"}] 
+(defn push-coord [{lat "lat" lng "lng"}]
   (let [lat (.doubleValue lat)
         lng (.doubleValue lng)]
     (dat/transact conn [{:db/id #db/id[:db.part/tx]
@@ -318,7 +329,8 @@
                         {:db/id (get-coord-id) 
                          :coord/lat lat 
                          :coord/lng lng}])))
-
+(defn get-coords []
+  (coord-history (dat/db conn) (get-coord-id-min-dist min-distance)))
 
 
 

@@ -16,7 +16,7 @@
 
 (defn to-coords [coords-seq]
   (->> coords-seq
-       (map #(js/google.maps.LatLng. (:lat %1) (:lng %1)))
+       (map #(js/google.maps.LatLng. (:coord/lat %1) (:coord/lng %1)))
        vec
        clj->js))
 

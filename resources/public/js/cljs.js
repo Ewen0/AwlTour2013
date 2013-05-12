@@ -21439,7 +21439,7 @@ awl_tour_2013.goog_map.map_opts = {center:new google.maps.LatLng(48, 2.194), zoo
 awl_tour_2013.goog_map.map_obj = new google.maps.Map(domina.single_node.call(null, domina.css.sel.call(null, "#map-canvas")), awl_tour_2013.goog_map.map_opts);
 awl_tour_2013.goog_map.to_coords = function(a) {
   return cljs.core.clj__GT_js.call(null, cljs.core.vec.call(null, cljs.core.map.call(null, function(a) {
-    return new google.maps.LatLng((new cljs.core.Keyword("\ufdd0:lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:lng")).call(null, a))
+    return new google.maps.LatLng((new cljs.core.Keyword("\ufdd0:coord/lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:coord/lng")).call(null, a))
   }, a)))
 };
 awl_tour_2013.goog_map.draw_path = function(a) {
