@@ -22,5 +22,5 @@
 (def app
   (-> app-routes (wrap-rpc) (compojure.handler/site)))
 
-(defn -main [command port]
+(defn -main [port]
   (run-server app {:port (Integer. port)}))
