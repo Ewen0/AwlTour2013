@@ -15,8 +15,8 @@
 (def conn (dat/connect "datomic:free://localhost:4334/coords"))
 #_(dat/release conn)
 
-
-#_(dat/transact conn [{:db/id #db/id[:db.part/db]
+(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/lat]] (dat/db conn)))
+  (dat/transact conn [{:db/id #db/id[:db.part/db]
                        :db/ident :coord/lat
                        :db/valueType :db.type/double
                        :db/cardinality :db.cardinality/one
@@ -30,27 +30,29 @@
                        :db/cardinality :db.cardinality/one
                        :db/doc "Longitude coordinate"
                        :db.install/_attribute :db.part/db
-                       :db/noHistory false}])
+                       :db/noHistory false}]))
 
-#_(dat/transact conn [{:db/id #db/id[:db.part/db]
-                       :db/ident :coord/min-distance
-                       :db/valueType :db.type/double
-                       :db/cardinality :db.cardinality/one
-                       :db/doc "Coords having this attribute set respect a minimum distance interval between each other. The value of the minimum distance is the value of the attribute."
-                       :db.install/_attribute :db.part/db}
-                      {:db/id #db/id[:db.part/db]
-                       :db/ident :coord/orig-tx-inst
-                       :db/valueType :db.type/instant
-                       :db/cardinality :db.cardinality/one
-                       :db/doc "The transaction time the original coord was added to the DB."
-                       :db.install/_attribute :db.part/db}])
+(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/min-distance]] (dat/db conn)))
+  (dat/transact conn [{:db/id #db/id[:db.part/db]
+                         :db/ident :coord/min-distance
+                         :db/valueType :db.type/double
+                         :db/cardinality :db.cardinality/one
+                         :db/doc "Coords having this attribute set respect a minimum distance interval between each other. The value of the minimum distance is the value of the attribute."
+                         :db.install/_attribute :db.part/db}
+                        {:db/id #db/id[:db.part/db]
+                         :db/ident :coord/orig-tx-inst
+                         :db/valueType :db.type/instant
+                         :db/cardinality :db.cardinality/one
+                         :db/doc "The transaction time the original coord was added to the DB."
+                         :db.install/_attribute :db.part/db}]))
 
-#_(dat/transact conn [{:db/id #db/id[:db.part/db]
-                     :db/ident :coord/trans-type
-                     :db/valueType :db.type/string
-                     :db/cardinality :db.cardinality/one
-                     :db/doc "Metadata for a transaction that add a coord object. Usefull to distinguish between transactions that add coordinates with different values for the \"min-distance\" attribute."
-                     :db.install/_attribute :db.part/db}])
+(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/trans-type]] (dat/db conn)))
+  (dat/transact conn [{:db/id #db/id[:db.part/db]
+                       :db/ident :coord/trans-type
+                       :db/valueType :db.type/string
+                       :db/cardinality :db.cardinality/one
+                       :db/doc "Metadata for a transaction that add a coord object. Usefull to distinguish between transactions that add coordinates with different values for the \"min-distance\" attribute."
+                       :db.install/_attribute :db.part/db}]))
 
 
 
@@ -222,7 +224,7 @@
         (dat/tx-report-queue conn)
         tx-channel)))))
 
-(when-not (.isAlive tx-channel-thread) 
+(when-not (.isAlive tx-channel-thread)
   (.start tx-channel-thread))
 
 
