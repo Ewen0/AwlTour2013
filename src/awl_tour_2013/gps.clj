@@ -9,7 +9,7 @@
   (:import [com.mongodb MongoOptions ServerAddress]
            [org.bson.types ObjectId]))
 
-#_(dat/create-database "datomic:free://localhost:4334/coords")
+(dat/create-database "datomic:free://localhost:4334/coords")
 #_(dat/delete-database "datomic:free://localhost:4334/coords")
 
 (def conn (dat/connect "datomic:free://localhost:4334/coords"))
