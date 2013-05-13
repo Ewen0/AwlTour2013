@@ -3,64 +3,72 @@
 <html lang="en">
 
   <head>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Awl Tour 2013</title>
+      <title>Awl Tour 2013</title>
+      <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	  <link href="css/common.css" rel="stylesheet" media="screen">
+	    
+	    <script src="http://code.jquery.com/jquery.min.js"></script>
+	    <script src="bootstrap/js/bootstrap.min.js"></script>
 
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/static/css/common.css" rel="stylesheet">
-    
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSLxl6-fJYZrCh9ESKJzRBblwH6Bpjupc&sensor=true"></script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSLxl6-fJYZrCh9ESKJzRBblwH6Bpjupc&sensor=true"></script>
-
-  </head>
+	  </head>
 
 
 
-<body>
-  
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="brand" href="">
-	  Refresh
-	</a>
-      </div>
-    </div>
-  </div>
+	  <body>
 
-<header class="head_title">
-  <div class="container">
-      <h1>AWL Tour 2013</h1>
-    <p>Dream</p>
-  </div>
-    </header>
-  <div class="container">
-    
-    <div id="map-canvas">
-    </div>
-  </div>
 
-<footer class="footer">
-      <div class="container">
-        <ul class="social-buttons">
-      <li class="follow-btn">
-        
-      </li>
-      <li class="tweet-btn">
-        
-      </li>
-    </ul>
-      </div>
-    </footer>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
-</body>
+	    
+	    <div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+		<div class="container">
+		  <div>
+		  <a class="brand" href="">
+		    Refresh
+		  </a>
+		  </div>
+<ul id="social-buttons" class="brand">
+<li class="fb"><div class="fb-like" data-href="http://awl-tour-2013.herokuapp.com/" data-send="false" data-width="100" data-show-faces="true"></div></li>
+<li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-via="awlTour2013" data-hashtags="awl-tour-2013">Tweet</a></li>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</ul>
 
-<script type="text/javascript" src="/static/js/cljs.js"></script>
+		</div>
+	      </div>
+	    </div>
 
-</html>
+	    <header class="head_title hidden-phone">
+	      <div class="container">
+		<img src="./img/logo.png"/>
+	      </div>
+	    </header>
+	    
+	    <div id="map-canvas">
+	    </div>
+
+	    <footer class="footer hidden-phone">
+	      <div class="container main">
+		Brought to you by the AWL Tour 2013 team
+	      </div>
+	    </footer>
+
+	  </body>
+
+	  <script type="text/javascript" src="js/cljs.js"></script>
+
+	</html>
 
 
