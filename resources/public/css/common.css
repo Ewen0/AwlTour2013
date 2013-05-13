@@ -5,9 +5,12 @@ padding-top:40px;
 
 #map-canvas
 {
-height:500px;
+height:600px;
 width:100%;
 }
+
+
+#map-canvas img{max-width: inherit;}
 
 .head_title h1
 {
@@ -16,6 +19,12 @@ width:100%;
 line-height:100px;
   text-align:center;
   color:white;
+}
+
+.head_title img
+{
+display:block;
+  margin:auto;
 }
 
 .head_title p
@@ -45,26 +54,30 @@ color: white;
           box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
 }
 
-#map-canvas
-{
-margin-top:40px;
-}
-
 body > .navbar .brand {
 -webkit-transition: all .2s linear;
 -moz-transition: all .2s linear;
 transition: all .2s linear;
 }
 
-.social-buttons
-{
 
+#social-buttons
+{
+float:right;
+margin:0px;
 }
+
+#social-buttons li
+{
+margin-left:20px;
+float:left;
+list-style:none outside none;
+}
+
 
 footer
 {
 text-align: center;
 padding: 30px 0;
-margin-top: 50px;
 background-color: #e3e3e3;
 }
