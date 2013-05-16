@@ -1,13 +1,9 @@
 (ns awl-tour-2013.gps
-  (:require [monger.core :as mg]
-            [monger.collection :refer [insert find-maps] :as mc]
-            [cemerick.shoreleave.rpc :refer [defremote]]
+  (:require [cemerick.shoreleave.rpc :refer [defremote]]
             [datomic.api :as dat]
             [lamina.core :refer [channel permanent-channel map* filter* enqueue on-realized close]
              :as lamina]
-            [lamina.executor :refer [task]])
-  (:import [com.mongodb MongoOptions ServerAddress]
-           [org.bson.types ObjectId]))
+            [lamina.executor :refer [task]]))
 
 (dat/create-database "datomic:free://localhost:4334/coords")
 #_(dat/delete-database "datomic:free://localhost:4334/coords")
@@ -295,7 +291,7 @@
 (defn add-coord-min-dist [map]
   (dat/transact conn [map]))
 
-#_(def cc (->> tx-channel 
+(def cc (->> tx-channel 
                (filter* filter-coord-tx) 
                (map* coords-after-last-min-dist)
                (map* #(reduce reduce-min-dist (last-coord-min-dist) %))
