@@ -19,7 +19,7 @@
                  [com.novemberain/monger "1.5.0-rc1"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
-                 [com.datomic/datomic-free "0.8.3862"]
+                 [com.datomic/datomic-free "0.8.3952"]
                  [lamina "0.5.0-beta10"]]
   :dev-dependencies [[lein-cljsbuild "0.3.0"]
                      [lein-marginalia "0.7.1"]]
