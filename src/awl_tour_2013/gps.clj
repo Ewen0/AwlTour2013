@@ -125,6 +125,15 @@
                   (square (- (:coord/lng coord2) 
                              (:coord/lng coord1))))))
 
+(defmethod distance #{:coord/lat :coord/lng 
+                      :coord/min-distance 
+                      :coord/orig-tx-inst}
+  [coord1 coord2]
+  (square-root (+ (square (- (:coord/lat coord2) 
+                             (:coord/lat coord1)))
+                  (square (- (:coord/lng coord2) 
+                             (:coord/lng coord1))))))
+
 
 (defn above-min-distance? [coord1 coord2]
   (or (and (nil? (:lng coord1)) (nil? (:lat coord1))
@@ -208,7 +217,7 @@
 (defonce tx-channel (permanent-channel))
 
 (defn item-queue->channel [queue channel]
-  (-> queue
+  (->> queue
       (.take)
       (enqueue channel)))
 
@@ -261,8 +270,7 @@
                                 :coord/orig-tx-inst 
                                 :coord/min-distance]))]
     (if (empty? coord-map) 
-      [{:coord/min-distance min-distance 
-        :db/id (dat/tempid :db.part/user)}] 
+      [{:coord/min-distance min-distance}] 
       [coord-map])))
 
 
@@ -285,19 +293,23 @@
     (if (above-min-distance? updated-arg (last res)) 
       (conj res updated-arg) res)))
 
-(defn assoc-min-dist-attrs [map]
-  (assoc map :db/id (dat/tempid (dat/db conn)) :coord/min-distance min-distance))
+(defn assoc-min-dist-attrs [in-map]
+  (assoc in-map :db/id (dat/tempid (dat/db conn)) :coord/min-distance min-distance))
 
-(defn add-coord-min-dist [map]
-  (dat/transact conn [map]))
+(defn add-coord-min-dist [in-map]
+  (let [updated-map (if-not (find in-map :db/id) 
+                      (assoc in-map :db/id 
+                             (get-coord-id-min-dist min-distance))
+                      in-map)]
+    (dat/transact conn [updated-map])))
 
-(def cc (->> tx-channel 
-               (filter* filter-coord-tx) 
-               (map* coords-after-last-min-dist)
-               (map* #(reduce reduce-min-dist (last-coord-min-dist) %))
-               (map* #(-> % rest vec))
-               (map* #(dorun (map add-coord-min-dist %)))
-               #_(map* prn)))
+(defonce cc (->> tx-channel 
+             (filter* filter-coord-tx) 
+             (map* coords-after-last-min-dist)
+             (map* #(reduce reduce-min-dist (last-coord-min-dist) %))
+             (map* #(-> % rest vec))
+             (map* #(dorun (map add-coord-min-dist %)))
+             #_(map* prn)))
 
 
 
@@ -320,15 +332,40 @@
 
 
 (defn push-coord [{lat "lat" lng "lng"}]
-  (let [lat (.doubleValue lat)
-        lng (.doubleValue lng)]
+  (let [lat (Double/parseDouble lat)
+        lng (Double/parseDouble lng)]
     (dat/transact conn [{:db/id #db/id[:db.part/tx]
                          :coord/trans-type "coord"}
                         {:db/id (get-coord-id) 
                          :coord/lat lat 
                          :coord/lng lng}])))
+
+(defn compare-coord [coord1 coord2]
+  (if (and (= (:coord/lat coord1) (:coord/lat coord2)) 
+           (= (:coord/lng coord1) (:coord/lng coord2)))
+    true false))
+
+(defn get-last-coord []
+  (->> (dat/q 
+        '[:find ?lat ?lng ?time 
+          :where [?coord-id :coord/lat ?lat]
+          [?coord-id :coord/lng ?lng]
+          [?coord-id _ _ ?tx]
+          [?tx :db/txInstant ?time]
+          [(awl-tour-2013.gps/attr-missing? $ ?coord-id :coord/min-distance)]]
+        (dat/db conn))
+       (first)
+       (zipmap [:coord/lat :coord/lng :coord/orig-tx-inst])))
+
+
 (defn get-coords []
-  (coord-history (dat/db conn) (get-coord-id-min-dist min-distance)))
+  (let [coord-min-dist (coord-history 
+                        (dat/db conn) 
+                        (get-coord-id-min-dist min-distance))
+        last-coord (get-last-coord)]
+    (if-not (compare-coord (last coord-min-dist) last-coord)
+      (conj coord-min-dist last-coord)
+      coord-min-dist)))
 
 
 
@@ -365,6 +402,8 @@
 (comment 
 "({:_id #<ObjectId 51561b1fe4b048077709bfed>, :lat 47.59026078, :lng 1.32785465, :timestamp 1364597541151} {:_id #<ObjectId 51561b5be4b048077709bfee>, :lat 47.5420816, :lng 0.97560692, :timestamp 1364631412817} {:_id #<ObjectId 51569f78e4b0efe0a0f4b5af>, :lat 47.33038158, :lng 0.69346009, :timestamp 1364632626368} {:_id #<ObjectId 5156a435e4b0efe0a0f4b5b0>, :lat 47.00803934, :lng 0.55675958, :timestamp 1364633894824} {:_id #<ObjectId 5156a929e4b0efe0a0f4b5b1>, :lat 46.70699055, :lng 0.37280597, :timestamp 1364635164785} {:_id #<ObjectId 5156ae20e4b0efe0a0f4b5b2>, :lat 46.48604326, :lng 0.073333, :timestamp 1364636373671} {:_id #<ObjectId 5156b2d7e4b0efe0a0f4b5b3>, :lat 46.3522021, :lng -0.2804638, :timestamp 1364637294581} {:_id #<ObjectId 5156b670e4b0efe0a0f4b5b4>, :lat 46.10691141, :lng -0.53533745, :timestamp 1364638265344} {:_id #<ObjectId 5156ba3be4b0efe0a0f4b5b5>, :lat 45.77477941, :lng -0.4174715, :timestamp 1364646687184} {:_id #<ObjectId 5156db23e4b0efe0a0f4b5b6>, :lat 45.62736183, :lng -0.09034563, :timestamp
  1364653968905} {:_id #<ObjectId 5156f792d628ecae0c1d7ace>, :lat 45.61944794, :lng 0.26746623, :timestamp 1364719806515} {:_id #<ObjectId 5157f8c1b30e44a83f6bdbdd>, :lat 45.96503682, :lng 0.20408409, :timestamp 1364732107745} {:_id #<ObjectId 515828cfb30e44a83f6bdbde>, :lat 46.29779427, :lng 0.37743895, :timestamp 1364743974624} {:_id #<ObjectId 5158572ab30e44a83f6bdbdf>, :lat 46.53535664, :lng 0.11598655, :timestamp 1364805703687} {:_id #<ObjectId 5159484ae4b0dc26e8ea928f>, :lat 46.76799494, :lng 0.47555086, :timestamp 1364809085867} {:_id #<ObjectId 5159557ee4b0dc26e8ea9290>, :lat 47.12798133, :lng 0.61221372, :timestamp 1364810294836} {:_id #<ObjectId 51595a38e4b0dc26e8ea9291>, :lat 47.4633539, :lng 0.7622068, :timestamp 1364811621839} {:_id #<ObjectId 51595f69e4b0dc26e8ea9292>, :lat 47.61352502, :lng 1.14812406, :timestamp 1364812586986} {:_id #<ObjectId 5159632ce4b0dc26e8ea9293>, :lat 47.62431253, :lng 1.34474003, :timestamp 1364813010819})")
+
+
 
 
 
