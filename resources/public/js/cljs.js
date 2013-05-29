@@ -358,6 +358,13 @@ goog.base = function(a, b, c) {
 goog.scope = function(a) {
   a.call(goog.global)
 };
+goog.debug = {};
+goog.debug.Error = function(a) {
+  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
+  a && (this.message = String(a))
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.string = {};
 goog.string.Unicode = {NBSP:"\u00a0"};
 goog.string.startsWith = function(a, b) {
@@ -687,13 +694,6 @@ goog.string.parseInt = function(a) {
   isFinite(a) && (a = String(a));
   return goog.isString(a) ? /^\s*-?0x/i.test(a) ? parseInt(a, 16) : parseInt(a, 10) : NaN
 };
-goog.debug = {};
-goog.debug.Error = function(a) {
-  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
-  a && (this.message = String(a))
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.asserts = {};
 goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
 goog.asserts.AssertionError = function(a, b) {
@@ -2733,23 +2733,23 @@ cljs.core.with_meta = void 0;
 cljs.core.IWithMeta["function"] = !0;
 cljs.core._with_meta["function"] = function(a, b) {
   return cljs.core.with_meta.call(null, function() {
-    if(void 0 === cljs.core.t3117) {
-      cljs.core.t3117 = {};
-      cljs.core.t3117 = function(a, b, c) {
+    if(void 0 === cljs.core.t3121) {
+      cljs.core.t3121 = {};
+      cljs.core.t3121 = function(a, b, c) {
         this.meta = a;
         this.f = b;
-        this.meta3118 = c;
+        this.meta3122 = c;
         this.cljs$lang$protocol_mask$partition1$ = 0;
         this.cljs$lang$protocol_mask$partition0$ = 393217
       };
-      cljs.core.t3117.cljs$lang$type = !0;
-      cljs.core.t3117.cljs$lang$ctorPrSeq = function() {
-        return cljs.core.list.call(null, "cljs.core/t3117")
+      cljs.core.t3121.cljs$lang$type = !0;
+      cljs.core.t3121.cljs$lang$ctorPrSeq = function() {
+        return cljs.core.list.call(null, "cljs.core/t3121")
       };
-      cljs.core.t3117.cljs$lang$ctorPrWriter = function(a, b) {
-        return cljs.core._write.call(null, b, "cljs.core/t3117")
+      cljs.core.t3121.cljs$lang$ctorPrWriter = function(a, b) {
+        return cljs.core._write.call(null, b, "cljs.core/t3121")
       };
-      var c = cljs.core.t3117.prototype, d = function(a, b) {
+      var c = cljs.core.t3121.prototype, d = function(a, b) {
         return cljs.core.apply.call(null, a.f, b)
       }, e = function(a, b) {
         var a = this, c = null;
@@ -2763,19 +2763,19 @@ cljs.core._with_meta["function"] = function(a, b) {
       };
       e.cljs$lang$arity$variadic = d;
       c.call = e;
-      cljs.core.t3117.prototype.apply = function(a, b) {
+      cljs.core.t3121.prototype.apply = function(a, b) {
         a = this;
         return a.call.apply(a, [a].concat(b.slice()))
       };
-      cljs.core.t3117.prototype.cljs$core$Fn$ = !0;
-      cljs.core.t3117.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
-        return this.meta3118
+      cljs.core.t3121.prototype.cljs$core$Fn$ = !0;
+      cljs.core.t3121.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
+        return this.meta3122
       };
-      cljs.core.t3117.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
-        return new cljs.core.t3117(this.meta, this.f, b)
+      cljs.core.t3121.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
+        return new cljs.core.t3121(this.meta, this.f, b)
       }
     }
-    return new cljs.core.t3117(b, a, null)
+    return new cljs.core.t3121(b, a, null)
   }(), b)
 };
 cljs.core.IMeta["function"] = !0;
@@ -12829,228 +12829,6 @@ cljs.core.comparator = function(a) {
     return cljs.core.truth_(a.call(null, b, c)) ? -1 : cljs.core.truth_(a.call(null, c, b)) ? 1 : 0
   }
 };
-var clojure = {string:{}};
-clojure.string.seq_reverse = function(a) {
-  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
-};
-clojure.string.reverse = function(a) {
-  return a.split("").reverse().join("")
-};
-clojure.string.replace = function(a, b, c) {
-  if(cljs.core.string_QMARK_.call(null, b)) {
-    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
-  }
-  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
-    return a.replace(RegExp(b.source, "g"), c)
-  }
-  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
-};
-clojure.string.replace_first = function(a, b, c) {
-  return a.replace(b, c)
-};
-clojure.string.join = function() {
-  var a = null, b = function(a) {
-    return cljs.core.apply.call(null, cljs.core.str, a)
-  }, c = function(a, b) {
-    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
-  }, a = function(a, e) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, a);
-      case 2:
-        return c.call(this, a, e)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$1 = b;
-  a.cljs$lang$arity$2 = c;
-  return a
-}();
-clojure.string.upper_case = function(a) {
-  return a.toUpperCase()
-};
-clojure.string.lower_case = function(a) {
-  return a.toLowerCase()
-};
-clojure.string.capitalize = function(a) {
-  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
-};
-clojure.string.split = function() {
-  var a = null, b = function(a, b) {
-    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-  }, c = function(a, b, c) {
-    if(1 > c) {
-      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-    }
-    for(var g = cljs.core.PersistentVector.EMPTY;;) {
-      if(cljs.core._EQ_.call(null, c, 1)) {
-        return cljs.core.conj.call(null, g, a)
-      }
-      var h = cljs.core.re_find.call(null, b, a);
-      if(cljs.core.truth_(h)) {
-        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
-      }else {
-        return cljs.core.conj.call(null, g, a)
-      }
-    }
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
-clojure.string.split_lines = function(a) {
-  return clojure.string.split.call(null, a, /\n|\r\n/)
-};
-clojure.string.trim = function(a) {
-  return goog.string.trim(a)
-};
-clojure.string.triml = function(a) {
-  return goog.string.trimLeft(a)
-};
-clojure.string.trimr = function(a) {
-  return goog.string.trimRight(a)
-};
-clojure.string.trim_newline = function(a) {
-  for(var b = a.length;;) {
-    if(0 === b) {
-      return""
-    }
-    var c = cljs.core._lookup.call(null, a, b - 1, null);
-    if(cljs.core.truth_(function() {
-      var a = cljs.core._EQ_.call(null, c, "\n");
-      return a ? a : cljs.core._EQ_.call(null, c, "\r")
-    }())) {
-      b -= 1
-    }else {
-      return a.substring(0, b)
-    }
-  }
-};
-clojure.string.blank_QMARK_ = function(a) {
-  return goog.string.isEmptySafe(a)
-};
-clojure.string.escape = function(a, b) {
-  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
-    if(cljs.core._EQ_.call(null, d, e)) {
-      return c.toString()
-    }
-    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
-    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
-    e += 1
-  }
-};
-var com = {ewen:{}};
-com.ewen.utils_cljs = {};
-com.ewen.utils_cljs.utils = {};
-com.ewen.utils_cljs.utils.log = function(a) {
-  return console.log(a)
-};
-com.ewen.utils_cljs.utils.space_to_dash = function(a) {
-  return clojure.string.replace.call(null, a, " ", "-")
-};
-com.ewen.utils_cljs.utils.get_load_fn = function() {
-  return"function" === goog.typeOf(window.onload) ? window.onload : function() {
-    return cljs.core.List.EMPTY
-  }
-};
-com.ewen.utils_cljs.utils.add_load_event = function(a) {
-  var b = com.ewen.utils_cljs.utils.get_load_fn.call(null);
-  return window.onload = function() {
-    b.call(null);
-    return a.call(null)
-  }
-};
-goog.userAgent = {};
-goog.userAgent.ASSUME_IE = !1;
-goog.userAgent.ASSUME_GECKO = !1;
-goog.userAgent.ASSUME_WEBKIT = !1;
-goog.userAgent.ASSUME_MOBILE_WEBKIT = !1;
-goog.userAgent.ASSUME_OPERA = !1;
-goog.userAgent.ASSUME_ANY_VERSION = !1;
-goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
-goog.userAgent.getUserAgentString = function() {
-  return goog.global.navigator ? goog.global.navigator.userAgent : null
-};
-goog.userAgent.getNavigator = function() {
-  return goog.global.navigator
-};
-goog.userAgent.init_ = function() {
-  goog.userAgent.detectedOpera_ = !1;
-  goog.userAgent.detectedIe_ = !1;
-  goog.userAgent.detectedWebkit_ = !1;
-  goog.userAgent.detectedMobile_ = !1;
-  goog.userAgent.detectedGecko_ = !1;
-  var a;
-  if(!goog.userAgent.BROWSER_KNOWN_ && (a = goog.userAgent.getUserAgentString())) {
-    var b = goog.userAgent.getNavigator();
-    goog.userAgent.detectedOpera_ = 0 == a.indexOf("Opera");
-    goog.userAgent.detectedIe_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("MSIE");
-    goog.userAgent.detectedWebkit_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("WebKit");
-    goog.userAgent.detectedMobile_ = goog.userAgent.detectedWebkit_ && -1 != a.indexOf("Mobile");
-    goog.userAgent.detectedGecko_ = !goog.userAgent.detectedOpera_ && !goog.userAgent.detectedWebkit_ && "Gecko" == b.product
-  }
-};
-goog.userAgent.BROWSER_KNOWN_ || goog.userAgent.init_();
-goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.userAgent.detectedOpera_;
-goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.userAgent.detectedIe_;
-goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.userAgent.detectedGecko_;
-goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.userAgent.detectedWebkit_;
-goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.detectedMobile_;
-goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
-goog.userAgent.determinePlatform_ = function() {
-  var a = goog.userAgent.getNavigator();
-  return a && a.platform || ""
-};
-goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
-goog.userAgent.ASSUME_MAC = !1;
-goog.userAgent.ASSUME_WINDOWS = !1;
-goog.userAgent.ASSUME_LINUX = !1;
-goog.userAgent.ASSUME_X11 = !1;
-goog.userAgent.PLATFORM_KNOWN_ = goog.userAgent.ASSUME_MAC || goog.userAgent.ASSUME_WINDOWS || goog.userAgent.ASSUME_LINUX || goog.userAgent.ASSUME_X11;
-goog.userAgent.initPlatform_ = function() {
-  goog.userAgent.detectedMac_ = goog.string.contains(goog.userAgent.PLATFORM, "Mac");
-  goog.userAgent.detectedWindows_ = goog.string.contains(goog.userAgent.PLATFORM, "Win");
-  goog.userAgent.detectedLinux_ = goog.string.contains(goog.userAgent.PLATFORM, "Linux");
-  goog.userAgent.detectedX11_ = !!goog.userAgent.getNavigator() && goog.string.contains(goog.userAgent.getNavigator().appVersion || "", "X11")
-};
-goog.userAgent.PLATFORM_KNOWN_ || goog.userAgent.initPlatform_();
-goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.userAgent.detectedMac_;
-goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.userAgent.detectedWindows_;
-goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.detectedLinux_;
-goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.detectedX11_;
-goog.userAgent.determineVersion_ = function() {
-  var a = "", b;
-  goog.userAgent.OPERA && goog.global.opera ? (a = goog.global.opera.version, a = "function" == typeof a ? a() : a) : (goog.userAgent.GECKO ? b = /rv\:([^\);]+)(\)|;)/ : goog.userAgent.IE ? b = /MSIE\s+([^\);]+)(\)|;)/ : goog.userAgent.WEBKIT && (b = /WebKit\/(\S+)/), b && (a = (a = b.exec(goog.userAgent.getUserAgentString())) ? a[1] : ""));
-  return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? String(b) : a
-};
-goog.userAgent.getDocumentMode_ = function() {
-  var a = goog.global.document;
-  return a ? a.documentMode : void 0
-};
-goog.userAgent.VERSION = goog.userAgent.determineVersion_();
-goog.userAgent.compare = function(a, b) {
-  return goog.string.compareVersions(a, b)
-};
-goog.userAgent.isVersionCache_ = {};
-goog.userAgent.isVersion = function(a) {
-  return goog.userAgent.ASSUME_ANY_VERSION || goog.userAgent.isVersionCache_[a] || (goog.userAgent.isVersionCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a))
-};
-goog.userAgent.isDocumentModeCache_ = {};
-goog.userAgent.isDocumentMode = function(a) {
-  return goog.userAgent.isDocumentModeCache_[a] || (goog.userAgent.isDocumentModeCache_[a] = goog.userAgent.IE && !!document.documentMode && document.documentMode >= a)
-};
-goog.events = {};
-goog.events.EventType = {CLICK:"click", DBLCLICK:"dblclick", MOUSEDOWN:"mousedown", MOUSEUP:"mouseup", MOUSEOVER:"mouseover", MOUSEOUT:"mouseout", MOUSEMOVE:"mousemove", SELECTSTART:"selectstart", KEYPRESS:"keypress", KEYDOWN:"keydown", KEYUP:"keyup", BLUR:"blur", FOCUS:"focus", DEACTIVATE:"deactivate", FOCUSIN:goog.userAgent.IE ? "focusin" : "DOMFocusIn", FOCUSOUT:goog.userAgent.IE ? "focusout" : "DOMFocusOut", CHANGE:"change", SELECT:"select", SUBMIT:"submit", INPUT:"input", PROPERTYCHANGE:"propertychange", 
-DRAGSTART:"dragstart", DRAGENTER:"dragenter", DRAGOVER:"dragover", DRAGLEAVE:"dragleave", DROP:"drop", TOUCHSTART:"touchstart", TOUCHMOVE:"touchmove", TOUCHEND:"touchend", TOUCHCANCEL:"touchcancel", CONTEXTMENU:"contextmenu", ERROR:"error", HELP:"help", LOAD:"load", LOSECAPTURE:"losecapture", READYSTATECHANGE:"readystatechange", RESIZE:"resize", SCROLL:"scroll", UNLOAD:"unload", HASHCHANGE:"hashchange", PAGEHIDE:"pagehide", PAGESHOW:"pageshow", POPSTATE:"popstate", COPY:"copy", PASTE:"paste", CUT:"cut", 
-BEFORECOPY:"beforecopy", BEFORECUT:"beforecut", BEFOREPASTE:"beforepaste", ONLINE:"online", OFFLINE:"offline", MESSAGE:"message", CONNECT:"connect", TRANSITIONEND:goog.userAgent.WEBKIT ? "webkitTransitionEnd" : goog.userAgent.OPERA ? "oTransitionEnd" : "transitionend"};
 goog.disposable = {};
 goog.disposable.IDisposable = function() {
 };
@@ -13144,6 +12922,86 @@ goog.debug.entryPointRegistry.unmonitorAllIfPossible = function(a) {
 goog.debug.errorHandlerWeakDep = {protectEntryPoint:function(a) {
   return a
 }};
+goog.userAgent = {};
+goog.userAgent.ASSUME_IE = !1;
+goog.userAgent.ASSUME_GECKO = !1;
+goog.userAgent.ASSUME_WEBKIT = !1;
+goog.userAgent.ASSUME_MOBILE_WEBKIT = !1;
+goog.userAgent.ASSUME_OPERA = !1;
+goog.userAgent.ASSUME_ANY_VERSION = !1;
+goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
+goog.userAgent.getUserAgentString = function() {
+  return goog.global.navigator ? goog.global.navigator.userAgent : null
+};
+goog.userAgent.getNavigator = function() {
+  return goog.global.navigator
+};
+goog.userAgent.init_ = function() {
+  goog.userAgent.detectedOpera_ = !1;
+  goog.userAgent.detectedIe_ = !1;
+  goog.userAgent.detectedWebkit_ = !1;
+  goog.userAgent.detectedMobile_ = !1;
+  goog.userAgent.detectedGecko_ = !1;
+  var a;
+  if(!goog.userAgent.BROWSER_KNOWN_ && (a = goog.userAgent.getUserAgentString())) {
+    var b = goog.userAgent.getNavigator();
+    goog.userAgent.detectedOpera_ = 0 == a.indexOf("Opera");
+    goog.userAgent.detectedIe_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("MSIE");
+    goog.userAgent.detectedWebkit_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("WebKit");
+    goog.userAgent.detectedMobile_ = goog.userAgent.detectedWebkit_ && -1 != a.indexOf("Mobile");
+    goog.userAgent.detectedGecko_ = !goog.userAgent.detectedOpera_ && !goog.userAgent.detectedWebkit_ && "Gecko" == b.product
+  }
+};
+goog.userAgent.BROWSER_KNOWN_ || goog.userAgent.init_();
+goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.userAgent.detectedOpera_;
+goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.userAgent.detectedIe_;
+goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.userAgent.detectedGecko_;
+goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.userAgent.detectedWebkit_;
+goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.detectedMobile_;
+goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
+goog.userAgent.determinePlatform_ = function() {
+  var a = goog.userAgent.getNavigator();
+  return a && a.platform || ""
+};
+goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
+goog.userAgent.ASSUME_MAC = !1;
+goog.userAgent.ASSUME_WINDOWS = !1;
+goog.userAgent.ASSUME_LINUX = !1;
+goog.userAgent.ASSUME_X11 = !1;
+goog.userAgent.PLATFORM_KNOWN_ = goog.userAgent.ASSUME_MAC || goog.userAgent.ASSUME_WINDOWS || goog.userAgent.ASSUME_LINUX || goog.userAgent.ASSUME_X11;
+goog.userAgent.initPlatform_ = function() {
+  goog.userAgent.detectedMac_ = goog.string.contains(goog.userAgent.PLATFORM, "Mac");
+  goog.userAgent.detectedWindows_ = goog.string.contains(goog.userAgent.PLATFORM, "Win");
+  goog.userAgent.detectedLinux_ = goog.string.contains(goog.userAgent.PLATFORM, "Linux");
+  goog.userAgent.detectedX11_ = !!goog.userAgent.getNavigator() && goog.string.contains(goog.userAgent.getNavigator().appVersion || "", "X11")
+};
+goog.userAgent.PLATFORM_KNOWN_ || goog.userAgent.initPlatform_();
+goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.userAgent.detectedMac_;
+goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.userAgent.detectedWindows_;
+goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.detectedLinux_;
+goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.detectedX11_;
+goog.userAgent.determineVersion_ = function() {
+  var a = "", b;
+  goog.userAgent.OPERA && goog.global.opera ? (a = goog.global.opera.version, a = "function" == typeof a ? a() : a) : (goog.userAgent.GECKO ? b = /rv\:([^\);]+)(\)|;)/ : goog.userAgent.IE ? b = /MSIE\s+([^\);]+)(\)|;)/ : goog.userAgent.WEBKIT && (b = /WebKit\/(\S+)/), b && (a = (a = b.exec(goog.userAgent.getUserAgentString())) ? a[1] : ""));
+  return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? String(b) : a
+};
+goog.userAgent.getDocumentMode_ = function() {
+  var a = goog.global.document;
+  return a ? a.documentMode : void 0
+};
+goog.userAgent.VERSION = goog.userAgent.determineVersion_();
+goog.userAgent.compare = function(a, b) {
+  return goog.string.compareVersions(a, b)
+};
+goog.userAgent.isVersionCache_ = {};
+goog.userAgent.isVersion = function(a) {
+  return goog.userAgent.ASSUME_ANY_VERSION || goog.userAgent.isVersionCache_[a] || (goog.userAgent.isVersionCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a))
+};
+goog.userAgent.isDocumentModeCache_ = {};
+goog.userAgent.isDocumentMode = function(a) {
+  return goog.userAgent.isDocumentModeCache_[a] || (goog.userAgent.isDocumentModeCache_[a] = goog.userAgent.IE && !!document.documentMode && document.documentMode >= a)
+};
+goog.events = {};
 goog.events.BrowserFeature = {HAS_W3C_BUTTON:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), HAS_W3C_EVENT_SUPPORT:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), SET_KEY_CODE_TO_PREVENT_DEFAULT:goog.userAgent.IE && !goog.userAgent.isVersion("8"), HAS_NAVIGATOR_ONLINE_PROPERTY:!goog.userAgent.WEBKIT || goog.userAgent.isVersion("528"), HAS_HTML5_NETWORK_EVENT_SUPPORT:goog.userAgent.GECKO && goog.userAgent.isVersion("1.9b") || goog.userAgent.IE && goog.userAgent.isVersion("8") || goog.userAgent.OPERA && 
 goog.userAgent.isVersion("9.5") || goog.userAgent.WEBKIT && goog.userAgent.isVersion("528"), HTML5_NETWORK_EVENTS_FIRE_ON_BODY:goog.userAgent.GECKO && !goog.userAgent.isVersion("8") || goog.userAgent.IE && !goog.userAgent.isVersion("9")};
 goog.events.Event = function(a, b) {
@@ -13170,6 +13028,9 @@ goog.events.Event.stopPropagation = function(a) {
 goog.events.Event.preventDefault = function(a) {
   a.preventDefault()
 };
+goog.events.EventType = {CLICK:"click", DBLCLICK:"dblclick", MOUSEDOWN:"mousedown", MOUSEUP:"mouseup", MOUSEOVER:"mouseover", MOUSEOUT:"mouseout", MOUSEMOVE:"mousemove", SELECTSTART:"selectstart", KEYPRESS:"keypress", KEYDOWN:"keydown", KEYUP:"keyup", BLUR:"blur", FOCUS:"focus", DEACTIVATE:"deactivate", FOCUSIN:goog.userAgent.IE ? "focusin" : "DOMFocusIn", FOCUSOUT:goog.userAgent.IE ? "focusout" : "DOMFocusOut", CHANGE:"change", SELECT:"select", SUBMIT:"submit", INPUT:"input", PROPERTYCHANGE:"propertychange", 
+DRAGSTART:"dragstart", DRAGENTER:"dragenter", DRAGOVER:"dragover", DRAGLEAVE:"dragleave", DROP:"drop", TOUCHSTART:"touchstart", TOUCHMOVE:"touchmove", TOUCHEND:"touchend", TOUCHCANCEL:"touchcancel", CONTEXTMENU:"contextmenu", ERROR:"error", HELP:"help", LOAD:"load", LOSECAPTURE:"losecapture", READYSTATECHANGE:"readystatechange", RESIZE:"resize", SCROLL:"scroll", UNLOAD:"unload", HASHCHANGE:"hashchange", PAGEHIDE:"pagehide", PAGESHOW:"pageshow", POPSTATE:"popstate", COPY:"copy", PASTE:"paste", CUT:"cut", 
+BEFORECOPY:"beforecopy", BEFORECUT:"beforecut", BEFOREPASTE:"beforepaste", ONLINE:"online", OFFLINE:"offline", MESSAGE:"message", CONNECT:"connect", TRANSITIONEND:goog.userAgent.WEBKIT ? "webkitTransitionEnd" : goog.userAgent.OPERA ? "oTransitionEnd" : "transitionend"};
 goog.reflect = {};
 goog.reflect.object = function(a, b) {
   return b
@@ -13659,118 +13520,63 @@ goog.events.EventTarget.prototype.disposeInternal = function() {
   goog.events.removeAll(this);
   this.parentEventTarget_ = null
 };
-clojure.browser = {};
-clojure.browser.event = {};
-clojure.browser.event.EventType = {};
-clojure.browser.event.event_types = function(a) {
-  var b;
-  b = a ? a.clojure$browser$event$EventType$event_types$arity$1 : a;
-  if(b) {
-    return a.clojure$browser$event$EventType$event_types$arity$1(a)
+goog.Timer = function(a, b) {
+  goog.events.EventTarget.call(this);
+  this.interval_ = a || 1;
+  this.timerObject_ = b || goog.Timer.defaultTimerObject;
+  this.boundTick_ = goog.bind(this.tick_, this);
+  this.last_ = goog.now()
+};
+goog.inherits(goog.Timer, goog.events.EventTarget);
+goog.Timer.MAX_TIMEOUT_ = 2147483647;
+goog.Timer.prototype.enabled = !1;
+goog.Timer.defaultTimerObject = goog.global.window;
+goog.Timer.intervalScale = 0.8;
+goog.Timer.prototype.timer_ = null;
+goog.Timer.prototype.getInterval = function() {
+  return this.interval_
+};
+goog.Timer.prototype.setInterval = function(a) {
+  this.interval_ = a;
+  this.timer_ && this.enabled ? (this.stop(), this.start()) : this.timer_ && this.stop()
+};
+goog.Timer.prototype.tick_ = function() {
+  if(this.enabled) {
+    var a = goog.now() - this.last_;
+    0 < a && a < this.interval_ * goog.Timer.intervalScale ? this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_ - a) : (this.dispatchTick(), this.enabled && (this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_), this.last_ = goog.now()))
   }
-  b = clojure.browser.event.event_types[goog.typeOf(null == a ? null : a)];
-  if(!b && (b = clojure.browser.event.event_types._, !b)) {
-    throw cljs.core.missing_protocol.call(null, "EventType.event-types", a);
+};
+goog.Timer.prototype.dispatchTick = function() {
+  this.dispatchEvent(goog.Timer.TICK)
+};
+goog.Timer.prototype.start = function() {
+  this.enabled = !0;
+  this.timer_ || (this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_), this.last_ = goog.now())
+};
+goog.Timer.prototype.stop = function() {
+  this.enabled = !1;
+  this.timer_ && (this.timerObject_.clearTimeout(this.timer_), this.timer_ = null)
+};
+goog.Timer.prototype.disposeInternal = function() {
+  goog.Timer.superClass_.disposeInternal.call(this);
+  this.stop();
+  delete this.timerObject_
+};
+goog.Timer.TICK = "tick";
+goog.Timer.callOnce = function(a, b, c) {
+  if(goog.isFunction(a)) {
+    c && (a = goog.bind(a, c))
+  }else {
+    if(a && "function" == typeof a.handleEvent) {
+      a = goog.bind(a.handleEvent, a)
+    }else {
+      throw Error("Invalid listener argument");
+    }
   }
-  return b.call(null, a)
+  return b > goog.Timer.MAX_TIMEOUT_ ? -1 : goog.Timer.defaultTimerObject.setTimeout(a, b || 0)
 };
-Element.prototype.clojure$browser$event$EventType$ = !0;
-Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
-  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
-    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
-    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
-  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.events.EventType))))
-};
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = !0;
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
-  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
-    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
-    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
-  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.events.EventType))))
-};
-clojure.browser.event.listen = function() {
-  var a = null, b = function(b, c, f) {
-    return a.call(null, b, c, f, !1)
-  }, c = function(a, b, c, g) {
-    return goog.events.listen(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
-  }, a = function(a, e, f, g) {
-    switch(arguments.length) {
-      case 3:
-        return b.call(this, a, e, f);
-      case 4:
-        return c.call(this, a, e, f, g)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$3 = b;
-  a.cljs$lang$arity$4 = c;
-  return a
-}();
-clojure.browser.event.listen_once = function() {
-  var a = null, b = function(b, c, f) {
-    return a.call(null, b, c, f, !1)
-  }, c = function(a, b, c, g) {
-    return goog.events.listenOnce(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
-  }, a = function(a, e, f, g) {
-    switch(arguments.length) {
-      case 3:
-        return b.call(this, a, e, f);
-      case 4:
-        return c.call(this, a, e, f, g)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$3 = b;
-  a.cljs$lang$arity$4 = c;
-  return a
-}();
-clojure.browser.event.unlisten = function() {
-  var a = null, b = function(b, c, f) {
-    return a.call(null, b, c, f, !1)
-  }, c = function(a, b, c, g) {
-    return goog.events.unlisten(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
-  }, a = function(a, e, f, g) {
-    switch(arguments.length) {
-      case 3:
-        return b.call(this, a, e, f);
-      case 4:
-        return c.call(this, a, e, f, g)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$3 = b;
-  a.cljs$lang$arity$4 = c;
-  return a
-}();
-clojure.browser.event.unlisten_by_key = function(a) {
-  return goog.events.unlistenByKey(a)
-};
-clojure.browser.event.dispatch_event = function(a, b) {
-  return goog.events.dispatchEvent(a, b)
-};
-clojure.browser.event.expose = function(a) {
-  return goog.events.expose(a)
-};
-clojure.browser.event.fire_listeners = function() {
-  return null
-};
-clojure.browser.event.total_listener_count = function() {
-  return goog.events.getTotalListenerCount()
-};
-clojure.browser.event.get_listener = function() {
-  return null
-};
-clojure.browser.event.all_listeners = function() {
-  return null
-};
-clojure.browser.event.unique_event_id = function() {
-  return null
-};
-clojure.browser.event.has_listener = function() {
-  return null
-};
-clojure.browser.event.remove_all = function() {
-  return null
+goog.Timer.clear = function(a) {
+  goog.Timer.defaultTimerObject.clearTimeout(a)
 };
 goog.structs = {};
 goog.structs.getCount = function(a) {
@@ -13896,6 +13702,8 @@ goog.structs.every = function(a, b, c) {
     }
   }
   return!0
+};
+goog.structs.Collection = function() {
 };
 goog.iter = {};
 goog.iter.StopIteration = "StopIteration" in goog.global ? goog.global.StopIteration : Error("StopIteration");
@@ -14327,895 +14135,657 @@ goog.structs.Map.prototype.__iterator__ = function(a) {
 goog.structs.Map.hasKey_ = function(a, b) {
   return Object.prototype.hasOwnProperty.call(a, b)
 };
-goog.uri = {};
-goog.uri.utils = {};
-goog.uri.utils.CharCode_ = {AMPERSAND:38, EQUAL:61, HASH:35, QUESTION:63};
-goog.uri.utils.buildFromEncodedParts = function(a, b, c, d, e, f, g) {
-  var h = [];
-  a && h.push(a, ":");
-  c && (h.push("//"), b && h.push(b, "@"), h.push(c), d && h.push(":", d));
-  e && h.push(e);
-  f && h.push("?", f);
-  g && h.push("#", g);
-  return h.join("")
+goog.structs.Set = function(a) {
+  this.map_ = new goog.structs.Map;
+  a && this.addAll(a)
 };
-goog.uri.utils.splitRe_ = RegExp("^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?(?:#(.*))?$");
-goog.uri.utils.ComponentIndex = {SCHEME:1, USER_INFO:2, DOMAIN:3, PORT:4, PATH:5, QUERY_DATA:6, FRAGMENT:7};
-goog.uri.utils.split = function(a) {
-  return a.match(goog.uri.utils.splitRe_)
+goog.structs.Set.getKey_ = function(a) {
+  var b = typeof a;
+  return"object" == b && a || "function" == b ? "o" + goog.getUid(a) : b.substr(0, 1) + a
 };
-goog.uri.utils.decodeIfPossible_ = function(a) {
-  return a && decodeURIComponent(a)
+goog.structs.Set.prototype.getCount = function() {
+  return this.map_.getCount()
 };
-goog.uri.utils.getComponentByIndex_ = function(a, b) {
-  return goog.uri.utils.split(b)[a] || null
+goog.structs.Set.prototype.add = function(a) {
+  this.map_.set(goog.structs.Set.getKey_(a), a)
 };
-goog.uri.utils.getScheme = function(a) {
-  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.SCHEME, a)
-};
-goog.uri.utils.getEffectiveScheme = function(a) {
-  a = goog.uri.utils.getScheme(a);
-  !a && self.location && (a = self.location.protocol, a = a.substr(0, a.length - 1));
-  return a ? a.toLowerCase() : ""
-};
-goog.uri.utils.getUserInfoEncoded = function(a) {
-  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.USER_INFO, a)
-};
-goog.uri.utils.getUserInfo = function(a) {
-  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getUserInfoEncoded(a))
-};
-goog.uri.utils.getDomainEncoded = function(a) {
-  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.DOMAIN, a)
-};
-goog.uri.utils.getDomain = function(a) {
-  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getDomainEncoded(a))
-};
-goog.uri.utils.getPort = function(a) {
-  return Number(goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.PORT, a)) || null
-};
-goog.uri.utils.getPathEncoded = function(a) {
-  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.PATH, a)
-};
-goog.uri.utils.getPath = function(a) {
-  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getPathEncoded(a))
-};
-goog.uri.utils.getQueryData = function(a) {
-  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.QUERY_DATA, a)
-};
-goog.uri.utils.getFragmentEncoded = function(a) {
-  var b = a.indexOf("#");
-  return 0 > b ? null : a.substr(b + 1)
-};
-goog.uri.utils.setFragmentEncoded = function(a, b) {
-  return goog.uri.utils.removeFragment(a) + (b ? "#" + b : "")
-};
-goog.uri.utils.getFragment = function(a) {
-  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getFragmentEncoded(a))
-};
-goog.uri.utils.getHost = function(a) {
-  a = goog.uri.utils.split(a);
-  return goog.uri.utils.buildFromEncodedParts(a[goog.uri.utils.ComponentIndex.SCHEME], a[goog.uri.utils.ComponentIndex.USER_INFO], a[goog.uri.utils.ComponentIndex.DOMAIN], a[goog.uri.utils.ComponentIndex.PORT])
-};
-goog.uri.utils.getPathAndAfter = function(a) {
-  a = goog.uri.utils.split(a);
-  return goog.uri.utils.buildFromEncodedParts(null, null, null, null, a[goog.uri.utils.ComponentIndex.PATH], a[goog.uri.utils.ComponentIndex.QUERY_DATA], a[goog.uri.utils.ComponentIndex.FRAGMENT])
-};
-goog.uri.utils.removeFragment = function(a) {
-  var b = a.indexOf("#");
-  return 0 > b ? a : a.substr(0, b)
-};
-goog.uri.utils.haveSameDomain = function(a, b) {
-  var c = goog.uri.utils.split(a), d = goog.uri.utils.split(b);
-  return c[goog.uri.utils.ComponentIndex.DOMAIN] == d[goog.uri.utils.ComponentIndex.DOMAIN] && c[goog.uri.utils.ComponentIndex.SCHEME] == d[goog.uri.utils.ComponentIndex.SCHEME] && c[goog.uri.utils.ComponentIndex.PORT] == d[goog.uri.utils.ComponentIndex.PORT]
-};
-goog.uri.utils.assertNoFragmentsOrQueries_ = function(a) {
-  if(goog.DEBUG && (0 <= a.indexOf("#") || 0 <= a.indexOf("?"))) {
-    throw Error("goog.uri.utils: Fragment or query identifiers are not supported: [" + a + "]");
+goog.structs.Set.prototype.addAll = function(a) {
+  for(var a = goog.structs.getValues(a), b = a.length, c = 0;c < b;c++) {
+    this.add(a[c])
   }
 };
-goog.uri.utils.appendQueryData_ = function(a) {
-  if(a[1]) {
-    var b = a[0], c = b.indexOf("#");
-    0 <= c && (a.push(b.substr(c)), a[0] = b = b.substr(0, c));
-    c = b.indexOf("?");
-    0 > c ? a[1] = "?" : c == b.length - 1 && (a[1] = void 0)
-  }
-  return a.join("")
-};
-goog.uri.utils.appendKeyValuePairs_ = function(a, b, c) {
-  if(goog.isArray(b)) {
-    goog.asserts.assertArray(b);
-    for(var d = 0;d < b.length;d++) {
-      goog.uri.utils.appendKeyValuePairs_(a, String(b[d]), c)
-    }
-  }else {
-    null != b && c.push("&", a, "" === b ? "" : "=", goog.string.urlEncode(b))
+goog.structs.Set.prototype.removeAll = function(a) {
+  for(var a = goog.structs.getValues(a), b = a.length, c = 0;c < b;c++) {
+    this.remove(a[c])
   }
 };
-goog.uri.utils.buildQueryDataBuffer_ = function(a, b, c) {
-  goog.asserts.assert(0 == Math.max(b.length - (c || 0), 0) % 2, "goog.uri.utils: Key/value lists must be even in length.");
-  for(c = c || 0;c < b.length;c += 2) {
-    goog.uri.utils.appendKeyValuePairs_(b[c], b[c + 1], a)
-  }
-  return a
+goog.structs.Set.prototype.remove = function(a) {
+  return this.map_.remove(goog.structs.Set.getKey_(a))
 };
-goog.uri.utils.buildQueryData = function(a, b) {
-  var c = goog.uri.utils.buildQueryDataBuffer_([], a, b);
-  c[0] = "";
-  return c.join("")
+goog.structs.Set.prototype.clear = function() {
+  this.map_.clear()
 };
-goog.uri.utils.buildQueryDataBufferFromMap_ = function(a, b) {
-  for(var c in b) {
-    goog.uri.utils.appendKeyValuePairs_(c, b[c], a)
-  }
-  return a
+goog.structs.Set.prototype.isEmpty = function() {
+  return this.map_.isEmpty()
 };
-goog.uri.utils.buildQueryDataFromMap = function(a) {
-  a = goog.uri.utils.buildQueryDataBufferFromMap_([], a);
-  a[0] = "";
-  return a.join("")
+goog.structs.Set.prototype.contains = function(a) {
+  return this.map_.containsKey(goog.structs.Set.getKey_(a))
 };
-goog.uri.utils.appendParams = function(a, b) {
-  return goog.uri.utils.appendQueryData_(2 == arguments.length ? goog.uri.utils.buildQueryDataBuffer_([a], arguments[1], 0) : goog.uri.utils.buildQueryDataBuffer_([a], arguments, 1))
+goog.structs.Set.prototype.containsAll = function(a) {
+  return goog.structs.every(a, this.contains, this)
 };
-goog.uri.utils.appendParamsFromMap = function(a, b) {
-  return goog.uri.utils.appendQueryData_(goog.uri.utils.buildQueryDataBufferFromMap_([a], b))
-};
-goog.uri.utils.appendParam = function(a, b, c) {
-  return goog.uri.utils.appendQueryData_([a, "&", b, "=", goog.string.urlEncode(c)])
-};
-goog.uri.utils.findParam_ = function(a, b, c, d) {
-  for(var e = c.length;0 <= (b = a.indexOf(c, b)) && b < d;) {
-    var f = a.charCodeAt(b - 1);
-    if(f == goog.uri.utils.CharCode_.AMPERSAND || f == goog.uri.utils.CharCode_.QUESTION) {
-      if(f = a.charCodeAt(b + e), !f || f == goog.uri.utils.CharCode_.EQUAL || f == goog.uri.utils.CharCode_.AMPERSAND || f == goog.uri.utils.CharCode_.HASH) {
-        return b
-      }
-    }
-    b += e + 1
-  }
-  return-1
-};
-goog.uri.utils.hashOrEndRe_ = /#|$/;
-goog.uri.utils.hasParam = function(a, b) {
-  return 0 <= goog.uri.utils.findParam_(a, 0, b, a.search(goog.uri.utils.hashOrEndRe_))
-};
-goog.uri.utils.getParamValue = function(a, b) {
-  var c = a.search(goog.uri.utils.hashOrEndRe_), d = goog.uri.utils.findParam_(a, 0, b, c);
-  if(0 > d) {
-    return null
-  }
-  var e = a.indexOf("&", d);
-  if(0 > e || e > c) {
-    e = c
-  }
-  d += b.length + 1;
-  return goog.string.urlDecode(a.substr(d, e - d))
-};
-goog.uri.utils.getParamValues = function(a, b) {
-  for(var c = a.search(goog.uri.utils.hashOrEndRe_), d = 0, e, f = [];0 <= (e = goog.uri.utils.findParam_(a, d, b, c));) {
-    d = a.indexOf("&", e);
-    if(0 > d || d > c) {
-      d = c
-    }
-    e += b.length + 1;
-    f.push(goog.string.urlDecode(a.substr(e, d - e)))
-  }
-  return f
-};
-goog.uri.utils.trailingQueryPunctuationRe_ = /[?&]($|#)/;
-goog.uri.utils.removeParam = function(a, b) {
-  for(var c = a.search(goog.uri.utils.hashOrEndRe_), d = 0, e, f = [];0 <= (e = goog.uri.utils.findParam_(a, d, b, c));) {
-    f.push(a.substring(d, e)), d = Math.min(a.indexOf("&", e) + 1 || c, c)
-  }
-  f.push(a.substr(d));
-  return f.join("").replace(goog.uri.utils.trailingQueryPunctuationRe_, "$1")
-};
-goog.uri.utils.setParam = function(a, b, c) {
-  return goog.uri.utils.appendParam(goog.uri.utils.removeParam(a, b), b, c)
-};
-goog.uri.utils.appendPath = function(a, b) {
-  goog.uri.utils.assertNoFragmentsOrQueries_(a);
-  goog.string.endsWith(a, "/") && (a = a.substr(0, a.length - 1));
-  goog.string.startsWith(b, "/") && (b = b.substr(1));
-  return goog.string.buildString(a, "/", b)
-};
-goog.uri.utils.StandardQueryParam = {RANDOM:"zx"};
-goog.uri.utils.makeUnique = function(a) {
-  return goog.uri.utils.setParam(a, goog.uri.utils.StandardQueryParam.RANDOM, goog.string.getRandomString())
-};
-goog.Uri = function(a, b) {
-  var c;
-  a instanceof goog.Uri ? (this.ignoreCase_ = goog.isDef(b) ? b : a.getIgnoreCase(), this.setScheme(a.getScheme()), this.setUserInfo(a.getUserInfo()), this.setDomain(a.getDomain()), this.setPort(a.getPort()), this.setPath(a.getPath()), this.setQueryData(a.getQueryData().clone()), this.setFragment(a.getFragment())) : a && (c = goog.uri.utils.split(String(a))) ? (this.ignoreCase_ = !!b, this.setScheme(c[goog.uri.utils.ComponentIndex.SCHEME] || "", !0), this.setUserInfo(c[goog.uri.utils.ComponentIndex.USER_INFO] || 
-  "", !0), this.setDomain(c[goog.uri.utils.ComponentIndex.DOMAIN] || "", !0), this.setPort(c[goog.uri.utils.ComponentIndex.PORT]), this.setPath(c[goog.uri.utils.ComponentIndex.PATH] || "", !0), this.setQueryData(c[goog.uri.utils.ComponentIndex.QUERY_DATA] || "", !0), this.setFragment(c[goog.uri.utils.ComponentIndex.FRAGMENT] || "", !0)) : (this.ignoreCase_ = !!b, this.queryData_ = new goog.Uri.QueryData(null, null, this.ignoreCase_))
-};
-goog.Uri.preserveParameterTypesCompatibilityFlag = !1;
-goog.Uri.RANDOM_PARAM = goog.uri.utils.StandardQueryParam.RANDOM;
-goog.Uri.prototype.scheme_ = "";
-goog.Uri.prototype.userInfo_ = "";
-goog.Uri.prototype.domain_ = "";
-goog.Uri.prototype.port_ = null;
-goog.Uri.prototype.path_ = "";
-goog.Uri.prototype.fragment_ = "";
-goog.Uri.prototype.isReadOnly_ = !1;
-goog.Uri.prototype.ignoreCase_ = !1;
-goog.Uri.prototype.toString = function() {
-  var a = [], b = this.getScheme();
-  b && a.push(goog.Uri.encodeSpecialChars_(b, goog.Uri.reDisallowedInSchemeOrUserInfo_), ":");
-  if(b = this.getDomain()) {
-    a.push("//");
-    var c = this.getUserInfo();
-    c && a.push(goog.Uri.encodeSpecialChars_(c, goog.Uri.reDisallowedInSchemeOrUserInfo_), "@");
-    a.push(goog.string.urlEncode(b));
-    b = this.getPort();
-    null != b && a.push(":", String(b))
-  }
-  if(b = this.getPath()) {
-    this.hasDomain() && "/" != b.charAt(0) && a.push("/"), a.push(goog.Uri.encodeSpecialChars_(b, "/" == b.charAt(0) ? goog.Uri.reDisallowedInAbsolutePath_ : goog.Uri.reDisallowedInRelativePath_))
-  }
-  (b = this.getEncodedQuery()) && a.push("?", b);
-  (b = this.getFragment()) && a.push("#", goog.Uri.encodeSpecialChars_(b, goog.Uri.reDisallowedInFragment_));
-  return a.join("")
-};
-goog.Uri.prototype.resolve = function(a) {
-  var b = this.clone(), c = a.hasScheme();
-  c ? b.setScheme(a.getScheme()) : c = a.hasUserInfo();
-  c ? b.setUserInfo(a.getUserInfo()) : c = a.hasDomain();
-  c ? b.setDomain(a.getDomain()) : c = a.hasPort();
-  var d = a.getPath();
-  if(c) {
-    b.setPort(a.getPort())
-  }else {
-    if(c = a.hasPath()) {
-      if("/" != d.charAt(0)) {
-        if(this.hasDomain() && !this.hasPath()) {
-          d = "/" + d
-        }else {
-          var e = b.getPath().lastIndexOf("/");
-          -1 != e && (d = b.getPath().substr(0, e + 1) + d)
-        }
-      }
-      d = goog.Uri.removeDotSegments(d)
-    }
-  }
-  c ? b.setPath(d) : c = a.hasQuery();
-  c ? b.setQueryData(a.getDecodedQuery()) : c = a.hasFragment();
-  c && b.setFragment(a.getFragment());
-  return b
-};
-goog.Uri.prototype.clone = function() {
-  return new goog.Uri(this)
-};
-goog.Uri.prototype.getScheme = function() {
-  return this.scheme_
-};
-goog.Uri.prototype.setScheme = function(a, b) {
-  this.enforceReadOnly();
-  if(this.scheme_ = b ? goog.Uri.decodeOrEmpty_(a) : a) {
-    this.scheme_ = this.scheme_.replace(/:$/, "")
-  }
-  return this
-};
-goog.Uri.prototype.hasScheme = function() {
-  return!!this.scheme_
-};
-goog.Uri.prototype.getUserInfo = function() {
-  return this.userInfo_
-};
-goog.Uri.prototype.setUserInfo = function(a, b) {
-  this.enforceReadOnly();
-  this.userInfo_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
-  return this
-};
-goog.Uri.prototype.hasUserInfo = function() {
-  return!!this.userInfo_
-};
-goog.Uri.prototype.getDomain = function() {
-  return this.domain_
-};
-goog.Uri.prototype.setDomain = function(a, b) {
-  this.enforceReadOnly();
-  this.domain_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
-  return this
-};
-goog.Uri.prototype.hasDomain = function() {
-  return!!this.domain_
-};
-goog.Uri.prototype.getPort = function() {
-  return this.port_
-};
-goog.Uri.prototype.setPort = function(a) {
-  this.enforceReadOnly();
-  if(a) {
-    a = Number(a);
-    if(isNaN(a) || 0 > a) {
-      throw Error("Bad port number " + a);
-    }
-    this.port_ = a
-  }else {
-    this.port_ = null
-  }
-  return this
-};
-goog.Uri.prototype.hasPort = function() {
-  return null != this.port_
-};
-goog.Uri.prototype.getPath = function() {
-  return this.path_
-};
-goog.Uri.prototype.setPath = function(a, b) {
-  this.enforceReadOnly();
-  this.path_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
-  return this
-};
-goog.Uri.prototype.hasPath = function() {
-  return!!this.path_
-};
-goog.Uri.prototype.hasQuery = function() {
-  return"" !== this.queryData_.toString()
-};
-goog.Uri.prototype.setQueryData = function(a, b) {
-  this.enforceReadOnly();
-  a instanceof goog.Uri.QueryData ? (this.queryData_ = a, this.queryData_.setIgnoreCase(this.ignoreCase_)) : (b || (a = goog.Uri.encodeSpecialChars_(a, goog.Uri.reDisallowedInQuery_)), this.queryData_ = new goog.Uri.QueryData(a, null, this.ignoreCase_));
-  return this
-};
-goog.Uri.prototype.setQuery = function(a, b) {
-  return this.setQueryData(a, b)
-};
-goog.Uri.prototype.getEncodedQuery = function() {
-  return this.queryData_.toString()
-};
-goog.Uri.prototype.getDecodedQuery = function() {
-  return this.queryData_.toDecodedString()
-};
-goog.Uri.prototype.getQueryData = function() {
-  return this.queryData_
-};
-goog.Uri.prototype.getQuery = function() {
-  return this.getEncodedQuery()
-};
-goog.Uri.prototype.setParameterValue = function(a, b) {
-  this.enforceReadOnly();
-  this.queryData_.set(a, b);
-  return this
-};
-goog.Uri.prototype.setParameterValues = function(a, b) {
-  this.enforceReadOnly();
-  goog.isArray(b) || (b = [String(b)]);
-  this.queryData_.setValues(a, b);
-  return this
-};
-goog.Uri.prototype.getParameterValues = function(a) {
-  return this.queryData_.getValues(a)
-};
-goog.Uri.prototype.getParameterValue = function(a) {
-  return this.queryData_.get(a)
-};
-goog.Uri.prototype.getFragment = function() {
-  return this.fragment_
-};
-goog.Uri.prototype.setFragment = function(a, b) {
-  this.enforceReadOnly();
-  this.fragment_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
-  return this
-};
-goog.Uri.prototype.hasFragment = function() {
-  return!!this.fragment_
-};
-goog.Uri.prototype.hasSameDomainAs = function(a) {
-  return(!this.hasDomain() && !a.hasDomain() || this.getDomain() == a.getDomain()) && (!this.hasPort() && !a.hasPort() || this.getPort() == a.getPort())
-};
-goog.Uri.prototype.makeUnique = function() {
-  this.enforceReadOnly();
-  this.setParameterValue(goog.Uri.RANDOM_PARAM, goog.string.getRandomString());
-  return this
-};
-goog.Uri.prototype.removeParameter = function(a) {
-  this.enforceReadOnly();
-  this.queryData_.remove(a);
-  return this
-};
-goog.Uri.prototype.setReadOnly = function(a) {
-  this.isReadOnly_ = a;
-  return this
-};
-goog.Uri.prototype.isReadOnly = function() {
-  return this.isReadOnly_
-};
-goog.Uri.prototype.enforceReadOnly = function() {
-  if(this.isReadOnly_) {
-    throw Error("Tried to modify a read-only Uri");
-  }
-};
-goog.Uri.prototype.setIgnoreCase = function(a) {
-  this.ignoreCase_ = a;
-  this.queryData_ && this.queryData_.setIgnoreCase(a);
-  return this
-};
-goog.Uri.prototype.getIgnoreCase = function() {
-  return this.ignoreCase_
-};
-goog.Uri.parse = function(a, b) {
-  return a instanceof goog.Uri ? a.clone() : new goog.Uri(a, b)
-};
-goog.Uri.create = function(a, b, c, d, e, f, g, h) {
-  h = new goog.Uri(null, h);
-  a && h.setScheme(a);
-  b && h.setUserInfo(b);
-  c && h.setDomain(c);
-  d && h.setPort(d);
-  e && h.setPath(e);
-  f && h.setQueryData(f);
-  g && h.setFragment(g);
-  return h
-};
-goog.Uri.resolve = function(a, b) {
-  a instanceof goog.Uri || (a = goog.Uri.parse(a));
-  b instanceof goog.Uri || (b = goog.Uri.parse(b));
-  return a.resolve(b)
-};
-goog.Uri.removeDotSegments = function(a) {
-  if(".." == a || "." == a) {
-    return""
-  }
-  if(!goog.string.contains(a, "./") && !goog.string.contains(a, "/.")) {
-    return a
-  }
-  for(var b = goog.string.startsWith(a, "/"), a = a.split("/"), c = [], d = 0;d < a.length;) {
-    var e = a[d++];
-    "." == e ? b && d == a.length && c.push("") : ".." == e ? ((1 < c.length || 1 == c.length && "" != c[0]) && c.pop(), b && d == a.length && c.push("")) : (c.push(e), b = !0)
-  }
-  return c.join("/")
-};
-goog.Uri.decodeOrEmpty_ = function(a) {
-  return a ? decodeURIComponent(a) : ""
-};
-goog.Uri.encodeSpecialChars_ = function(a, b) {
-  return goog.isString(a) ? encodeURI(a).replace(b, goog.Uri.encodeChar_) : null
-};
-goog.Uri.encodeChar_ = function(a) {
-  a = a.charCodeAt(0);
-  return"%" + (a >> 4 & 15).toString(16) + (a & 15).toString(16)
-};
-goog.Uri.reDisallowedInSchemeOrUserInfo_ = /[#\/\?@]/g;
-goog.Uri.reDisallowedInRelativePath_ = /[\#\?:]/g;
-goog.Uri.reDisallowedInAbsolutePath_ = /[\#\?]/g;
-goog.Uri.reDisallowedInQuery_ = /[\#\?@]/g;
-goog.Uri.reDisallowedInFragment_ = /#/g;
-goog.Uri.haveSameDomain = function(a, b) {
-  var c = goog.uri.utils.split(a), d = goog.uri.utils.split(b);
-  return c[goog.uri.utils.ComponentIndex.DOMAIN] == d[goog.uri.utils.ComponentIndex.DOMAIN] && c[goog.uri.utils.ComponentIndex.PORT] == d[goog.uri.utils.ComponentIndex.PORT]
-};
-goog.Uri.QueryData = function(a, b, c) {
-  this.encodedQuery_ = a || null;
-  this.ignoreCase_ = !!c
-};
-goog.Uri.QueryData.prototype.ensureKeyMapInitialized_ = function() {
-  if(!this.keyMap_ && (this.keyMap_ = new goog.structs.Map, this.count_ = 0, this.encodedQuery_)) {
-    for(var a = this.encodedQuery_.split("&"), b = 0;b < a.length;b++) {
-      var c = a[b].indexOf("="), d = null, e = null;
-      0 <= c ? (d = a[b].substring(0, c), e = a[b].substring(c + 1)) : d = a[b];
-      d = goog.string.urlDecode(d);
-      d = this.getKeyName_(d);
-      this.add(d, e ? goog.string.urlDecode(e) : "")
-    }
-  }
-};
-goog.Uri.QueryData.createFromMap = function(a, b, c) {
-  b = goog.structs.getKeys(a);
-  if("undefined" == typeof b) {
-    throw Error("Keys are undefined");
-  }
-  for(var c = new goog.Uri.QueryData(null, null, c), a = goog.structs.getValues(a), d = 0;d < b.length;d++) {
-    var e = b[d], f = a[d];
-    goog.isArray(f) ? c.setValues(e, f) : c.add(e, f)
-  }
-  return c
-};
-goog.Uri.QueryData.createFromKeysValues = function(a, b, c, d) {
-  if(a.length != b.length) {
-    throw Error("Mismatched lengths for keys/values");
-  }
-  c = new goog.Uri.QueryData(null, null, d);
-  for(d = 0;d < a.length;d++) {
-    c.add(a[d], b[d])
-  }
-  return c
-};
-goog.Uri.QueryData.prototype.keyMap_ = null;
-goog.Uri.QueryData.prototype.count_ = null;
-goog.Uri.QueryData.prototype.getCount = function() {
-  this.ensureKeyMapInitialized_();
-  return this.count_
-};
-goog.Uri.QueryData.prototype.add = function(a, b) {
-  this.ensureKeyMapInitialized_();
-  this.invalidateCache_();
-  var a = this.getKeyName_(a), c = this.keyMap_.get(a);
-  c || this.keyMap_.set(a, c = []);
-  c.push(b);
-  this.count_++;
-  return this
-};
-goog.Uri.QueryData.prototype.remove = function(a) {
-  this.ensureKeyMapInitialized_();
-  a = this.getKeyName_(a);
-  return this.keyMap_.containsKey(a) ? (this.invalidateCache_(), this.count_ -= this.keyMap_.get(a).length, this.keyMap_.remove(a)) : !1
-};
-goog.Uri.QueryData.prototype.clear = function() {
-  this.invalidateCache_();
-  this.keyMap_ = null;
-  this.count_ = 0
-};
-goog.Uri.QueryData.prototype.isEmpty = function() {
-  this.ensureKeyMapInitialized_();
-  return 0 == this.count_
-};
-goog.Uri.QueryData.prototype.containsKey = function(a) {
-  this.ensureKeyMapInitialized_();
-  a = this.getKeyName_(a);
-  return this.keyMap_.containsKey(a)
-};
-goog.Uri.QueryData.prototype.containsValue = function(a) {
-  var b = this.getValues();
-  return goog.array.contains(b, a)
-};
-goog.Uri.QueryData.prototype.getKeys = function() {
-  this.ensureKeyMapInitialized_();
-  for(var a = this.keyMap_.getValues(), b = this.keyMap_.getKeys(), c = [], d = 0;d < b.length;d++) {
-    for(var e = a[d], f = 0;f < e.length;f++) {
-      c.push(b[d])
-    }
-  }
-  return c
-};
-goog.Uri.QueryData.prototype.getValues = function(a) {
-  this.ensureKeyMapInitialized_();
-  var b = [];
-  if(a) {
-    this.containsKey(a) && (b = goog.array.concat(b, this.keyMap_.get(this.getKeyName_(a))))
-  }else {
-    for(var a = this.keyMap_.getValues(), c = 0;c < a.length;c++) {
-      b = goog.array.concat(b, a[c])
-    }
+goog.structs.Set.prototype.intersection = function(a) {
+  for(var b = new goog.structs.Set, a = goog.structs.getValues(a), c = 0;c < a.length;c++) {
+    var d = a[c];
+    this.contains(d) && b.add(d)
   }
   return b
 };
-goog.Uri.QueryData.prototype.set = function(a, b) {
-  this.ensureKeyMapInitialized_();
-  this.invalidateCache_();
-  a = this.getKeyName_(a);
-  this.containsKey(a) && (this.count_ -= this.keyMap_.get(a).length);
-  this.keyMap_.set(a, [b]);
-  this.count_++;
-  return this
-};
-goog.Uri.QueryData.prototype.get = function(a, b) {
-  var c = a ? this.getValues(a) : [];
-  return goog.Uri.preserveParameterTypesCompatibilityFlag ? 0 < c.length ? c[0] : b : 0 < c.length ? String(c[0]) : b
-};
-goog.Uri.QueryData.prototype.setValues = function(a, b) {
-  this.remove(a);
-  0 < b.length && (this.invalidateCache_(), this.keyMap_.set(this.getKeyName_(a), goog.array.clone(b)), this.count_ += b.length)
-};
-goog.Uri.QueryData.prototype.toString = function() {
-  if(this.encodedQuery_) {
-    return this.encodedQuery_
-  }
-  if(!this.keyMap_) {
-    return""
-  }
-  for(var a = [], b = this.keyMap_.getKeys(), c = 0;c < b.length;c++) {
-    for(var d = b[c], e = goog.string.urlEncode(d), d = this.getValues(d), f = 0;f < d.length;f++) {
-      var g = e;
-      "" !== d[f] && (g += "=" + goog.string.urlEncode(d[f]));
-      a.push(g)
-    }
-  }
-  return this.encodedQuery_ = a.join("&")
-};
-goog.Uri.QueryData.prototype.toDecodedString = function() {
-  return goog.Uri.decodeOrEmpty_(this.toString())
-};
-goog.Uri.QueryData.prototype.invalidateCache_ = function() {
-  this.encodedQuery_ = null
-};
-goog.Uri.QueryData.prototype.filterKeys = function(a) {
-  this.ensureKeyMapInitialized_();
-  goog.structs.forEach(this.keyMap_, function(b, c) {
-    goog.array.contains(a, c) || this.remove(c)
-  }, this);
-  return this
-};
-goog.Uri.QueryData.prototype.clone = function() {
-  var a = new goog.Uri.QueryData;
-  a.encodedQuery_ = this.encodedQuery_;
-  this.keyMap_ && (a.keyMap_ = this.keyMap_.clone());
-  return a
-};
-goog.Uri.QueryData.prototype.getKeyName_ = function(a) {
-  a = String(a);
-  this.ignoreCase_ && (a = a.toLowerCase());
-  return a
-};
-goog.Uri.QueryData.prototype.setIgnoreCase = function(a) {
-  a && !this.ignoreCase_ && (this.ensureKeyMapInitialized_(), this.invalidateCache_(), goog.structs.forEach(this.keyMap_, function(a, c) {
-    var d = c.toLowerCase();
-    c != d && (this.remove(c), this.setValues(d, a))
-  }, this));
-  this.ignoreCase_ = a
-};
-goog.Uri.QueryData.prototype.extend = function(a) {
-  for(var b = 0;b < arguments.length;b++) {
-    goog.structs.forEach(arguments[b], function(a, b) {
-      this.add(b, a)
-    }, this)
-  }
-};
-/*
- Portions of this code are from MochiKit, received by
- The Closure Authors under the MIT license. All other code is Copyright
- 2005-2009 The Closure Authors. All Rights Reserved.
-*/
-goog.async = {};
-goog.async.Deferred = function(a, b) {
-  this.chain_ = [];
-  this.canceller_ = a;
-  this.defaultScope_ = b || null
-};
-goog.async.Deferred.prototype.fired_ = !1;
-goog.async.Deferred.prototype.hadError_ = !1;
-goog.async.Deferred.prototype.paused_ = 0;
-goog.async.Deferred.prototype.silentlyCancelled_ = !1;
-goog.async.Deferred.prototype.chained_ = !1;
-goog.async.Deferred.prototype.branches_ = 0;
-goog.async.Deferred.prototype.cancel = function(a) {
-  if(this.hasFired()) {
-    this.result_ instanceof goog.async.Deferred && this.result_.cancel()
-  }else {
-    if(this.parent_) {
-      var b = this.parent_;
-      delete this.parent_;
-      a ? b.cancel(a) : b.branchCancel_()
-    }
-    this.canceller_ ? this.canceller_.call(this.defaultScope_, this) : this.silentlyCancelled_ = !0;
-    this.hasFired() || this.errback(new goog.async.Deferred.CancelledError(this))
-  }
-};
-goog.async.Deferred.prototype.branchCancel_ = function() {
-  this.branches_--;
-  0 >= this.branches_ && this.cancel()
-};
-goog.async.Deferred.prototype.pause_ = function() {
-  this.paused_++
-};
-goog.async.Deferred.prototype.unpause_ = function() {
-  this.paused_--;
-  0 == this.paused_ && this.hasFired() && this.fire_()
-};
-goog.async.Deferred.prototype.continue_ = function(a, b) {
-  this.resback_(a, b);
-  this.unpause_()
-};
-goog.async.Deferred.prototype.resback_ = function(a, b) {
-  this.fired_ = !0;
-  this.result_ = b;
-  this.hadError_ = !a;
-  this.fire_()
-};
-goog.async.Deferred.prototype.check_ = function() {
-  if(this.hasFired()) {
-    if(!this.silentlyCancelled_) {
-      throw new goog.async.Deferred.AlreadyCalledError(this);
-    }
-    this.silentlyCancelled_ = !1
-  }
-};
-goog.async.Deferred.prototype.callback = function(a) {
-  this.check_();
-  this.assertNotDeferred_(a);
-  this.resback_(!0, a)
-};
-goog.async.Deferred.prototype.errback = function(a) {
-  this.check_();
-  this.assertNotDeferred_(a);
-  this.resback_(!1, a)
-};
-goog.async.Deferred.prototype.assertNotDeferred_ = function(a) {
-  goog.asserts.assert(!(a instanceof goog.async.Deferred), "Deferred instances can only be chained if they are the result of a callback")
-};
-goog.async.Deferred.prototype.addCallback = function(a, b) {
-  return this.addCallbacks(a, null, b)
-};
-goog.async.Deferred.prototype.addErrback = function(a, b) {
-  return this.addCallbacks(null, a, b)
-};
-goog.async.Deferred.prototype.addCallbacks = function(a, b, c) {
-  goog.asserts.assert(!this.chained_, "Chained Deferreds can not be re-used");
-  this.chain_.push([a, b, c]);
-  this.hasFired() && this.fire_();
-  return this
-};
-goog.async.Deferred.prototype.chainDeferred = function(a) {
-  this.addCallbacks(a.callback, a.errback, a);
-  return this
-};
-goog.async.Deferred.prototype.awaitDeferred = function(a) {
-  return this.addCallback(goog.bind(a.branch, a))
-};
-goog.async.Deferred.prototype.branch = function(a) {
-  var b = new goog.async.Deferred;
-  this.chainDeferred(b);
-  a && (b.parent_ = this, this.branches_++);
+goog.structs.Set.prototype.difference = function(a) {
+  var b = this.clone();
+  b.removeAll(a);
   return b
 };
-goog.async.Deferred.prototype.addBoth = function(a, b) {
-  return this.addCallbacks(a, a, b)
+goog.structs.Set.prototype.getValues = function() {
+  return this.map_.getValues()
 };
-goog.async.Deferred.prototype.hasFired = function() {
-  return this.fired_
+goog.structs.Set.prototype.clone = function() {
+  return new goog.structs.Set(this)
 };
-goog.async.Deferred.prototype.isError = function(a) {
-  return a instanceof Error
+goog.structs.Set.prototype.equals = function(a) {
+  return this.getCount() == goog.structs.getCount(a) && this.isSubsetOf(a)
 };
-goog.async.Deferred.prototype.hasErrback_ = function() {
-  return goog.array.some(this.chain_, function(a) {
-    return goog.isFunction(a[1])
+goog.structs.Set.prototype.isSubsetOf = function(a) {
+  var b = goog.structs.getCount(a);
+  if(this.getCount() > b) {
+    return!1
+  }
+  !(a instanceof goog.structs.Set) && 5 < b && (a = new goog.structs.Set(a));
+  return goog.structs.every(this, function(b) {
+    return goog.structs.contains(a, b)
   })
 };
-goog.async.Deferred.prototype.fire_ = function() {
-  this.unhandledExceptionTimeoutId_ && (this.hasFired() && this.hasErrback_()) && (goog.global.clearTimeout(this.unhandledExceptionTimeoutId_), delete this.unhandledExceptionTimeoutId_);
-  this.parent_ && (this.parent_.branches_--, delete this.parent_);
-  for(var a = this.result_, b = !1, c = !1;this.chain_.length && 0 == this.paused_;) {
-    var d = this.chain_.shift(), e = d[0], f = d[1], d = d[2];
-    if(e = this.hadError_ ? f : e) {
+goog.structs.Set.prototype.__iterator__ = function() {
+  return this.map_.__iterator__(!1)
+};
+goog.debug.catchErrors = function(a, b, c) {
+  var c = c || goog.global, d = c.onerror, e = !!b;
+  goog.userAgent.WEBKIT && !goog.userAgent.isVersion("535.3") && (e = !e);
+  c.onerror = function(b, c, h) {
+    d && d(b, c, h);
+    a({message:b, fileName:c, line:h});
+    return e
+  }
+};
+goog.debug.expose = function(a, b) {
+  if("undefined" == typeof a) {
+    return"undefined"
+  }
+  if(null == a) {
+    return"NULL"
+  }
+  var c = [], d;
+  for(d in a) {
+    if(b || !goog.isFunction(a[d])) {
+      var e = d + " = ";
       try {
-        var g = e.call(d || this.defaultScope_, a);
-        goog.isDef(g) && (this.hadError_ = this.hadError_ && (g == a || this.isError(g)), this.result_ = a = g);
-        a instanceof goog.async.Deferred && (c = !0, this.pause_())
-      }catch(h) {
-        a = h, this.hadError_ = !0, this.hasErrback_() || (b = !0)
+        e += a[d]
+      }catch(f) {
+        e += "*** " + f + " ***"
       }
+      c.push(e)
     }
   }
-  this.result_ = a;
-  c && this.paused_ && (a.addCallbacks(goog.bind(this.continue_, this, !0), goog.bind(this.continue_, this, !1)), a.chained_ = !0);
-  b && (this.unhandledExceptionTimeoutId_ = goog.global.setTimeout(function() {
-    throw new goog.async.Deferred.UnhandledError(a);
-  }, 0))
+  return c.join("\n")
 };
-goog.async.Deferred.succeed = function(a) {
-  var b = new goog.async.Deferred;
-  b.callback(a);
-  return b
+goog.debug.deepExpose = function(a, b) {
+  var c = new goog.structs.Set, d = [], e = function(a, g) {
+    var h = g + "  ";
+    try {
+      if(goog.isDef(a)) {
+        if(goog.isNull(a)) {
+          d.push("NULL")
+        }else {
+          if(goog.isString(a)) {
+            d.push('"' + a.replace(/\n/g, "\n" + g) + '"')
+          }else {
+            if(goog.isFunction(a)) {
+              d.push(String(a).replace(/\n/g, "\n" + g))
+            }else {
+              if(goog.isObject(a)) {
+                if(c.contains(a)) {
+                  d.push("*** reference loop detected ***")
+                }else {
+                  c.add(a);
+                  d.push("{");
+                  for(var i in a) {
+                    if(b || !goog.isFunction(a[i])) {
+                      d.push("\n"), d.push(h), d.push(i + " = "), e(a[i], h)
+                    }
+                  }
+                  d.push("\n" + g + "}")
+                }
+              }else {
+                d.push(a)
+              }
+            }
+          }
+        }
+      }else {
+        d.push("undefined")
+      }
+    }catch(j) {
+      d.push("*** " + j + " ***")
+    }
+  };
+  e(a, "");
+  return d.join("")
 };
-goog.async.Deferred.fail = function(a) {
-  var b = new goog.async.Deferred;
-  b.errback(a);
-  return b
+goog.debug.exposeArray = function(a) {
+  for(var b = [], c = 0;c < a.length;c++) {
+    goog.isArray(a[c]) ? b.push(goog.debug.exposeArray(a[c])) : b.push(a[c])
+  }
+  return"[ " + b.join(", ") + " ]"
 };
-goog.async.Deferred.cancelled = function() {
-  var a = new goog.async.Deferred;
-  a.cancel();
-  return a
-};
-goog.async.Deferred.when = function(a, b, c) {
-  return a instanceof goog.async.Deferred ? a.branch(!0).addCallback(b, c) : goog.async.Deferred.succeed(a).addCallback(b, c)
-};
-goog.async.Deferred.AlreadyCalledError = function(a) {
-  goog.debug.Error.call(this);
-  this.deferred = a
-};
-goog.inherits(goog.async.Deferred.AlreadyCalledError, goog.debug.Error);
-goog.async.Deferred.AlreadyCalledError.prototype.message = "Already called";
-goog.async.Deferred.CancelledError = function(a) {
-  goog.debug.Error.call(this);
-  this.deferred = a
-};
-goog.inherits(goog.async.Deferred.CancelledError, goog.debug.Error);
-goog.async.Deferred.CancelledError.prototype.message = "Deferred was cancelled";
-goog.async.Deferred.UnhandledError = function(a) {
-  goog.debug.Error.call(this);
-  this.cause = a;
-  this.message = "Unhandled Error in Deferred: " + (a.message || "[No message]")
-};
-goog.inherits(goog.async.Deferred.UnhandledError, goog.debug.Error);
-goog.Timer = function(a, b) {
-  goog.events.EventTarget.call(this);
-  this.interval_ = a || 1;
-  this.timerObject_ = b || goog.Timer.defaultTimerObject;
-  this.boundTick_ = goog.bind(this.tick_, this);
-  this.last_ = goog.now()
-};
-goog.inherits(goog.Timer, goog.events.EventTarget);
-goog.Timer.MAX_TIMEOUT_ = 2147483647;
-goog.Timer.prototype.enabled = !1;
-goog.Timer.defaultTimerObject = goog.global.window;
-goog.Timer.intervalScale = 0.8;
-goog.Timer.prototype.timer_ = null;
-goog.Timer.prototype.getInterval = function() {
-  return this.interval_
-};
-goog.Timer.prototype.setInterval = function(a) {
-  this.interval_ = a;
-  this.timer_ && this.enabled ? (this.stop(), this.start()) : this.timer_ && this.stop()
-};
-goog.Timer.prototype.tick_ = function() {
-  if(this.enabled) {
-    var a = goog.now() - this.last_;
-    0 < a && a < this.interval_ * goog.Timer.intervalScale ? this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_ - a) : (this.dispatchTick(), this.enabled && (this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_), this.last_ = goog.now()))
+goog.debug.exposeException = function(a, b) {
+  try {
+    var c = goog.debug.normalizeErrorObject(a);
+    return"Message: " + goog.string.htmlEscape(c.message) + '\nUrl: <a href="view-source:' + c.fileName + '" target="_new">' + c.fileName + "</a>\nLine: " + c.lineNumber + "\n\nBrowser stack:\n" + goog.string.htmlEscape(c.stack + "-> ") + "[end]\n\nJS stack traversal:\n" + goog.string.htmlEscape(goog.debug.getStacktrace(b) + "-> ")
+  }catch(d) {
+    return"Exception trying to expose exception! You win, we lose. " + d
   }
 };
-goog.Timer.prototype.dispatchTick = function() {
-  this.dispatchEvent(goog.Timer.TICK)
+goog.debug.normalizeErrorObject = function(a) {
+  var b = goog.getObjectByName("window.location.href");
+  if(goog.isString(a)) {
+    return{message:a, name:"Unknown error", lineNumber:"Not available", fileName:b, stack:"Not available"}
+  }
+  var c, d, e = !1;
+  try {
+    c = a.lineNumber || a.line || "Not available"
+  }catch(f) {
+    c = "Not available", e = !0
+  }
+  try {
+    d = a.fileName || a.filename || a.sourceURL || b
+  }catch(g) {
+    d = "Not available", e = !0
+  }
+  return e || !a.lineNumber || !a.fileName || !a.stack ? {message:a.message, name:a.name, lineNumber:c, fileName:d, stack:a.stack || "Not available"} : a
 };
-goog.Timer.prototype.start = function() {
-  this.enabled = !0;
-  this.timer_ || (this.timer_ = this.timerObject_.setTimeout(this.boundTick_, this.interval_), this.last_ = goog.now())
+goog.debug.enhanceError = function(a, b) {
+  var c = "string" == typeof a ? Error(a) : a;
+  c.stack || (c.stack = goog.debug.getStacktrace(arguments.callee.caller));
+  if(b) {
+    for(var d = 0;c["message" + d];) {
+      ++d
+    }
+    c["message" + d] = String(b)
+  }
+  return c
 };
-goog.Timer.prototype.stop = function() {
-  this.enabled = !1;
-  this.timer_ && (this.timerObject_.clearTimeout(this.timer_), this.timer_ = null)
+goog.debug.getStacktraceSimple = function(a) {
+  for(var b = [], c = arguments.callee.caller, d = 0;c && (!a || d < a);) {
+    b.push(goog.debug.getFunctionName(c));
+    b.push("()\n");
+    try {
+      c = c.caller
+    }catch(e) {
+      b.push("[exception trying to get caller]\n");
+      break
+    }
+    d++;
+    if(d >= goog.debug.MAX_STACK_DEPTH) {
+      b.push("[...long stack...]");
+      break
+    }
+  }
+  a && d >= a ? b.push("[...reached max depth limit...]") : b.push("[end]");
+  return b.join("")
 };
-goog.Timer.prototype.disposeInternal = function() {
-  goog.Timer.superClass_.disposeInternal.call(this);
-  this.stop();
-  delete this.timerObject_
+goog.debug.MAX_STACK_DEPTH = 50;
+goog.debug.getStacktrace = function(a) {
+  return goog.debug.getStacktraceHelper_(a || arguments.callee.caller, [])
 };
-goog.Timer.TICK = "tick";
-goog.Timer.callOnce = function(a, b, c) {
-  if(goog.isFunction(a)) {
-    c && (a = goog.bind(a, c))
+goog.debug.getStacktraceHelper_ = function(a, b) {
+  var c = [];
+  if(goog.array.contains(b, a)) {
+    c.push("[...circular reference...]")
   }else {
-    if(a && "function" == typeof a.handleEvent) {
-      a = goog.bind(a.handleEvent, a)
+    if(a && b.length < goog.debug.MAX_STACK_DEPTH) {
+      c.push(goog.debug.getFunctionName(a) + "(");
+      for(var d = a.arguments, e = 0;e < d.length;e++) {
+        0 < e && c.push(", ");
+        var f;
+        f = d[e];
+        switch(typeof f) {
+          case "object":
+            f = f ? "object" : "null";
+            break;
+          case "string":
+            break;
+          case "number":
+            f = String(f);
+            break;
+          case "boolean":
+            f = f ? "true" : "false";
+            break;
+          case "function":
+            f = (f = goog.debug.getFunctionName(f)) ? f : "[fn]";
+            break;
+          default:
+            f = typeof f
+        }
+        40 < f.length && (f = f.substr(0, 40) + "...");
+        c.push(f)
+      }
+      b.push(a);
+      c.push(")\n");
+      try {
+        c.push(goog.debug.getStacktraceHelper_(a.caller, b))
+      }catch(g) {
+        c.push("[exception trying to get caller]\n")
+      }
     }else {
-      throw Error("Invalid listener argument");
+      a ? c.push("[...long stack...]") : c.push("[end]")
     }
   }
-  return b > goog.Timer.MAX_TIMEOUT_ ? -1 : goog.Timer.defaultTimerObject.setTimeout(a, b || 0)
+  return c.join("")
 };
-goog.Timer.clear = function(a) {
-  goog.Timer.defaultTimerObject.clearTimeout(a)
+goog.debug.setFunctionResolver = function(a) {
+  goog.debug.fnNameResolver_ = a
 };
-goog.async.Delay = function(a, b, c) {
-  goog.Disposable.call(this);
-  this.listener_ = a;
-  this.interval_ = b || 0;
-  this.handler_ = c;
-  this.callback_ = goog.bind(this.doAction_, this)
+goog.debug.getFunctionName = function(a) {
+  if(goog.debug.fnNameCache_[a]) {
+    return goog.debug.fnNameCache_[a]
+  }
+  if(goog.debug.fnNameResolver_) {
+    var b = goog.debug.fnNameResolver_(a);
+    if(b) {
+      return goog.debug.fnNameCache_[a] = b
+    }
+  }
+  a = String(a);
+  goog.debug.fnNameCache_[a] || (b = /function ([^\(]+)/.exec(a), goog.debug.fnNameCache_[a] = b ? b[1] : "[Anonymous]");
+  return goog.debug.fnNameCache_[a]
 };
-goog.inherits(goog.async.Delay, goog.Disposable);
-goog.Delay = goog.async.Delay;
-goog.async.Delay.prototype.id_ = 0;
-goog.async.Delay.prototype.disposeInternal = function() {
-  goog.async.Delay.superClass_.disposeInternal.call(this);
-  this.stop();
-  delete this.listener_;
-  delete this.handler_
+goog.debug.makeWhitespaceVisible = function(a) {
+  return a.replace(/ /g, "[_]").replace(/\f/g, "[f]").replace(/\n/g, "[n]\n").replace(/\r/g, "[r]").replace(/\t/g, "[t]")
 };
-goog.async.Delay.prototype.start = function(a) {
-  this.stop();
-  this.id_ = goog.Timer.callOnce(this.callback_, goog.isDef(a) ? a : this.interval_)
+goog.debug.fnNameCache_ = {};
+goog.debug.LogRecord = function(a, b, c, d, e) {
+  this.reset(a, b, c, d, e)
 };
-goog.async.Delay.prototype.stop = function() {
-  this.isActive() && goog.Timer.clear(this.id_);
-  this.id_ = 0
+goog.debug.LogRecord.prototype.sequenceNumber_ = 0;
+goog.debug.LogRecord.prototype.exception_ = null;
+goog.debug.LogRecord.prototype.exceptionText_ = null;
+goog.debug.LogRecord.ENABLE_SEQUENCE_NUMBERS = !0;
+goog.debug.LogRecord.nextSequenceNumber_ = 0;
+goog.debug.LogRecord.prototype.reset = function(a, b, c, d, e) {
+  goog.debug.LogRecord.ENABLE_SEQUENCE_NUMBERS && (this.sequenceNumber_ = "number" == typeof e ? e : goog.debug.LogRecord.nextSequenceNumber_++);
+  this.time_ = d || goog.now();
+  this.level_ = a;
+  this.msg_ = b;
+  this.loggerName_ = c;
+  delete this.exception_;
+  delete this.exceptionText_
 };
-goog.async.Delay.prototype.fire = function() {
-  this.stop();
-  this.doAction_()
+goog.debug.LogRecord.prototype.getLoggerName = function() {
+  return this.loggerName_
 };
-goog.async.Delay.prototype.fireIfActive = function() {
-  this.isActive() && this.fire()
+goog.debug.LogRecord.prototype.getException = function() {
+  return this.exception_
 };
-goog.async.Delay.prototype.isActive = function() {
-  return 0 != this.id_
+goog.debug.LogRecord.prototype.setException = function(a) {
+  this.exception_ = a
 };
-goog.async.Delay.prototype.doAction_ = function() {
-  this.id_ = 0;
-  this.listener_ && this.listener_.call(this.handler_)
+goog.debug.LogRecord.prototype.getExceptionText = function() {
+  return this.exceptionText_
 };
+goog.debug.LogRecord.prototype.setExceptionText = function(a) {
+  this.exceptionText_ = a
+};
+goog.debug.LogRecord.prototype.setLoggerName = function(a) {
+  this.loggerName_ = a
+};
+goog.debug.LogRecord.prototype.getLevel = function() {
+  return this.level_
+};
+goog.debug.LogRecord.prototype.setLevel = function(a) {
+  this.level_ = a
+};
+goog.debug.LogRecord.prototype.getMessage = function() {
+  return this.msg_
+};
+goog.debug.LogRecord.prototype.setMessage = function(a) {
+  this.msg_ = a
+};
+goog.debug.LogRecord.prototype.getMillis = function() {
+  return this.time_
+};
+goog.debug.LogRecord.prototype.setMillis = function(a) {
+  this.time_ = a
+};
+goog.debug.LogRecord.prototype.getSequenceNumber = function() {
+  return this.sequenceNumber_
+};
+goog.debug.LogBuffer = function() {
+  goog.asserts.assert(goog.debug.LogBuffer.isBufferingEnabled(), "Cannot use goog.debug.LogBuffer without defining goog.debug.LogBuffer.CAPACITY.");
+  this.clear()
+};
+goog.debug.LogBuffer.getInstance = function() {
+  goog.debug.LogBuffer.instance_ || (goog.debug.LogBuffer.instance_ = new goog.debug.LogBuffer);
+  return goog.debug.LogBuffer.instance_
+};
+goog.debug.LogBuffer.CAPACITY = 0;
+goog.debug.LogBuffer.prototype.addRecord = function(a, b, c) {
+  var d = (this.curIndex_ + 1) % goog.debug.LogBuffer.CAPACITY;
+  this.curIndex_ = d;
+  if(this.isFull_) {
+    return d = this.buffer_[d], d.reset(a, b, c), d
+  }
+  this.isFull_ = d == goog.debug.LogBuffer.CAPACITY - 1;
+  return this.buffer_[d] = new goog.debug.LogRecord(a, b, c)
+};
+goog.debug.LogBuffer.isBufferingEnabled = function() {
+  return 0 < goog.debug.LogBuffer.CAPACITY
+};
+goog.debug.LogBuffer.prototype.clear = function() {
+  this.buffer_ = Array(goog.debug.LogBuffer.CAPACITY);
+  this.curIndex_ = -1;
+  this.isFull_ = !1
+};
+goog.debug.LogBuffer.prototype.forEachRecord = function(a) {
+  var b = this.buffer_;
+  if(b[0]) {
+    var c = this.curIndex_, d = this.isFull_ ? c : -1;
+    do {
+      d = (d + 1) % goog.debug.LogBuffer.CAPACITY, a(b[d])
+    }while(d != c)
+  }
+};
+goog.debug.Logger = function(a) {
+  this.name_ = a
+};
+goog.debug.Logger.prototype.parent_ = null;
+goog.debug.Logger.prototype.level_ = null;
+goog.debug.Logger.prototype.children_ = null;
+goog.debug.Logger.prototype.handlers_ = null;
+goog.debug.Logger.ENABLE_HIERARCHY = !0;
+goog.debug.Logger.ENABLE_HIERARCHY || (goog.debug.Logger.rootHandlers_ = []);
+goog.debug.Logger.Level = function(a, b) {
+  this.name = a;
+  this.value = b
+};
+goog.debug.Logger.Level.prototype.toString = function() {
+  return this.name
+};
+goog.debug.Logger.Level.OFF = new goog.debug.Logger.Level("OFF", Infinity);
+goog.debug.Logger.Level.SHOUT = new goog.debug.Logger.Level("SHOUT", 1200);
+goog.debug.Logger.Level.SEVERE = new goog.debug.Logger.Level("SEVERE", 1E3);
+goog.debug.Logger.Level.WARNING = new goog.debug.Logger.Level("WARNING", 900);
+goog.debug.Logger.Level.INFO = new goog.debug.Logger.Level("INFO", 800);
+goog.debug.Logger.Level.CONFIG = new goog.debug.Logger.Level("CONFIG", 700);
+goog.debug.Logger.Level.FINE = new goog.debug.Logger.Level("FINE", 500);
+goog.debug.Logger.Level.FINER = new goog.debug.Logger.Level("FINER", 400);
+goog.debug.Logger.Level.FINEST = new goog.debug.Logger.Level("FINEST", 300);
+goog.debug.Logger.Level.ALL = new goog.debug.Logger.Level("ALL", 0);
+goog.debug.Logger.Level.PREDEFINED_LEVELS = [goog.debug.Logger.Level.OFF, goog.debug.Logger.Level.SHOUT, goog.debug.Logger.Level.SEVERE, goog.debug.Logger.Level.WARNING, goog.debug.Logger.Level.INFO, goog.debug.Logger.Level.CONFIG, goog.debug.Logger.Level.FINE, goog.debug.Logger.Level.FINER, goog.debug.Logger.Level.FINEST, goog.debug.Logger.Level.ALL];
+goog.debug.Logger.Level.predefinedLevelsCache_ = null;
+goog.debug.Logger.Level.createPredefinedLevelsCache_ = function() {
+  goog.debug.Logger.Level.predefinedLevelsCache_ = {};
+  for(var a = 0, b;b = goog.debug.Logger.Level.PREDEFINED_LEVELS[a];a++) {
+    goog.debug.Logger.Level.predefinedLevelsCache_[b.value] = b, goog.debug.Logger.Level.predefinedLevelsCache_[b.name] = b
+  }
+};
+goog.debug.Logger.Level.getPredefinedLevel = function(a) {
+  goog.debug.Logger.Level.predefinedLevelsCache_ || goog.debug.Logger.Level.createPredefinedLevelsCache_();
+  return goog.debug.Logger.Level.predefinedLevelsCache_[a] || null
+};
+goog.debug.Logger.Level.getPredefinedLevelByValue = function(a) {
+  goog.debug.Logger.Level.predefinedLevelsCache_ || goog.debug.Logger.Level.createPredefinedLevelsCache_();
+  if(a in goog.debug.Logger.Level.predefinedLevelsCache_) {
+    return goog.debug.Logger.Level.predefinedLevelsCache_[a]
+  }
+  for(var b = 0;b < goog.debug.Logger.Level.PREDEFINED_LEVELS.length;++b) {
+    var c = goog.debug.Logger.Level.PREDEFINED_LEVELS[b];
+    if(c.value <= a) {
+      return c
+    }
+  }
+  return null
+};
+goog.debug.Logger.getLogger = function(a) {
+  return goog.debug.LogManager.getLogger(a)
+};
+goog.debug.Logger.logToProfilers = function(a) {
+  goog.global.console && (goog.global.console.timeStamp ? goog.global.console.timeStamp(a) : goog.global.console.markTimeline && goog.global.console.markTimeline(a));
+  goog.global.msWriteProfilerMark && goog.global.msWriteProfilerMark(a)
+};
+goog.debug.Logger.prototype.getName = function() {
+  return this.name_
+};
+goog.debug.Logger.prototype.addHandler = function(a) {
+  goog.debug.Logger.ENABLE_HIERARCHY ? (this.handlers_ || (this.handlers_ = []), this.handlers_.push(a)) : (goog.asserts.assert(!this.name_, "Cannot call addHandler on a non-root logger when goog.debug.Logger.ENABLE_HIERARCHY is false."), goog.debug.Logger.rootHandlers_.push(a))
+};
+goog.debug.Logger.prototype.removeHandler = function(a) {
+  var b = goog.debug.Logger.ENABLE_HIERARCHY ? this.handlers_ : goog.debug.Logger.rootHandlers_;
+  return!!b && goog.array.remove(b, a)
+};
+goog.debug.Logger.prototype.getParent = function() {
+  return this.parent_
+};
+goog.debug.Logger.prototype.getChildren = function() {
+  this.children_ || (this.children_ = {});
+  return this.children_
+};
+goog.debug.Logger.prototype.setLevel = function(a) {
+  goog.debug.Logger.ENABLE_HIERARCHY ? this.level_ = a : (goog.asserts.assert(!this.name_, "Cannot call setLevel() on a non-root logger when goog.debug.Logger.ENABLE_HIERARCHY is false."), goog.debug.Logger.rootLevel_ = a)
+};
+goog.debug.Logger.prototype.getLevel = function() {
+  return this.level_
+};
+goog.debug.Logger.prototype.getEffectiveLevel = function() {
+  if(!goog.debug.Logger.ENABLE_HIERARCHY) {
+    return goog.debug.Logger.rootLevel_
+  }
+  if(this.level_) {
+    return this.level_
+  }
+  if(this.parent_) {
+    return this.parent_.getEffectiveLevel()
+  }
+  goog.asserts.fail("Root logger has no level set.");
+  return null
+};
+goog.debug.Logger.prototype.isLoggable = function(a) {
+  return a.value >= this.getEffectiveLevel().value
+};
+goog.debug.Logger.prototype.log = function(a, b, c) {
+  this.isLoggable(a) && this.doLogRecord_(this.getLogRecord(a, b, c))
+};
+goog.debug.Logger.prototype.getLogRecord = function(a, b, c) {
+  var d = goog.debug.LogBuffer.isBufferingEnabled() ? goog.debug.LogBuffer.getInstance().addRecord(a, b, this.name_) : new goog.debug.LogRecord(a, String(b), this.name_);
+  c && (d.setException(c), d.setExceptionText(goog.debug.exposeException(c, arguments.callee.caller)));
+  return d
+};
+goog.debug.Logger.prototype.shout = function(a, b) {
+  this.log(goog.debug.Logger.Level.SHOUT, a, b)
+};
+goog.debug.Logger.prototype.severe = function(a, b) {
+  this.log(goog.debug.Logger.Level.SEVERE, a, b)
+};
+goog.debug.Logger.prototype.warning = function(a, b) {
+  this.log(goog.debug.Logger.Level.WARNING, a, b)
+};
+goog.debug.Logger.prototype.info = function(a, b) {
+  this.log(goog.debug.Logger.Level.INFO, a, b)
+};
+goog.debug.Logger.prototype.config = function(a, b) {
+  this.log(goog.debug.Logger.Level.CONFIG, a, b)
+};
+goog.debug.Logger.prototype.fine = function(a, b) {
+  this.log(goog.debug.Logger.Level.FINE, a, b)
+};
+goog.debug.Logger.prototype.finer = function(a, b) {
+  this.log(goog.debug.Logger.Level.FINER, a, b)
+};
+goog.debug.Logger.prototype.finest = function(a, b) {
+  this.log(goog.debug.Logger.Level.FINEST, a, b)
+};
+goog.debug.Logger.prototype.logRecord = function(a) {
+  this.isLoggable(a.getLevel()) && this.doLogRecord_(a)
+};
+goog.debug.Logger.prototype.doLogRecord_ = function(a) {
+  goog.debug.Logger.logToProfilers("log:" + a.getMessage());
+  if(goog.debug.Logger.ENABLE_HIERARCHY) {
+    for(var b = this;b;) {
+      b.callPublish_(a), b = b.getParent()
+    }
+  }else {
+    for(var b = 0, c;c = goog.debug.Logger.rootHandlers_[b++];) {
+      c(a)
+    }
+  }
+};
+goog.debug.Logger.prototype.callPublish_ = function(a) {
+  if(this.handlers_) {
+    for(var b = 0, c;c = this.handlers_[b];b++) {
+      c(a)
+    }
+  }
+};
+goog.debug.Logger.prototype.setParent_ = function(a) {
+  this.parent_ = a
+};
+goog.debug.Logger.prototype.addChild_ = function(a, b) {
+  this.getChildren()[a] = b
+};
+goog.debug.LogManager = {};
+goog.debug.LogManager.loggers_ = {};
+goog.debug.LogManager.rootLogger_ = null;
+goog.debug.LogManager.initialize = function() {
+  goog.debug.LogManager.rootLogger_ || (goog.debug.LogManager.rootLogger_ = new goog.debug.Logger(""), goog.debug.LogManager.loggers_[""] = goog.debug.LogManager.rootLogger_, goog.debug.LogManager.rootLogger_.setLevel(goog.debug.Logger.Level.CONFIG))
+};
+goog.debug.LogManager.getLoggers = function() {
+  return goog.debug.LogManager.loggers_
+};
+goog.debug.LogManager.getRoot = function() {
+  goog.debug.LogManager.initialize();
+  return goog.debug.LogManager.rootLogger_
+};
+goog.debug.LogManager.getLogger = function(a) {
+  goog.debug.LogManager.initialize();
+  return goog.debug.LogManager.loggers_[a] || goog.debug.LogManager.createLogger_(a)
+};
+goog.debug.LogManager.createFunctionForCatchErrors = function(a) {
+  return function(b) {
+    (a || goog.debug.LogManager.getRoot()).severe("Error: " + b.message + " (" + b.fileName + " @ Line: " + b.line + ")")
+  }
+};
+goog.debug.LogManager.createLogger_ = function(a) {
+  var b = new goog.debug.Logger(a);
+  if(goog.debug.Logger.ENABLE_HIERARCHY) {
+    var c = a.lastIndexOf("."), d = a.substr(0, c), c = a.substr(c + 1), d = goog.debug.LogManager.getLogger(d);
+    d.addChild_(c, b);
+    b.setParent_(d)
+  }
+  return goog.debug.LogManager.loggers_[a] = b
+};
+goog.net = {};
+goog.net.WebSocket = function(a, b) {
+  goog.events.EventTarget.call(this);
+  this.autoReconnect_ = goog.isDef(a) ? a : !0;
+  this.getNextReconnect_ = b || goog.net.WebSocket.EXPONENTIAL_BACKOFF_;
+  this.nextReconnect_ = this.getNextReconnect_(this.reconnectAttempt_)
+};
+goog.inherits(goog.net.WebSocket, goog.events.EventTarget);
+goog.net.WebSocket.prototype.webSocket_ = null;
+goog.net.WebSocket.prototype.url_ = null;
+goog.net.WebSocket.prototype.protocol_ = void 0;
+goog.net.WebSocket.prototype.closeExpected_ = !1;
+goog.net.WebSocket.prototype.reconnectAttempt_ = 0;
+goog.net.WebSocket.prototype.logger_ = goog.debug.Logger.getLogger("goog.net.WebSocket");
+goog.net.WebSocket.EventType = {CLOSED:goog.events.getUniqueId("closed"), ERROR:goog.events.getUniqueId("error"), MESSAGE:goog.events.getUniqueId("message"), OPENED:goog.events.getUniqueId("opened")};
+goog.net.WebSocket.ReadyState_ = {CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3};
+goog.net.WebSocket.EXPONENTIAL_BACKOFF_CEILING_ = 6E4;
+goog.net.WebSocket.EXPONENTIAL_BACKOFF_ = function(a) {
+  a = 1E3 * Math.pow(2, a);
+  return Math.min(a, goog.net.WebSocket.EXPONENTIAL_BACKOFF_CEILING_)
+};
+goog.net.WebSocket.protectEntryPoints = function(a) {
+  goog.net.WebSocket.prototype.onOpen_ = a.protectEntryPoint(goog.net.WebSocket.prototype.onOpen_);
+  goog.net.WebSocket.prototype.onClose_ = a.protectEntryPoint(goog.net.WebSocket.prototype.onClose_);
+  goog.net.WebSocket.prototype.onMessage_ = a.protectEntryPoint(goog.net.WebSocket.prototype.onMessage_);
+  goog.net.WebSocket.prototype.onError_ = a.protectEntryPoint(goog.net.WebSocket.prototype.onError_)
+};
+goog.net.WebSocket.prototype.open = function(a, b) {
+  goog.asserts.assert(goog.global.WebSocket, "This browser does not support WebSocket");
+  goog.asserts.assert(!this.isOpen(), "The WebSocket is already open");
+  this.clearReconnectTimer_();
+  this.url_ = a;
+  (this.protocol_ = b) ? (this.logger_.info("Opening the WebSocket on " + this.url_ + " with protocol " + this.protocol_), this.webSocket_ = new WebSocket(this.url_, this.protocol_)) : (this.logger_.info("Opening the WebSocket on " + this.url_), this.webSocket_ = new WebSocket(this.url_));
+  this.webSocket_.onopen = goog.bind(this.onOpen_, this);
+  this.webSocket_.onclose = goog.bind(this.onClose_, this);
+  this.webSocket_.onmessage = goog.bind(this.onMessage_, this);
+  this.webSocket_.onerror = goog.bind(this.onError_, this)
+};
+goog.net.WebSocket.prototype.close = function() {
+  this.clearReconnectTimer_();
+  this.webSocket_ && (this.logger_.info("Closing the WebSocket."), this.closeExpected_ = !0, this.webSocket_.close(), this.webSocket_ = null)
+};
+goog.net.WebSocket.prototype.send = function(a) {
+  goog.asserts.assert(this.isOpen(), "Cannot send without an open socket");
+  this.webSocket_.send(a)
+};
+goog.net.WebSocket.prototype.isOpen = function() {
+  return!!this.webSocket_ && this.webSocket_.readyState == goog.net.WebSocket.ReadyState_.OPEN
+};
+goog.net.WebSocket.prototype.onOpen_ = function() {
+  this.logger_.info("WebSocket opened on " + this.url_);
+  this.dispatchEvent(goog.net.WebSocket.EventType.OPENED);
+  this.reconnectAttempt_ = 0;
+  this.nextReconnect_ = this.getNextReconnect_(this.reconnectAttempt_)
+};
+goog.net.WebSocket.prototype.onClose_ = function(a) {
+  this.logger_.info("The WebSocket on " + this.url_ + " closed.");
+  this.dispatchEvent(goog.net.WebSocket.EventType.CLOSED);
+  this.webSocket_ = null;
+  this.closeExpected_ ? (this.logger_.info("The WebSocket closed normally."), this.url_ = null, this.protocol_ = void 0) : (this.logger_.severe("The WebSocket disconnected unexpectedly: " + a.data), this.autoReconnect_ && (this.logger_.info("Seconds until next reconnect attempt: " + Math.floor(this.nextReconnect_ / 1E3)), this.reconnectTimer_ = goog.Timer.callOnce(goog.bind(this.open, this, this.url_, this.protocol_), this.nextReconnect_, this), this.reconnectAttempt_++, this.nextReconnect_ = this.getNextReconnect_(this.reconnectAttempt_)));
+  this.closeExpected_ = !1
+};
+goog.net.WebSocket.prototype.onMessage_ = function(a) {
+  this.dispatchEvent(new goog.net.WebSocket.MessageEvent(a.data))
+};
+goog.net.WebSocket.prototype.onError_ = function(a) {
+  a = a.data;
+  this.logger_.severe("An error occurred: " + a);
+  this.dispatchEvent(new goog.net.WebSocket.ErrorEvent(a))
+};
+goog.net.WebSocket.prototype.clearReconnectTimer_ = function() {
+  goog.isDefAndNotNull(this.reconnectTimer_) && goog.Timer.clear(this.reconnectTimer_);
+  this.reconnectTimer_ = null
+};
+goog.net.WebSocket.prototype.disposeInternal = function() {
+  goog.net.WebSocket.superClass_.disposeInternal.call(this);
+  this.close()
+};
+goog.net.WebSocket.MessageEvent = function(a) {
+  goog.events.Event.call(this, goog.net.WebSocket.EventType.MESSAGE);
+  this.message = a
+};
+goog.inherits(goog.net.WebSocket.MessageEvent, goog.events.Event);
+goog.net.WebSocket.ErrorEvent = function(a) {
+  goog.events.Event.call(this, goog.net.WebSocket.EventType.ERROR);
+  this.data = a
+};
+goog.inherits(goog.net.WebSocket.ErrorEvent, goog.events.Event);
+goog.debug.entryPointRegistry.register(function(a) {
+  goog.net.WebSocket.prototype.onOpen_ = a(goog.net.WebSocket.prototype.onOpen_);
+  goog.net.WebSocket.prototype.onClose_ = a(goog.net.WebSocket.prototype.onClose_);
+  goog.net.WebSocket.prototype.onMessage_ = a(goog.net.WebSocket.prototype.onMessage_);
+  goog.net.WebSocket.prototype.onError_ = a(goog.net.WebSocket.prototype.onError_)
+});
 goog.dom = {};
 goog.dom.BrowserFeature = {CAN_ADD_NAME_OR_TYPE_ATTRIBUTES:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), CAN_USE_CHILDREN_ATTRIBUTE:!goog.userAgent.GECKO && !goog.userAgent.IE || goog.userAgent.IE && goog.userAgent.isDocumentMode(9) || goog.userAgent.GECKO && goog.userAgent.isVersion("1.9.1"), CAN_USE_INNER_TEXT:goog.userAgent.IE && !goog.userAgent.isVersion("9"), CAN_USE_PARENT_ELEMENT_PROPERTY:goog.userAgent.IE || goog.userAgent.OPERA || goog.userAgent.WEBKIT, INNER_HTML_NEEDS_SCOPED_ELEMENT:goog.userAgent.IE};
 goog.dom.TagName = {A:"A", ABBR:"ABBR", ACRONYM:"ACRONYM", ADDRESS:"ADDRESS", APPLET:"APPLET", AREA:"AREA", AUDIO:"AUDIO", B:"B", BASE:"BASE", BASEFONT:"BASEFONT", BDO:"BDO", BIG:"BIG", BLOCKQUOTE:"BLOCKQUOTE", BODY:"BODY", BR:"BR", BUTTON:"BUTTON", CANVAS:"CANVAS", CAPTION:"CAPTION", CENTER:"CENTER", CITE:"CITE", CODE:"CODE", COL:"COL", COLGROUP:"COLGROUP", DD:"DD", DEL:"DEL", DFN:"DFN", DIR:"DIR", DIV:"DIV", DL:"DL", DT:"DT", EM:"EM", FIELDSET:"FIELDSET", FONT:"FONT", FORM:"FORM", FRAME:"FRAME", 
@@ -16150,2405 +15720,11 @@ goog.dom.DomHelper.prototype.isNodeList = goog.dom.isNodeList;
 goog.dom.DomHelper.prototype.getAncestorByTagNameAndClass = goog.dom.getAncestorByTagNameAndClass;
 goog.dom.DomHelper.prototype.getAncestorByClass = goog.dom.getAncestorByClass;
 goog.dom.DomHelper.prototype.getAncestor = goog.dom.getAncestor;
-goog.events.EventHandler = function(a) {
-  goog.Disposable.call(this);
-  this.handler_ = a;
-  this.keys_ = []
-};
-goog.inherits(goog.events.EventHandler, goog.Disposable);
-goog.events.EventHandler.typeArray_ = [];
-goog.events.EventHandler.prototype.listen = function(a, b, c, d, e) {
-  goog.isArray(b) || (goog.events.EventHandler.typeArray_[0] = b, b = goog.events.EventHandler.typeArray_);
-  for(var f = 0;f < b.length;f++) {
-    var g = goog.events.listen(a, b[f], c || this, d || !1, e || this.handler_ || this);
-    this.keys_.push(g)
-  }
-  return this
-};
-goog.events.EventHandler.prototype.listenOnce = function(a, b, c, d, e) {
-  if(goog.isArray(b)) {
-    for(var f = 0;f < b.length;f++) {
-      this.listenOnce(a, b[f], c, d, e)
-    }
-  }else {
-    a = goog.events.listenOnce(a, b, c || this, d, e || this.handler_ || this), this.keys_.push(a)
-  }
-  return this
-};
-goog.events.EventHandler.prototype.listenWithWrapper = function(a, b, c, d, e) {
-  b.listen(a, c, d, e || this.handler_ || this, this);
-  return this
-};
-goog.events.EventHandler.prototype.getListenerCount = function() {
-  return this.keys_.length
-};
-goog.events.EventHandler.prototype.unlisten = function(a, b, c, d, e) {
-  if(goog.isArray(b)) {
-    for(var f = 0;f < b.length;f++) {
-      this.unlisten(a, b[f], c, d, e)
-    }
-  }else {
-    if(a = goog.events.getListener(a, b, c || this, d, e || this.handler_ || this)) {
-      a = a.key, goog.events.unlistenByKey(a), goog.array.remove(this.keys_, a)
-    }
-  }
-  return this
-};
-goog.events.EventHandler.prototype.unlistenWithWrapper = function(a, b, c, d, e) {
-  b.unlisten(a, c, d, e || this.handler_ || this, this);
-  return this
-};
-goog.events.EventHandler.prototype.removeAll = function() {
-  goog.array.forEach(this.keys_, goog.events.unlistenByKey);
-  this.keys_.length = 0
-};
-goog.events.EventHandler.prototype.disposeInternal = function() {
-  goog.events.EventHandler.superClass_.disposeInternal.call(this);
-  this.removeAll()
-};
-goog.events.EventHandler.prototype.handleEvent = function() {
-  throw Error("EventHandler.handleEvent not implemented");
-};
-goog.json = {};
-goog.json.isValid_ = function(a) {
-  return/^\s*$/.test(a) ? !1 : /^[\],:{}\s\u2028\u2029]*$/.test(a.replace(/\\["\\\/bfnrtu]/g, "@").replace(/"[^"\\\n\r\u2028\u2029\x00-\x08\x10-\x1f\x80-\x9f]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, "]").replace(/(?:^|:|,)(?:[\s\u2028\u2029]*\[)+/g, ""))
-};
-goog.json.parse = function(a) {
-  a = String(a);
-  if(goog.json.isValid_(a)) {
-    try {
-      return eval("(" + a + ")")
-    }catch(b) {
-    }
-  }
-  throw Error("Invalid JSON string: " + a);
-};
-goog.json.unsafeParse = function(a) {
-  return eval("(" + a + ")")
-};
-goog.json.serialize = function(a, b) {
-  return(new goog.json.Serializer(b)).serialize(a)
-};
-goog.json.Serializer = function(a) {
-  this.replacer_ = a
-};
-goog.json.Serializer.prototype.serialize = function(a) {
-  var b = [];
-  this.serialize_(a, b);
-  return b.join("")
-};
-goog.json.Serializer.prototype.serialize_ = function(a, b) {
-  switch(typeof a) {
-    case "string":
-      this.serializeString_(a, b);
-      break;
-    case "number":
-      this.serializeNumber_(a, b);
-      break;
-    case "boolean":
-      b.push(a);
-      break;
-    case "undefined":
-      b.push("null");
-      break;
-    case "object":
-      if(null == a) {
-        b.push("null");
-        break
-      }
-      if(goog.isArray(a)) {
-        this.serializeArray(a, b);
-        break
-      }
-      this.serializeObject_(a, b);
-      break;
-    case "function":
-      break;
-    default:
-      throw Error("Unknown type: " + typeof a);
-  }
-};
-goog.json.Serializer.charToJsonCharCache_ = {'"':'\\"', "\\":"\\\\", "/":"\\/", "\b":"\\b", "\f":"\\f", "\n":"\\n", "\r":"\\r", "\t":"\\t", "\x0B":"\\u000b"};
-goog.json.Serializer.charsToReplace_ = /\uffff/.test("\uffff") ? /[\\\"\x00-\x1f\x7f-\uffff]/g : /[\\\"\x00-\x1f\x7f-\xff]/g;
-goog.json.Serializer.prototype.serializeString_ = function(a, b) {
-  b.push('"', a.replace(goog.json.Serializer.charsToReplace_, function(a) {
-    if(a in goog.json.Serializer.charToJsonCharCache_) {
-      return goog.json.Serializer.charToJsonCharCache_[a]
-    }
-    var b = a.charCodeAt(0), e = "\\u";
-    16 > b ? e += "000" : 256 > b ? e += "00" : 4096 > b && (e += "0");
-    return goog.json.Serializer.charToJsonCharCache_[a] = e + b.toString(16)
-  }), '"')
-};
-goog.json.Serializer.prototype.serializeNumber_ = function(a, b) {
-  b.push(isFinite(a) && !isNaN(a) ? a : "null")
-};
-goog.json.Serializer.prototype.serializeArray = function(a, b) {
-  var c = a.length;
-  b.push("[");
-  for(var d = "", e = 0;e < c;e++) {
-    b.push(d), d = a[e], this.serialize_(this.replacer_ ? this.replacer_.call(a, String(e), d) : d, b), d = ","
-  }
-  b.push("]")
-};
-goog.json.Serializer.prototype.serializeObject_ = function(a, b) {
-  b.push("{");
-  var c = "", d;
-  for(d in a) {
-    if(Object.prototype.hasOwnProperty.call(a, d)) {
-      var e = a[d];
-      "function" != typeof e && (b.push(c), this.serializeString_(d, b), b.push(":"), this.serialize_(this.replacer_ ? this.replacer_.call(a, d, e) : e, b), c = ",")
-    }
-  }
-  b.push("}")
-};
-goog.structs.Collection = function() {
-};
-goog.structs.Set = function(a) {
-  this.map_ = new goog.structs.Map;
-  a && this.addAll(a)
-};
-goog.structs.Set.getKey_ = function(a) {
-  var b = typeof a;
-  return"object" == b && a || "function" == b ? "o" + goog.getUid(a) : b.substr(0, 1) + a
-};
-goog.structs.Set.prototype.getCount = function() {
-  return this.map_.getCount()
-};
-goog.structs.Set.prototype.add = function(a) {
-  this.map_.set(goog.structs.Set.getKey_(a), a)
-};
-goog.structs.Set.prototype.addAll = function(a) {
-  for(var a = goog.structs.getValues(a), b = a.length, c = 0;c < b;c++) {
-    this.add(a[c])
-  }
-};
-goog.structs.Set.prototype.removeAll = function(a) {
-  for(var a = goog.structs.getValues(a), b = a.length, c = 0;c < b;c++) {
-    this.remove(a[c])
-  }
-};
-goog.structs.Set.prototype.remove = function(a) {
-  return this.map_.remove(goog.structs.Set.getKey_(a))
-};
-goog.structs.Set.prototype.clear = function() {
-  this.map_.clear()
-};
-goog.structs.Set.prototype.isEmpty = function() {
-  return this.map_.isEmpty()
-};
-goog.structs.Set.prototype.contains = function(a) {
-  return this.map_.containsKey(goog.structs.Set.getKey_(a))
-};
-goog.structs.Set.prototype.containsAll = function(a) {
-  return goog.structs.every(a, this.contains, this)
-};
-goog.structs.Set.prototype.intersection = function(a) {
-  for(var b = new goog.structs.Set, a = goog.structs.getValues(a), c = 0;c < a.length;c++) {
-    var d = a[c];
-    this.contains(d) && b.add(d)
-  }
-  return b
-};
-goog.structs.Set.prototype.difference = function(a) {
-  var b = this.clone();
-  b.removeAll(a);
-  return b
-};
-goog.structs.Set.prototype.getValues = function() {
-  return this.map_.getValues()
-};
-goog.structs.Set.prototype.clone = function() {
-  return new goog.structs.Set(this)
-};
-goog.structs.Set.prototype.equals = function(a) {
-  return this.getCount() == goog.structs.getCount(a) && this.isSubsetOf(a)
-};
-goog.structs.Set.prototype.isSubsetOf = function(a) {
-  var b = goog.structs.getCount(a);
-  if(this.getCount() > b) {
-    return!1
-  }
-  !(a instanceof goog.structs.Set) && 5 < b && (a = new goog.structs.Set(a));
-  return goog.structs.every(this, function(b) {
-    return goog.structs.contains(a, b)
-  })
-};
-goog.structs.Set.prototype.__iterator__ = function() {
-  return this.map_.__iterator__(!1)
-};
-goog.debug.catchErrors = function(a, b, c) {
-  var c = c || goog.global, d = c.onerror, e = !!b;
-  goog.userAgent.WEBKIT && !goog.userAgent.isVersion("535.3") && (e = !e);
-  c.onerror = function(b, c, h) {
-    d && d(b, c, h);
-    a({message:b, fileName:c, line:h});
-    return e
-  }
-};
-goog.debug.expose = function(a, b) {
-  if("undefined" == typeof a) {
-    return"undefined"
-  }
-  if(null == a) {
-    return"NULL"
-  }
-  var c = [], d;
-  for(d in a) {
-    if(b || !goog.isFunction(a[d])) {
-      var e = d + " = ";
-      try {
-        e += a[d]
-      }catch(f) {
-        e += "*** " + f + " ***"
-      }
-      c.push(e)
-    }
-  }
-  return c.join("\n")
-};
-goog.debug.deepExpose = function(a, b) {
-  var c = new goog.structs.Set, d = [], e = function(a, g) {
-    var h = g + "  ";
-    try {
-      if(goog.isDef(a)) {
-        if(goog.isNull(a)) {
-          d.push("NULL")
-        }else {
-          if(goog.isString(a)) {
-            d.push('"' + a.replace(/\n/g, "\n" + g) + '"')
-          }else {
-            if(goog.isFunction(a)) {
-              d.push(String(a).replace(/\n/g, "\n" + g))
-            }else {
-              if(goog.isObject(a)) {
-                if(c.contains(a)) {
-                  d.push("*** reference loop detected ***")
-                }else {
-                  c.add(a);
-                  d.push("{");
-                  for(var i in a) {
-                    if(b || !goog.isFunction(a[i])) {
-                      d.push("\n"), d.push(h), d.push(i + " = "), e(a[i], h)
-                    }
-                  }
-                  d.push("\n" + g + "}")
-                }
-              }else {
-                d.push(a)
-              }
-            }
-          }
-        }
-      }else {
-        d.push("undefined")
-      }
-    }catch(j) {
-      d.push("*** " + j + " ***")
-    }
-  };
-  e(a, "");
-  return d.join("")
-};
-goog.debug.exposeArray = function(a) {
-  for(var b = [], c = 0;c < a.length;c++) {
-    goog.isArray(a[c]) ? b.push(goog.debug.exposeArray(a[c])) : b.push(a[c])
-  }
-  return"[ " + b.join(", ") + " ]"
-};
-goog.debug.exposeException = function(a, b) {
-  try {
-    var c = goog.debug.normalizeErrorObject(a);
-    return"Message: " + goog.string.htmlEscape(c.message) + '\nUrl: <a href="view-source:' + c.fileName + '" target="_new">' + c.fileName + "</a>\nLine: " + c.lineNumber + "\n\nBrowser stack:\n" + goog.string.htmlEscape(c.stack + "-> ") + "[end]\n\nJS stack traversal:\n" + goog.string.htmlEscape(goog.debug.getStacktrace(b) + "-> ")
-  }catch(d) {
-    return"Exception trying to expose exception! You win, we lose. " + d
-  }
-};
-goog.debug.normalizeErrorObject = function(a) {
-  var b = goog.getObjectByName("window.location.href");
-  if(goog.isString(a)) {
-    return{message:a, name:"Unknown error", lineNumber:"Not available", fileName:b, stack:"Not available"}
-  }
-  var c, d, e = !1;
-  try {
-    c = a.lineNumber || a.line || "Not available"
-  }catch(f) {
-    c = "Not available", e = !0
-  }
-  try {
-    d = a.fileName || a.filename || a.sourceURL || b
-  }catch(g) {
-    d = "Not available", e = !0
-  }
-  return e || !a.lineNumber || !a.fileName || !a.stack ? {message:a.message, name:a.name, lineNumber:c, fileName:d, stack:a.stack || "Not available"} : a
-};
-goog.debug.enhanceError = function(a, b) {
-  var c = "string" == typeof a ? Error(a) : a;
-  c.stack || (c.stack = goog.debug.getStacktrace(arguments.callee.caller));
-  if(b) {
-    for(var d = 0;c["message" + d];) {
-      ++d
-    }
-    c["message" + d] = String(b)
-  }
-  return c
-};
-goog.debug.getStacktraceSimple = function(a) {
-  for(var b = [], c = arguments.callee.caller, d = 0;c && (!a || d < a);) {
-    b.push(goog.debug.getFunctionName(c));
-    b.push("()\n");
-    try {
-      c = c.caller
-    }catch(e) {
-      b.push("[exception trying to get caller]\n");
-      break
-    }
-    d++;
-    if(d >= goog.debug.MAX_STACK_DEPTH) {
-      b.push("[...long stack...]");
-      break
-    }
-  }
-  a && d >= a ? b.push("[...reached max depth limit...]") : b.push("[end]");
-  return b.join("")
-};
-goog.debug.MAX_STACK_DEPTH = 50;
-goog.debug.getStacktrace = function(a) {
-  return goog.debug.getStacktraceHelper_(a || arguments.callee.caller, [])
-};
-goog.debug.getStacktraceHelper_ = function(a, b) {
-  var c = [];
-  if(goog.array.contains(b, a)) {
-    c.push("[...circular reference...]")
-  }else {
-    if(a && b.length < goog.debug.MAX_STACK_DEPTH) {
-      c.push(goog.debug.getFunctionName(a) + "(");
-      for(var d = a.arguments, e = 0;e < d.length;e++) {
-        0 < e && c.push(", ");
-        var f;
-        f = d[e];
-        switch(typeof f) {
-          case "object":
-            f = f ? "object" : "null";
-            break;
-          case "string":
-            break;
-          case "number":
-            f = String(f);
-            break;
-          case "boolean":
-            f = f ? "true" : "false";
-            break;
-          case "function":
-            f = (f = goog.debug.getFunctionName(f)) ? f : "[fn]";
-            break;
-          default:
-            f = typeof f
-        }
-        40 < f.length && (f = f.substr(0, 40) + "...");
-        c.push(f)
-      }
-      b.push(a);
-      c.push(")\n");
-      try {
-        c.push(goog.debug.getStacktraceHelper_(a.caller, b))
-      }catch(g) {
-        c.push("[exception trying to get caller]\n")
-      }
-    }else {
-      a ? c.push("[...long stack...]") : c.push("[end]")
-    }
-  }
-  return c.join("")
-};
-goog.debug.setFunctionResolver = function(a) {
-  goog.debug.fnNameResolver_ = a
-};
-goog.debug.getFunctionName = function(a) {
-  if(goog.debug.fnNameCache_[a]) {
-    return goog.debug.fnNameCache_[a]
-  }
-  if(goog.debug.fnNameResolver_) {
-    var b = goog.debug.fnNameResolver_(a);
-    if(b) {
-      return goog.debug.fnNameCache_[a] = b
-    }
-  }
-  a = String(a);
-  goog.debug.fnNameCache_[a] || (b = /function ([^\(]+)/.exec(a), goog.debug.fnNameCache_[a] = b ? b[1] : "[Anonymous]");
-  return goog.debug.fnNameCache_[a]
-};
-goog.debug.makeWhitespaceVisible = function(a) {
-  return a.replace(/ /g, "[_]").replace(/\f/g, "[f]").replace(/\n/g, "[n]\n").replace(/\r/g, "[r]").replace(/\t/g, "[t]")
-};
-goog.debug.fnNameCache_ = {};
-goog.debug.LogRecord = function(a, b, c, d, e) {
-  this.reset(a, b, c, d, e)
-};
-goog.debug.LogRecord.prototype.sequenceNumber_ = 0;
-goog.debug.LogRecord.prototype.exception_ = null;
-goog.debug.LogRecord.prototype.exceptionText_ = null;
-goog.debug.LogRecord.ENABLE_SEQUENCE_NUMBERS = !0;
-goog.debug.LogRecord.nextSequenceNumber_ = 0;
-goog.debug.LogRecord.prototype.reset = function(a, b, c, d, e) {
-  goog.debug.LogRecord.ENABLE_SEQUENCE_NUMBERS && (this.sequenceNumber_ = "number" == typeof e ? e : goog.debug.LogRecord.nextSequenceNumber_++);
-  this.time_ = d || goog.now();
-  this.level_ = a;
-  this.msg_ = b;
-  this.loggerName_ = c;
-  delete this.exception_;
-  delete this.exceptionText_
-};
-goog.debug.LogRecord.prototype.getLoggerName = function() {
-  return this.loggerName_
-};
-goog.debug.LogRecord.prototype.getException = function() {
-  return this.exception_
-};
-goog.debug.LogRecord.prototype.setException = function(a) {
-  this.exception_ = a
-};
-goog.debug.LogRecord.prototype.getExceptionText = function() {
-  return this.exceptionText_
-};
-goog.debug.LogRecord.prototype.setExceptionText = function(a) {
-  this.exceptionText_ = a
-};
-goog.debug.LogRecord.prototype.setLoggerName = function(a) {
-  this.loggerName_ = a
-};
-goog.debug.LogRecord.prototype.getLevel = function() {
-  return this.level_
-};
-goog.debug.LogRecord.prototype.setLevel = function(a) {
-  this.level_ = a
-};
-goog.debug.LogRecord.prototype.getMessage = function() {
-  return this.msg_
-};
-goog.debug.LogRecord.prototype.setMessage = function(a) {
-  this.msg_ = a
-};
-goog.debug.LogRecord.prototype.getMillis = function() {
-  return this.time_
-};
-goog.debug.LogRecord.prototype.setMillis = function(a) {
-  this.time_ = a
-};
-goog.debug.LogRecord.prototype.getSequenceNumber = function() {
-  return this.sequenceNumber_
-};
-goog.debug.LogBuffer = function() {
-  goog.asserts.assert(goog.debug.LogBuffer.isBufferingEnabled(), "Cannot use goog.debug.LogBuffer without defining goog.debug.LogBuffer.CAPACITY.");
-  this.clear()
-};
-goog.debug.LogBuffer.getInstance = function() {
-  goog.debug.LogBuffer.instance_ || (goog.debug.LogBuffer.instance_ = new goog.debug.LogBuffer);
-  return goog.debug.LogBuffer.instance_
-};
-goog.debug.LogBuffer.CAPACITY = 0;
-goog.debug.LogBuffer.prototype.addRecord = function(a, b, c) {
-  var d = (this.curIndex_ + 1) % goog.debug.LogBuffer.CAPACITY;
-  this.curIndex_ = d;
-  if(this.isFull_) {
-    return d = this.buffer_[d], d.reset(a, b, c), d
-  }
-  this.isFull_ = d == goog.debug.LogBuffer.CAPACITY - 1;
-  return this.buffer_[d] = new goog.debug.LogRecord(a, b, c)
-};
-goog.debug.LogBuffer.isBufferingEnabled = function() {
-  return 0 < goog.debug.LogBuffer.CAPACITY
-};
-goog.debug.LogBuffer.prototype.clear = function() {
-  this.buffer_ = Array(goog.debug.LogBuffer.CAPACITY);
-  this.curIndex_ = -1;
-  this.isFull_ = !1
-};
-goog.debug.LogBuffer.prototype.forEachRecord = function(a) {
-  var b = this.buffer_;
-  if(b[0]) {
-    var c = this.curIndex_, d = this.isFull_ ? c : -1;
-    do {
-      d = (d + 1) % goog.debug.LogBuffer.CAPACITY, a(b[d])
-    }while(d != c)
-  }
-};
-goog.debug.Logger = function(a) {
-  this.name_ = a
-};
-goog.debug.Logger.prototype.parent_ = null;
-goog.debug.Logger.prototype.level_ = null;
-goog.debug.Logger.prototype.children_ = null;
-goog.debug.Logger.prototype.handlers_ = null;
-goog.debug.Logger.ENABLE_HIERARCHY = !0;
-goog.debug.Logger.ENABLE_HIERARCHY || (goog.debug.Logger.rootHandlers_ = []);
-goog.debug.Logger.Level = function(a, b) {
-  this.name = a;
-  this.value = b
-};
-goog.debug.Logger.Level.prototype.toString = function() {
-  return this.name
-};
-goog.debug.Logger.Level.OFF = new goog.debug.Logger.Level("OFF", Infinity);
-goog.debug.Logger.Level.SHOUT = new goog.debug.Logger.Level("SHOUT", 1200);
-goog.debug.Logger.Level.SEVERE = new goog.debug.Logger.Level("SEVERE", 1E3);
-goog.debug.Logger.Level.WARNING = new goog.debug.Logger.Level("WARNING", 900);
-goog.debug.Logger.Level.INFO = new goog.debug.Logger.Level("INFO", 800);
-goog.debug.Logger.Level.CONFIG = new goog.debug.Logger.Level("CONFIG", 700);
-goog.debug.Logger.Level.FINE = new goog.debug.Logger.Level("FINE", 500);
-goog.debug.Logger.Level.FINER = new goog.debug.Logger.Level("FINER", 400);
-goog.debug.Logger.Level.FINEST = new goog.debug.Logger.Level("FINEST", 300);
-goog.debug.Logger.Level.ALL = new goog.debug.Logger.Level("ALL", 0);
-goog.debug.Logger.Level.PREDEFINED_LEVELS = [goog.debug.Logger.Level.OFF, goog.debug.Logger.Level.SHOUT, goog.debug.Logger.Level.SEVERE, goog.debug.Logger.Level.WARNING, goog.debug.Logger.Level.INFO, goog.debug.Logger.Level.CONFIG, goog.debug.Logger.Level.FINE, goog.debug.Logger.Level.FINER, goog.debug.Logger.Level.FINEST, goog.debug.Logger.Level.ALL];
-goog.debug.Logger.Level.predefinedLevelsCache_ = null;
-goog.debug.Logger.Level.createPredefinedLevelsCache_ = function() {
-  goog.debug.Logger.Level.predefinedLevelsCache_ = {};
-  for(var a = 0, b;b = goog.debug.Logger.Level.PREDEFINED_LEVELS[a];a++) {
-    goog.debug.Logger.Level.predefinedLevelsCache_[b.value] = b, goog.debug.Logger.Level.predefinedLevelsCache_[b.name] = b
-  }
-};
-goog.debug.Logger.Level.getPredefinedLevel = function(a) {
-  goog.debug.Logger.Level.predefinedLevelsCache_ || goog.debug.Logger.Level.createPredefinedLevelsCache_();
-  return goog.debug.Logger.Level.predefinedLevelsCache_[a] || null
-};
-goog.debug.Logger.Level.getPredefinedLevelByValue = function(a) {
-  goog.debug.Logger.Level.predefinedLevelsCache_ || goog.debug.Logger.Level.createPredefinedLevelsCache_();
-  if(a in goog.debug.Logger.Level.predefinedLevelsCache_) {
-    return goog.debug.Logger.Level.predefinedLevelsCache_[a]
-  }
-  for(var b = 0;b < goog.debug.Logger.Level.PREDEFINED_LEVELS.length;++b) {
-    var c = goog.debug.Logger.Level.PREDEFINED_LEVELS[b];
-    if(c.value <= a) {
-      return c
-    }
-  }
-  return null
-};
-goog.debug.Logger.getLogger = function(a) {
-  return goog.debug.LogManager.getLogger(a)
-};
-goog.debug.Logger.logToProfilers = function(a) {
-  goog.global.console && (goog.global.console.timeStamp ? goog.global.console.timeStamp(a) : goog.global.console.markTimeline && goog.global.console.markTimeline(a));
-  goog.global.msWriteProfilerMark && goog.global.msWriteProfilerMark(a)
-};
-goog.debug.Logger.prototype.getName = function() {
-  return this.name_
-};
-goog.debug.Logger.prototype.addHandler = function(a) {
-  goog.debug.Logger.ENABLE_HIERARCHY ? (this.handlers_ || (this.handlers_ = []), this.handlers_.push(a)) : (goog.asserts.assert(!this.name_, "Cannot call addHandler on a non-root logger when goog.debug.Logger.ENABLE_HIERARCHY is false."), goog.debug.Logger.rootHandlers_.push(a))
-};
-goog.debug.Logger.prototype.removeHandler = function(a) {
-  var b = goog.debug.Logger.ENABLE_HIERARCHY ? this.handlers_ : goog.debug.Logger.rootHandlers_;
-  return!!b && goog.array.remove(b, a)
-};
-goog.debug.Logger.prototype.getParent = function() {
-  return this.parent_
-};
-goog.debug.Logger.prototype.getChildren = function() {
-  this.children_ || (this.children_ = {});
-  return this.children_
-};
-goog.debug.Logger.prototype.setLevel = function(a) {
-  goog.debug.Logger.ENABLE_HIERARCHY ? this.level_ = a : (goog.asserts.assert(!this.name_, "Cannot call setLevel() on a non-root logger when goog.debug.Logger.ENABLE_HIERARCHY is false."), goog.debug.Logger.rootLevel_ = a)
-};
-goog.debug.Logger.prototype.getLevel = function() {
-  return this.level_
-};
-goog.debug.Logger.prototype.getEffectiveLevel = function() {
-  if(!goog.debug.Logger.ENABLE_HIERARCHY) {
-    return goog.debug.Logger.rootLevel_
-  }
-  if(this.level_) {
-    return this.level_
-  }
-  if(this.parent_) {
-    return this.parent_.getEffectiveLevel()
-  }
-  goog.asserts.fail("Root logger has no level set.");
-  return null
-};
-goog.debug.Logger.prototype.isLoggable = function(a) {
-  return a.value >= this.getEffectiveLevel().value
-};
-goog.debug.Logger.prototype.log = function(a, b, c) {
-  this.isLoggable(a) && this.doLogRecord_(this.getLogRecord(a, b, c))
-};
-goog.debug.Logger.prototype.getLogRecord = function(a, b, c) {
-  var d = goog.debug.LogBuffer.isBufferingEnabled() ? goog.debug.LogBuffer.getInstance().addRecord(a, b, this.name_) : new goog.debug.LogRecord(a, String(b), this.name_);
-  c && (d.setException(c), d.setExceptionText(goog.debug.exposeException(c, arguments.callee.caller)));
-  return d
-};
-goog.debug.Logger.prototype.shout = function(a, b) {
-  this.log(goog.debug.Logger.Level.SHOUT, a, b)
-};
-goog.debug.Logger.prototype.severe = function(a, b) {
-  this.log(goog.debug.Logger.Level.SEVERE, a, b)
-};
-goog.debug.Logger.prototype.warning = function(a, b) {
-  this.log(goog.debug.Logger.Level.WARNING, a, b)
-};
-goog.debug.Logger.prototype.info = function(a, b) {
-  this.log(goog.debug.Logger.Level.INFO, a, b)
-};
-goog.debug.Logger.prototype.config = function(a, b) {
-  this.log(goog.debug.Logger.Level.CONFIG, a, b)
-};
-goog.debug.Logger.prototype.fine = function(a, b) {
-  this.log(goog.debug.Logger.Level.FINE, a, b)
-};
-goog.debug.Logger.prototype.finer = function(a, b) {
-  this.log(goog.debug.Logger.Level.FINER, a, b)
-};
-goog.debug.Logger.prototype.finest = function(a, b) {
-  this.log(goog.debug.Logger.Level.FINEST, a, b)
-};
-goog.debug.Logger.prototype.logRecord = function(a) {
-  this.isLoggable(a.getLevel()) && this.doLogRecord_(a)
-};
-goog.debug.Logger.prototype.doLogRecord_ = function(a) {
-  goog.debug.Logger.logToProfilers("log:" + a.getMessage());
-  if(goog.debug.Logger.ENABLE_HIERARCHY) {
-    for(var b = this;b;) {
-      b.callPublish_(a), b = b.getParent()
-    }
-  }else {
-    for(var b = 0, c;c = goog.debug.Logger.rootHandlers_[b++];) {
-      c(a)
-    }
-  }
-};
-goog.debug.Logger.prototype.callPublish_ = function(a) {
-  if(this.handlers_) {
-    for(var b = 0, c;c = this.handlers_[b];b++) {
-      c(a)
-    }
-  }
-};
-goog.debug.Logger.prototype.setParent_ = function(a) {
-  this.parent_ = a
-};
-goog.debug.Logger.prototype.addChild_ = function(a, b) {
-  this.getChildren()[a] = b
-};
-goog.debug.LogManager = {};
-goog.debug.LogManager.loggers_ = {};
-goog.debug.LogManager.rootLogger_ = null;
-goog.debug.LogManager.initialize = function() {
-  goog.debug.LogManager.rootLogger_ || (goog.debug.LogManager.rootLogger_ = new goog.debug.Logger(""), goog.debug.LogManager.loggers_[""] = goog.debug.LogManager.rootLogger_, goog.debug.LogManager.rootLogger_.setLevel(goog.debug.Logger.Level.CONFIG))
-};
-goog.debug.LogManager.getLoggers = function() {
-  return goog.debug.LogManager.loggers_
-};
-goog.debug.LogManager.getRoot = function() {
-  goog.debug.LogManager.initialize();
-  return goog.debug.LogManager.rootLogger_
-};
-goog.debug.LogManager.getLogger = function(a) {
-  goog.debug.LogManager.initialize();
-  return goog.debug.LogManager.loggers_[a] || goog.debug.LogManager.createLogger_(a)
-};
-goog.debug.LogManager.createFunctionForCatchErrors = function(a) {
-  return function(b) {
-    (a || goog.debug.LogManager.getRoot()).severe("Error: " + b.message + " (" + b.fileName + " @ Line: " + b.line + ")")
-  }
-};
-goog.debug.LogManager.createLogger_ = function(a) {
-  var b = new goog.debug.Logger(a);
-  if(goog.debug.Logger.ENABLE_HIERARCHY) {
-    var c = a.lastIndexOf("."), d = a.substr(0, c), c = a.substr(c + 1), d = goog.debug.LogManager.getLogger(d);
-    d.addChild_(c, b);
-    b.setParent_(d)
-  }
-  return goog.debug.LogManager.loggers_[a] = b
-};
-goog.messaging = {};
-goog.messaging.MessageChannel = function() {
-};
-goog.messaging.MessageChannel.prototype.connect = function() {
-};
-goog.messaging.MessageChannel.prototype.isConnected = function() {
-};
-goog.messaging.MessageChannel.prototype.registerService = function() {
-};
-goog.messaging.MessageChannel.prototype.registerDefaultService = function() {
-};
-goog.messaging.MessageChannel.prototype.send = function() {
-};
-goog.messaging.AbstractChannel = function() {
-  goog.Disposable.call(this);
-  this.services_ = {}
-};
-goog.inherits(goog.messaging.AbstractChannel, goog.Disposable);
-goog.messaging.AbstractChannel.prototype.logger = goog.debug.Logger.getLogger("goog.messaging.AbstractChannel");
-goog.messaging.AbstractChannel.prototype.connect = function(a) {
-  a && a()
-};
-goog.messaging.AbstractChannel.prototype.isConnected = function() {
-  return!0
-};
-goog.messaging.AbstractChannel.prototype.registerService = function(a, b, c) {
-  this.services_[a] = {callback:b, objectPayload:!!c}
-};
-goog.messaging.AbstractChannel.prototype.registerDefaultService = function(a) {
-  this.defaultService_ = a
-};
-goog.messaging.AbstractChannel.prototype.deliver = function(a, b) {
-  var c = this.getService(a, b);
-  if(c) {
-    var d = this.decodePayload(a, b, c.objectPayload);
-    goog.isDefAndNotNull(d) && c.callback(d)
-  }
-};
-goog.messaging.AbstractChannel.prototype.getService = function(a, b) {
-  var c = this.services_[a];
-  if(c) {
-    return c
-  }
-  if(this.defaultService_) {
-    var c = goog.partial(this.defaultService_, a), d = goog.isObject(b);
-    return{callback:c, objectPayload:d}
-  }
-  this.logger.warning('Unknown service name "' + a + '"');
-  return null
-};
-goog.messaging.AbstractChannel.prototype.decodePayload = function(a, b, c) {
-  if(c && goog.isString(b)) {
-    try {
-      return goog.json.parse(b)
-    }catch(d) {
-      return this.logger.warning("Expected JSON payload for " + a + ', was "' + b + '"'), null
-    }
-  }else {
-    if(!c && !goog.isString(b)) {
-      return goog.json.serialize(b)
-    }
-  }
-  return b
-};
-goog.messaging.AbstractChannel.prototype.disposeInternal = function() {
-  goog.messaging.AbstractChannel.superClass_.disposeInternal.call(this);
-  goog.dispose(this.logger);
-  delete this.logger;
-  delete this.services_;
-  delete this.defaultService_
-};
-goog.net = {};
-goog.net.xpc = {};
-goog.net.xpc.TransportTypes = {NATIVE_MESSAGING:1, FRAME_ELEMENT_METHOD:2, IFRAME_RELAY:3, IFRAME_POLLING:4, FLASH:5, NIX:6};
-goog.net.xpc.TransportNames = {1:"NativeMessagingTransport", 2:"FrameElementMethodTransport", 3:"IframeRelayTransport", 4:"IframePollingTransport", 5:"FlashTransport", 6:"NixTransport"};
-goog.net.xpc.CfgFields = {CHANNEL_NAME:"cn", AUTH_TOKEN:"at", REMOTE_AUTH_TOKEN:"rat", PEER_URI:"pu", IFRAME_ID:"ifrid", TRANSPORT:"tp", LOCAL_RELAY_URI:"lru", PEER_RELAY_URI:"pru", LOCAL_POLL_URI:"lpu", PEER_POLL_URI:"ppu", PEER_HOSTNAME:"ph", ONE_SIDED_HANDSHAKE:"osh", ROLE:"role", NATIVE_TRANSPORT_PROTOCOL_VERSION:"nativeProtocolVersion"};
-goog.net.xpc.UriCfgFields = [goog.net.xpc.CfgFields.PEER_URI, goog.net.xpc.CfgFields.LOCAL_RELAY_URI, goog.net.xpc.CfgFields.PEER_RELAY_URI, goog.net.xpc.CfgFields.LOCAL_POLL_URI, goog.net.xpc.CfgFields.PEER_POLL_URI];
-goog.net.xpc.ChannelStates = {NOT_CONNECTED:1, CONNECTED:2, CLOSED:3};
-goog.net.xpc.TRANSPORT_SERVICE_ = "tp";
-goog.net.xpc.SETUP = "SETUP";
-goog.net.xpc.SETUP_NTPV2 = "SETUP_NTPV2";
-goog.net.xpc.SETUP_ACK_ = "SETUP_ACK";
-goog.net.xpc.SETUP_ACK_NTPV2 = "SETUP_ACK_NTPV2";
-goog.net.xpc.channels_ = {};
-goog.net.xpc.getRandomString = function(a, b) {
-  for(var c = b || goog.net.xpc.randomStringCharacters_, d = c.length, e = "";0 < a--;) {
-    e += c.charAt(Math.floor(Math.random() * d))
-  }
-  return e
-};
-goog.net.xpc.randomStringCharacters_ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-goog.net.xpc.logger = goog.debug.Logger.getLogger("goog.net.xpc");
-goog.net.xpc.CrossPageChannelRole = {OUTER:0, INNER:1};
-goog.net.xpc.Transport = function(a) {
-  goog.Disposable.call(this);
-  this.domHelper_ = a || goog.dom.getDomHelper()
-};
-goog.inherits(goog.net.xpc.Transport, goog.Disposable);
-goog.net.xpc.Transport.prototype.transportType = 0;
-goog.net.xpc.Transport.prototype.getType = function() {
-  return this.transportType
-};
-goog.net.xpc.Transport.prototype.getWindow = function() {
-  return this.domHelper_.getWindow()
-};
-goog.net.xpc.Transport.prototype.getName = function() {
-  return goog.net.xpc.TransportNames[this.transportType] || ""
-};
-goog.net.xpc.FrameElementMethodTransport = function(a, b) {
-  goog.net.xpc.Transport.call(this, b);
-  this.channel_ = a;
-  this.queue_ = [];
-  this.deliverQueuedCb_ = goog.bind(this.deliverQueued_, this)
-};
-goog.inherits(goog.net.xpc.FrameElementMethodTransport, goog.net.xpc.Transport);
-goog.net.xpc.FrameElementMethodTransport.prototype.transportType = goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD;
-goog.net.xpc.FrameElementMethodTransport.prototype.recursive_ = !1;
-goog.net.xpc.FrameElementMethodTransport.prototype.timer_ = 0;
-goog.net.xpc.FrameElementMethodTransport.outgoing_ = null;
-goog.net.xpc.FrameElementMethodTransport.prototype.connect = function() {
-  this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER ? (this.iframeElm_ = this.channel_.iframeElement_, this.iframeElm_.XPC_toOuter = goog.bind(this.incoming_, this)) : this.attemptSetup_()
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.attemptSetup_ = function() {
-  var a = !0;
-  try {
-    this.iframeElm_ || (this.iframeElm_ = this.getWindow().frameElement), this.iframeElm_ && this.iframeElm_.XPC_toOuter && (this.outgoing_ = this.iframeElm_.XPC_toOuter, this.iframeElm_.XPC_toOuter.XPC_toInner = goog.bind(this.incoming_, this), a = !1, this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_), this.channel_.notifyConnected())
-  }catch(b) {
-    goog.net.xpc.logger.severe("exception caught while attempting setup: " + b)
-  }
-  a && (this.attemptSetupCb_ || (this.attemptSetupCb_ = goog.bind(this.attemptSetup_, this)), this.getWindow().setTimeout(this.attemptSetupCb_, 100))
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.transportServiceHandler = function(a) {
-  if(this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER && !this.channel_.isConnected() && a == goog.net.xpc.SETUP_ACK_) {
-    this.outgoing_ = this.iframeElm_.XPC_toOuter.XPC_toInner, this.channel_.notifyConnected()
-  }else {
-    throw Error("Got unexpected transport message.");
-  }
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.incoming_ = function(a, b) {
-  !this.recursive_ && 0 == this.queue_.length ? this.channel_.deliver_(a, b) : (this.queue_.push({serviceName:a, payload:b}), 1 == this.queue_.length && (this.timer_ = this.getWindow().setTimeout(this.deliverQueuedCb_, 1)))
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.deliverQueued_ = function() {
-  for(;this.queue_.length;) {
-    var a = this.queue_.shift();
-    this.channel_.deliver_(a.serviceName, a.payload)
-  }
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.send = function(a, b) {
-  this.recursive_ = !0;
-  this.outgoing_(a, b);
-  this.recursive_ = !1
-};
-goog.net.xpc.FrameElementMethodTransport.prototype.disposeInternal = function() {
-  goog.net.xpc.FrameElementMethodTransport.superClass_.disposeInternal.call(this);
-  this.iframeElm_ = this.outgoing_ = null
-};
-goog.net.xpc.IframePollingTransport = function(a, b) {
-  goog.net.xpc.Transport.call(this, b);
-  this.channel_ = a;
-  this.sendUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI];
-  this.rcvUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI];
-  this.sendQueue_ = []
-};
-goog.inherits(goog.net.xpc.IframePollingTransport, goog.net.xpc.Transport);
-goog.net.xpc.IframePollingTransport.prototype.pollsBeforeReconnect_ = 5;
-goog.net.xpc.IframePollingTransport.prototype.transportType = goog.net.xpc.TransportTypes.IFRAME_POLLING;
-goog.net.xpc.IframePollingTransport.prototype.sequence_ = 0;
-goog.net.xpc.IframePollingTransport.prototype.waitForAck_ = !1;
-goog.net.xpc.IframePollingTransport.prototype.initialized_ = !1;
-goog.net.xpc.IframePollingTransport.prototype.reconnectFrame_ = null;
-goog.net.xpc.IframePollingTransport.IFRAME_PREFIX = "googlexpc";
-goog.net.xpc.IframePollingTransport.prototype.getMsgFrameName_ = function() {
-  return goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_" + this.channel_.name + "_msg"
-};
-goog.net.xpc.IframePollingTransport.prototype.getAckFrameName_ = function() {
-  return goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_" + this.channel_.name + "_ack"
-};
-goog.net.xpc.IframePollingTransport.prototype.isChannelAvailable = function() {
-  return!this.isDisposed() && this.channel_.isPeerAvailable()
-};
-goog.net.xpc.IframePollingTransport.prototype.getPeerFrames_ = function() {
-  try {
-    if(this.isChannelAvailable()) {
-      return this.channel_.getPeerWindowObject().frames || {}
-    }
-  }catch(a) {
-    goog.net.xpc.logger.fine("error retrieving peer frames")
-  }
-  return{}
-};
-goog.net.xpc.IframePollingTransport.prototype.getPeerFrame_ = function(a) {
-  return this.getPeerFrames_()[a]
-};
-goog.net.xpc.IframePollingTransport.prototype.connect = function() {
-  this.isChannelAvailable() && (goog.net.xpc.logger.fine("transport connect called"), this.initialized_ || (goog.net.xpc.logger.fine("initializing..."), this.constructSenderFrames_(), this.initialized_ = !0), this.checkForeignFramesReady_())
-};
-goog.net.xpc.IframePollingTransport.prototype.constructSenderFrames_ = function() {
-  var a = this.getMsgFrameName_();
-  this.msgIframeElm_ = this.constructSenderFrame_(a);
-  this.msgWinObj_ = this.getWindow().frames[a];
-  a = this.getAckFrameName_();
-  this.ackIframeElm_ = this.constructSenderFrame_(a);
-  this.ackWinObj_ = this.getWindow().frames[a]
-};
-goog.net.xpc.IframePollingTransport.prototype.constructSenderFrame_ = function(a) {
-  goog.net.xpc.logger.finest("constructing sender frame: " + a);
-  var b = goog.dom.createElement("iframe"), c = b.style;
-  c.position = "absolute";
-  c.top = "-10px";
-  c.left = "10px";
-  c.width = "1px";
-  c.height = "1px";
-  b.id = b.name = a;
-  b.src = this.sendUri_ + "#INITIAL";
-  this.getWindow().document.body.appendChild(b);
-  return b
-};
-goog.net.xpc.IframePollingTransport.prototype.maybeInnerPeerReconnect_ = function() {
-  this.reconnectFrame_ || 0 < this.pollsBeforeReconnect_-- || (goog.net.xpc.logger.finest("Inner peer reconnect triggered."), this.channel_.name = goog.net.xpc.getRandomString(10), goog.net.xpc.logger.finest("switching channels: " + this.channel_.name), this.deconstructSenderFrames_(), this.initialized_ = !1, this.reconnectFrame_ = this.constructSenderFrame_(goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_reconnect_" + this.channel_.name))
-};
-goog.net.xpc.IframePollingTransport.prototype.outerPeerReconnect_ = function() {
-  goog.net.xpc.logger.finest("outerPeerReconnect called");
-  for(var a = this.getPeerFrames_(), b = a.length, c = 0;c < b;c++) {
-    var d;
-    try {
-      a[c] && a[c].name && (d = a[c].name)
-    }catch(e) {
-    }
-    if(d) {
-      var f = d.split("_");
-      if(3 == f.length && f[0] == goog.net.xpc.IframePollingTransport.IFRAME_PREFIX && "reconnect" == f[1]) {
-        this.channel_.name = f[2];
-        this.deconstructSenderFrames_();
-        this.initialized_ = !1;
-        break
-      }
-    }
-  }
-};
-goog.net.xpc.IframePollingTransport.prototype.deconstructSenderFrames_ = function() {
-  goog.net.xpc.logger.finest("deconstructSenderFrames called");
-  this.msgIframeElm_ && (this.msgIframeElm_.parentNode.removeChild(this.msgIframeElm_), this.msgWinObj_ = this.msgIframeElm_ = null);
-  this.ackIframeElm_ && (this.ackIframeElm_.parentNode.removeChild(this.ackIframeElm_), this.ackWinObj_ = this.ackIframeElm_ = null)
-};
-goog.net.xpc.IframePollingTransport.prototype.checkForeignFramesReady_ = function() {
-  !this.isRcvFrameReady_(this.getMsgFrameName_()) || !this.isRcvFrameReady_(this.getAckFrameName_()) ? (goog.net.xpc.logger.finest("foreign frames not (yet) present"), this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.INNER ? this.maybeInnerPeerReconnect_() : this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER && this.outerPeerReconnect_(), this.getWindow().setTimeout(goog.bind(this.connect, this), 100)) : (goog.net.xpc.logger.fine("foreign frames present"), this.msgReceiver_ = 
-  new goog.net.xpc.IframePollingTransport.Receiver(this, this.getPeerFrame_(this.getMsgFrameName_()), goog.bind(this.processIncomingMsg, this)), this.ackReceiver_ = new goog.net.xpc.IframePollingTransport.Receiver(this, this.getPeerFrame_(this.getAckFrameName_()), goog.bind(this.processIncomingAck, this)), this.checkLocalFramesPresent_())
-};
-goog.net.xpc.IframePollingTransport.prototype.isRcvFrameReady_ = function(a) {
-  goog.net.xpc.logger.finest("checking for receive frame: " + a);
-  try {
-    var b = this.getPeerFrame_(a);
-    if(!b || 0 != b.location.href.indexOf(this.rcvUri_)) {
-      return!1
-    }
-  }catch(c) {
-    return!1
-  }
-  return!0
-};
-goog.net.xpc.IframePollingTransport.prototype.checkLocalFramesPresent_ = function() {
-  var a = this.getPeerFrames_();
-  !a[this.getAckFrameName_()] || !a[this.getMsgFrameName_()] ? (this.checkLocalFramesPresentCb_ || (this.checkLocalFramesPresentCb_ = goog.bind(this.checkLocalFramesPresent_, this)), this.getWindow().setTimeout(this.checkLocalFramesPresentCb_, 100), goog.net.xpc.logger.fine("local frames not (yet) present")) : (this.msgSender_ = new goog.net.xpc.IframePollingTransport.Sender(this.sendUri_, this.msgWinObj_), this.ackSender_ = new goog.net.xpc.IframePollingTransport.Sender(this.sendUri_, this.ackWinObj_), 
-  goog.net.xpc.logger.fine("local frames ready"), this.getWindow().setTimeout(goog.bind(function() {
-    this.msgSender_.send(goog.net.xpc.SETUP);
-    this.waitForAck_ = this.sentConnectionSetup_ = !0;
-    goog.net.xpc.logger.fine("SETUP sent")
-  }, this), 100))
-};
-goog.net.xpc.IframePollingTransport.prototype.checkIfConnected_ = function() {
-  if(this.sentConnectionSetupAck_ && this.rcvdConnectionSetupAck_) {
-    if(this.channel_.notifyConnected(), this.deliveryQueue_) {
-      goog.net.xpc.logger.fine("delivering queued messages (" + this.deliveryQueue_.length + ")");
-      for(var a = 0, b;a < this.deliveryQueue_.length;a++) {
-        b = this.deliveryQueue_[a], this.channel_.deliver_(b.service, b.payload)
-      }
-      delete this.deliveryQueue_
-    }
-  }else {
-    goog.net.xpc.logger.finest("checking if connected: ack sent:" + this.sentConnectionSetupAck_ + ", ack rcvd: " + this.rcvdConnectionSetupAck_)
-  }
-};
-goog.net.xpc.IframePollingTransport.prototype.processIncomingMsg = function(a) {
-  goog.net.xpc.logger.finest("msg received: " + a);
-  if(a == goog.net.xpc.SETUP) {
-    this.ackSender_ && (this.ackSender_.send(goog.net.xpc.SETUP_ACK_), goog.net.xpc.logger.finest("SETUP_ACK sent"), this.sentConnectionSetupAck_ = !0, this.checkIfConnected_())
-  }else {
-    if(this.channel_.isConnected() || this.sentConnectionSetupAck_) {
-      var b = a.indexOf("|"), c = a.substring(0, b), a = a.substring(b + 1), b = c.indexOf(",");
-      if(-1 == b) {
-        var d;
-        this.ackSender_.send("ACK:" + c);
-        this.deliverPayload_(a)
-      }else {
-        d = c.substring(0, b), this.ackSender_.send("ACK:" + d), c = c.substring(b + 1).split("/"), b = parseInt(c[0], 10), c = parseInt(c[1], 10), 1 == b && (this.parts_ = []), this.parts_.push(a), b == c && (this.deliverPayload_(this.parts_.join("")), delete this.parts_)
-      }
-    }else {
-      goog.net.xpc.logger.warning("received msg, but channel is not connected")
-    }
-  }
-};
-goog.net.xpc.IframePollingTransport.prototype.processIncomingAck = function(a) {
-  goog.net.xpc.logger.finest("ack received: " + a);
-  a == goog.net.xpc.SETUP_ACK_ ? (this.waitForAck_ = !1, this.rcvdConnectionSetupAck_ = !0, this.checkIfConnected_()) : this.channel_.isConnected() ? this.waitForAck_ ? parseInt(a.split(":")[1], 10) == this.sequence_ ? (this.waitForAck_ = !1, this.sendNextFrame_()) : goog.net.xpc.logger.warning("got ack with wrong sequence") : goog.net.xpc.logger.warning("got unexpected ack") : goog.net.xpc.logger.warning("received ack, but channel not connected")
-};
-goog.net.xpc.IframePollingTransport.prototype.sendNextFrame_ = function() {
-  if(!this.waitForAck_ && this.sendQueue_.length) {
-    var a = this.sendQueue_.shift();
-    ++this.sequence_;
-    this.msgSender_.send(this.sequence_ + a);
-    goog.net.xpc.logger.finest("msg sent: " + this.sequence_ + a);
-    this.waitForAck_ = !0
-  }
-};
-goog.net.xpc.IframePollingTransport.prototype.deliverPayload_ = function(a) {
-  var b = a.indexOf(":"), c = a.substr(0, b), a = a.substring(b + 1);
-  this.channel_.isConnected() ? this.channel_.deliver_(c, a) : ((this.deliveryQueue_ || (this.deliveryQueue_ = [])).push({service:c, payload:a}), goog.net.xpc.logger.finest("queued delivery"))
-};
-goog.net.xpc.IframePollingTransport.prototype.MAX_FRAME_LENGTH_ = 3800;
-goog.net.xpc.IframePollingTransport.prototype.send = function(a, b) {
-  var c = a + ":" + b;
-  if(!goog.userAgent.IE || b.length <= this.MAX_FRAME_LENGTH_) {
-    this.sendQueue_.push("|" + c)
-  }else {
-    for(var d = b.length, e = Math.ceil(d / this.MAX_FRAME_LENGTH_), f = 0, g = 1;f < d;) {
-      this.sendQueue_.push("," + g + "/" + e + "|" + c.substr(f, this.MAX_FRAME_LENGTH_)), g++, f += this.MAX_FRAME_LENGTH_
-    }
-  }
-  this.sendNextFrame_()
-};
-goog.net.xpc.IframePollingTransport.prototype.disposeInternal = function() {
-  goog.net.xpc.IframePollingTransport.superClass_.disposeInternal.call(this);
-  var a = goog.net.xpc.IframePollingTransport.receivers_;
-  goog.array.remove(a, this.msgReceiver_);
-  goog.array.remove(a, this.ackReceiver_);
-  this.msgReceiver_ = this.ackReceiver_ = null;
-  goog.dom.removeNode(this.msgIframeElm_);
-  goog.dom.removeNode(this.ackIframeElm_);
-  this.msgWinObj_ = this.ackWinObj_ = this.msgIframeElm_ = this.ackIframeElm_ = null
-};
-goog.net.xpc.IframePollingTransport.receivers_ = [];
-goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_ = 10;
-goog.net.xpc.IframePollingTransport.TIME_POLL_LONG_ = 100;
-goog.net.xpc.IframePollingTransport.TIME_SHORT_POLL_AFTER_ACTIVITY_ = 1E3;
-goog.net.xpc.IframePollingTransport.receive_ = function() {
-  var a = !1;
-  try {
-    for(var b = 0, c = goog.net.xpc.IframePollingTransport.receivers_.length;b < c;b++) {
-      a = a || goog.net.xpc.IframePollingTransport.receivers_[b].receive()
-    }
-  }catch(d) {
-    if(goog.net.xpc.logger.info("receive_() failed: " + d), goog.net.xpc.IframePollingTransport.receivers_[b].transport_.channel_.notifyTransportError_(), !goog.net.xpc.IframePollingTransport.receivers_.length) {
-      return
-    }
-  }
-  b = goog.now();
-  a && (goog.net.xpc.IframePollingTransport.lastActivity_ = b);
-  goog.net.xpc.IframePollingTransport.rcvTimer_ = window.setTimeout(goog.net.xpc.IframePollingTransport.receiveCb_, b - goog.net.xpc.IframePollingTransport.lastActivity_ < goog.net.xpc.IframePollingTransport.TIME_SHORT_POLL_AFTER_ACTIVITY_ ? goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_ : goog.net.xpc.IframePollingTransport.TIME_POLL_LONG_)
-};
-goog.net.xpc.IframePollingTransport.receiveCb_ = goog.bind(goog.net.xpc.IframePollingTransport.receive_, goog.net.xpc.IframePollingTransport);
-goog.net.xpc.IframePollingTransport.startRcvTimer_ = function() {
-  goog.net.xpc.logger.fine("starting receive-timer");
-  goog.net.xpc.IframePollingTransport.lastActivity_ = goog.now();
-  goog.net.xpc.IframePollingTransport.rcvTimer_ && window.clearTimeout(goog.net.xpc.IframePollingTransport.rcvTimer_);
-  goog.net.xpc.IframePollingTransport.rcvTimer_ = window.setTimeout(goog.net.xpc.IframePollingTransport.receiveCb_, goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_)
-};
-goog.net.xpc.IframePollingTransport.Sender = function(a, b) {
-  this.sendUri_ = a;
-  this.sendFrame_ = b;
-  this.cycle_ = 0
-};
-goog.net.xpc.IframePollingTransport.Sender.prototype.send = function(a) {
-  this.cycle_ = ++this.cycle_ % 2;
-  a = this.sendUri_ + "#" + this.cycle_ + encodeURIComponent(a);
-  try {
-    goog.userAgent.WEBKIT ? this.sendFrame_.location.href = a : this.sendFrame_.location.replace(a)
-  }catch(b) {
-    goog.net.xpc.logger.severe("sending failed", b)
-  }
-  goog.net.xpc.IframePollingTransport.startRcvTimer_()
-};
-goog.net.xpc.IframePollingTransport.Receiver = function(a, b, c) {
-  this.transport_ = a;
-  this.rcvFrame_ = b;
-  this.cb_ = c;
-  this.currentLoc_ = this.rcvFrame_.location.href.split("#")[0] + "#INITIAL";
-  goog.net.xpc.IframePollingTransport.receivers_.push(this);
-  goog.net.xpc.IframePollingTransport.startRcvTimer_()
-};
-goog.net.xpc.IframePollingTransport.Receiver.prototype.receive = function() {
-  var a = this.rcvFrame_.location.href;
-  if(a != this.currentLoc_) {
-    this.currentLoc_ = a;
-    if(a = a.split("#")[1]) {
-      a = a.substr(1), this.cb_(decodeURIComponent(a))
-    }
-    return!0
-  }
-  return!1
-};
-goog.net.xpc.IframeRelayTransport = function(a, b) {
-  goog.net.xpc.Transport.call(this, b);
-  this.channel_ = a;
-  this.peerRelayUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.PEER_RELAY_URI];
-  this.peerIframeId_ = this.channel_.cfg_[goog.net.xpc.CfgFields.IFRAME_ID];
-  goog.userAgent.WEBKIT && goog.net.xpc.IframeRelayTransport.startCleanupTimer_()
-};
-goog.inherits(goog.net.xpc.IframeRelayTransport, goog.net.xpc.Transport);
-goog.userAgent.WEBKIT && (goog.net.xpc.IframeRelayTransport.iframeRefs_ = [], goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_ = 1E3, goog.net.xpc.IframeRelayTransport.IFRAME_MAX_AGE_ = 3E3, goog.net.xpc.IframeRelayTransport.cleanupTimer_ = 0, goog.net.xpc.IframeRelayTransport.startCleanupTimer_ = function() {
-  goog.net.xpc.IframeRelayTransport.cleanupTimer_ || (goog.net.xpc.IframeRelayTransport.cleanupTimer_ = window.setTimeout(function() {
-    goog.net.xpc.IframeRelayTransport.cleanup_()
-  }, goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_))
-}, goog.net.xpc.IframeRelayTransport.cleanup_ = function(a) {
-  for(var b = goog.now(), a = a || goog.net.xpc.IframeRelayTransport.IFRAME_MAX_AGE_;goog.net.xpc.IframeRelayTransport.iframeRefs_.length && b - goog.net.xpc.IframeRelayTransport.iframeRefs_[0].timestamp >= a;) {
-    var c = goog.net.xpc.IframeRelayTransport.iframeRefs_.shift().iframeElement;
-    goog.dom.removeNode(c);
-    goog.net.xpc.logger.finest("iframe removed")
-  }
-  goog.net.xpc.IframeRelayTransport.cleanupTimer_ = window.setTimeout(goog.net.xpc.IframeRelayTransport.cleanupCb_, goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_)
-}, goog.net.xpc.IframeRelayTransport.cleanupCb_ = function() {
-  goog.net.xpc.IframeRelayTransport.cleanup_()
-});
-goog.net.xpc.IframeRelayTransport.IE_PAYLOAD_MAX_SIZE_ = 1800;
-goog.net.xpc.IframeRelayTransport.fragmentMap_ = {};
-goog.net.xpc.IframeRelayTransport.prototype.transportType = goog.net.xpc.TransportTypes.IFRAME_RELAY;
-goog.net.xpc.IframeRelayTransport.prototype.connect = function() {
-  this.getWindow().xpcRelay || (this.getWindow().xpcRelay = goog.net.xpc.IframeRelayTransport.receiveMessage_);
-  this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP)
-};
-goog.net.xpc.IframeRelayTransport.receiveMessage_ = function(a, b) {
-  var c = b.indexOf(":"), d = b.substr(0, c), e = b.substr(c + 1);
-  if(!goog.userAgent.IE || -1 == (c = d.indexOf("|"))) {
-    var f = d
-  }else {
-    var f = d.substr(0, c), d = d.substr(c + 1), c = d.indexOf("+"), g = d.substr(0, c), c = parseInt(d.substr(c + 1), 10), h = goog.net.xpc.IframeRelayTransport.fragmentMap_[g];
-    h || (h = goog.net.xpc.IframeRelayTransport.fragmentMap_[g] = {fragments:[], received:0, expected:0});
-    goog.string.contains(d, "++") && (h.expected = c + 1);
-    h.fragments[c] = e;
-    h.received++;
-    if(h.received != h.expected) {
-      return
-    }
-    e = h.fragments.join("");
-    delete goog.net.xpc.IframeRelayTransport.fragmentMap_[g]
-  }
-  goog.net.xpc.channels_[a].deliver_(f, decodeURIComponent(e))
-};
-goog.net.xpc.IframeRelayTransport.prototype.transportServiceHandler = function(a) {
-  a == goog.net.xpc.SETUP ? (this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_), this.channel_.notifyConnected()) : a == goog.net.xpc.SETUP_ACK_ && this.channel_.notifyConnected()
-};
-goog.net.xpc.IframeRelayTransport.prototype.send = function(a, b) {
-  var c = encodeURIComponent(b), d = c.length, e = goog.net.xpc.IframeRelayTransport.IE_PAYLOAD_MAX_SIZE_;
-  if(goog.userAgent.IE && d > e) {
-    for(var f = goog.string.getRandomString(), g = 0, h = 0;g < d;h++) {
-      var i = c.substr(g, e), g = g + e;
-      this.send_(a, i, f + (g >= d ? "++" : "+") + h)
-    }
-  }else {
-    this.send_(a, c)
-  }
-};
-goog.net.xpc.IframeRelayTransport.prototype.send_ = function(a, b, c) {
-  if(goog.userAgent.IE) {
-    var d = this.getWindow().document.createElement("div");
-    d.innerHTML = '<iframe onload="this.xpcOnload()"></iframe>';
-    d = d.childNodes[0];
-    d.xpcOnload = goog.net.xpc.IframeRelayTransport.iframeLoadHandler_
-  }else {
-    d = this.getWindow().document.createElement("iframe"), goog.userAgent.WEBKIT ? goog.net.xpc.IframeRelayTransport.iframeRefs_.push({timestamp:goog.now(), iframeElement:d}) : goog.events.listen(d, "load", goog.net.xpc.IframeRelayTransport.iframeLoadHandler_)
-  }
-  var e = d.style;
-  e.visibility = "hidden";
-  e.width = d.style.height = "0px";
-  e.position = "absolute";
-  e = this.peerRelayUri_;
-  e += "#" + this.channel_.name;
-  this.peerIframeId_ && (e += "," + this.peerIframeId_);
-  e += "|" + a;
-  c && (e += "|" + c);
-  e += ":" + b;
-  d.src = e;
-  this.getWindow().document.body.appendChild(d);
-  goog.net.xpc.logger.finest("msg sent: " + e)
-};
-goog.net.xpc.IframeRelayTransport.iframeLoadHandler_ = function() {
-  goog.net.xpc.logger.finest("iframe-load");
-  goog.dom.removeNode(this);
-  this.xpcOnload = null
-};
-goog.net.xpc.IframeRelayTransport.prototype.disposeInternal = function() {
-  goog.net.xpc.IframeRelayTransport.superClass_.disposeInternal.call(this);
-  goog.userAgent.WEBKIT && goog.net.xpc.IframeRelayTransport.cleanup_(0)
-};
-goog.net.xpc.NativeMessagingTransport = function(a, b, c, d, e) {
-  goog.net.xpc.Transport.call(this, c);
-  this.channel_ = a;
-  this.protocolVersion_ = e || 2;
-  goog.asserts.assert(1 <= this.protocolVersion_);
-  goog.asserts.assert(2 >= this.protocolVersion_);
-  this.peerHostname_ = b || "*";
-  this.eventHandler_ = new goog.events.EventHandler(this);
-  this.maybeAttemptToConnectTimer_ = new goog.Timer(100, this.getWindow());
-  this.oneSidedHandshake_ = !!d;
-  this.setupAckReceived_ = new goog.async.Deferred;
-  this.setupAckSent_ = new goog.async.Deferred;
-  this.connected_ = new goog.async.Deferred;
-  this.endpointId_ = goog.net.xpc.getRandomString(10);
-  this.peerEndpointId_ = null;
-  this.oneSidedHandshake_ ? this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.INNER ? this.connected_.awaitDeferred(this.setupAckReceived_) : this.connected_.awaitDeferred(this.setupAckSent_) : (this.connected_.awaitDeferred(this.setupAckReceived_), 2 == this.protocolVersion_ && this.connected_.awaitDeferred(this.setupAckSent_));
-  this.connected_.addCallback(this.notifyConnected_, this);
-  this.connected_.callback(!0);
-  this.eventHandler_.listen(this.maybeAttemptToConnectTimer_, goog.Timer.TICK, this.maybeAttemptToConnect_);
-  goog.net.xpc.logger.info("NativeMessagingTransport created.  protocolVersion=" + this.protocolVersion_ + ", oneSidedHandshake=" + this.oneSidedHandshake_ + ", role=" + this.channel_.getRole())
-};
-goog.inherits(goog.net.xpc.NativeMessagingTransport, goog.net.xpc.Transport);
-goog.net.xpc.NativeMessagingTransport.CONNECTION_DELAY_MS_ = 200;
-goog.net.xpc.NativeMessagingTransport.prototype.peerProtocolVersion_ = null;
-goog.net.xpc.NativeMessagingTransport.prototype.initialized_ = !1;
-goog.net.xpc.NativeMessagingTransport.prototype.transportType = goog.net.xpc.TransportTypes.NATIVE_MESSAGING;
-goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_ = ",";
-goog.net.xpc.NativeMessagingTransport.activeCount_ = {};
-goog.net.xpc.NativeMessagingTransport.sendTimerId_ = 0;
-goog.net.xpc.NativeMessagingTransport.prototype.couldPeerVersionBe_ = function(a) {
-  return null == this.peerProtocolVersion_ || this.peerProtocolVersion_ == a
-};
-goog.net.xpc.NativeMessagingTransport.initialize_ = function(a) {
-  var b = goog.getUid(a), c = goog.net.xpc.NativeMessagingTransport.activeCount_[b];
-  goog.isNumber(c) || (c = 0);
-  0 == c && goog.events.listen(a.postMessage ? a : a.document, "message", goog.net.xpc.NativeMessagingTransport.messageReceived_, !1, goog.net.xpc.NativeMessagingTransport);
-  goog.net.xpc.NativeMessagingTransport.activeCount_[b] = c + 1
-};
-goog.net.xpc.NativeMessagingTransport.messageReceived_ = function(a) {
-  var b = a.getBrowserEvent().data;
-  if(!goog.isString(b)) {
-    return!1
-  }
-  var c = b.indexOf("|"), d = b.indexOf(":");
-  if(-1 == c || -1 == d) {
-    return!1
-  }
-  var e = b.substring(0, c), c = b.substring(c + 1, d), b = b.substring(d + 1);
-  goog.net.xpc.logger.fine("messageReceived: channel=" + e + ", service=" + c + ", payload=" + b);
-  if(d = goog.net.xpc.channels_[e]) {
-    return d.deliver_(c, b, a.getBrowserEvent().origin), !0
-  }
-  var a = goog.net.xpc.NativeMessagingTransport.parseTransportPayload_(b)[0], f;
-  for(f in goog.net.xpc.channels_) {
-    if(d = goog.net.xpc.channels_[f], d.getRole() == goog.net.xpc.CrossPageChannelRole.INNER && !d.isConnected() && c == goog.net.xpc.TRANSPORT_SERVICE_ && (a == goog.net.xpc.SETUP || a == goog.net.xpc.SETUP_NTPV2)) {
-      return goog.net.xpc.logger.fine("changing channel name to " + e), d.name = e, delete goog.net.xpc.channels_[f], goog.net.xpc.channels_[e] = d, d.deliver_(c, b), !0
-    }
-  }
-  goog.net.xpc.logger.info('channel name mismatch; message ignored"');
-  return!1
-};
-goog.net.xpc.NativeMessagingTransport.prototype.transportServiceHandler = function(a) {
-  var b = goog.net.xpc.NativeMessagingTransport.parseTransportPayload_(a), a = b[1];
-  switch(b[0]) {
-    case goog.net.xpc.SETUP_ACK_:
-      this.setPeerProtocolVersion_(1);
-      this.setupAckReceived_.hasFired() || this.setupAckReceived_.callback(!0);
-      break;
-    case goog.net.xpc.SETUP_ACK_NTPV2:
-      2 == this.protocolVersion_ && (this.setPeerProtocolVersion_(2), this.setupAckReceived_.hasFired() || this.setupAckReceived_.callback(!0));
-      break;
-    case goog.net.xpc.SETUP:
-      this.setPeerProtocolVersion_(1);
-      this.sendSetupAckMessage_(1);
-      break;
-    case goog.net.xpc.SETUP_NTPV2:
-      if(2 == this.protocolVersion_) {
-        b = this.peerProtocolVersion_;
-        this.setPeerProtocolVersion_(2);
-        this.sendSetupAckMessage_(2);
-        if((1 == b || null != this.peerEndpointId_) && this.peerEndpointId_ != a) {
-          goog.net.xpc.logger.info("Sending SETUP and changing peer ID to: " + a), this.sendSetupMessage_()
-        }
-        this.peerEndpointId_ = a
-      }
-  }
-};
-goog.net.xpc.NativeMessagingTransport.prototype.sendSetupMessage_ = function() {
-  goog.asserts.assert(!(1 == this.protocolVersion_ && 2 == this.peerProtocolVersion_));
-  if(2 == this.protocolVersion_ && this.couldPeerVersionBe_(2)) {
-    var a = goog.net.xpc.SETUP_NTPV2, a = a + goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_, a = a + this.endpointId_;
-    this.send(goog.net.xpc.TRANSPORT_SERVICE_, a)
-  }
-  this.couldPeerVersionBe_(1) && this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP)
-};
-goog.net.xpc.NativeMessagingTransport.prototype.sendSetupAckMessage_ = function(a) {
-  goog.asserts.assert(1 != this.protocolVersion_ || 2 != a, "Shouldn't try to send a v2 setup ack in v1 mode.");
-  if(2 == this.protocolVersion_ && this.couldPeerVersionBe_(2) && 2 == a) {
-    this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_NTPV2)
-  }else {
-    if(this.couldPeerVersionBe_(1) && 1 == a) {
-      this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_)
-    }else {
-      return
-    }
-  }
-  this.setupAckSent_.hasFired() || this.setupAckSent_.callback(!0)
-};
-goog.net.xpc.NativeMessagingTransport.prototype.setPeerProtocolVersion_ = function(a) {
-  a > this.peerProtocolVersion_ && (this.peerProtocolVersion_ = a);
-  1 == this.peerProtocolVersion_ && (!this.setupAckSent_.hasFired() && !this.oneSidedHandshake_ && this.setupAckSent_.callback(!0), this.peerEndpointId_ = null)
-};
-goog.net.xpc.NativeMessagingTransport.prototype.connect = function() {
-  goog.net.xpc.NativeMessagingTransport.initialize_(this.getWindow());
-  this.initialized_ = !0;
-  this.maybeAttemptToConnect_()
-};
-goog.net.xpc.NativeMessagingTransport.prototype.maybeAttemptToConnect_ = function() {
-  var a = this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER;
-  this.oneSidedHandshake_ && a || this.channel_.isConnected() || this.isDisposed() ? this.maybeAttemptToConnectTimer_.stop() : (this.maybeAttemptToConnectTimer_.start(), this.sendSetupMessage_())
-};
-goog.net.xpc.NativeMessagingTransport.prototype.send = function(a, b) {
-  var c = this.channel_.peerWindowObject_;
-  c ? (this.send = function(a, b) {
-    var f = this, g = this.channel_.name;
-    this.sendTimerId_ = goog.Timer.callOnce(function() {
-      f.sendTimerId_ = 0;
-      try {
-        var h = c.postMessage ? c : c.document;
-        h.postMessage ? (h.postMessage(g + "|" + a + ":" + b, f.peerHostname_), goog.net.xpc.logger.fine("send(): service=" + a + " payload=" + b + " to hostname=" + f.peerHostname_)) : goog.net.xpc.logger.warning("Peer window had no postMessage function.")
-      }catch(i) {
-        goog.net.xpc.logger.warning("Error performing postMessage, ignoring.", i)
-      }
-    }, 0)
-  }, this.send(a, b)) : goog.net.xpc.logger.fine("send(): window not ready")
-};
-goog.net.xpc.NativeMessagingTransport.prototype.notifyConnected_ = function() {
-  this.channel_.notifyConnected(1 == this.protocolVersion_ || 1 == this.peerProtocolVersion_ ? goog.net.xpc.NativeMessagingTransport.CONNECTION_DELAY_MS_ : void 0)
-};
-goog.net.xpc.NativeMessagingTransport.prototype.disposeInternal = function() {
-  if(this.initialized_) {
-    var a = this.getWindow(), b = goog.getUid(a), c = goog.net.xpc.NativeMessagingTransport.activeCount_[b];
-    goog.net.xpc.NativeMessagingTransport.activeCount_[b] = c - 1;
-    1 == c && goog.events.unlisten(a.postMessage ? a : a.document, "message", goog.net.xpc.NativeMessagingTransport.messageReceived_, !1, goog.net.xpc.NativeMessagingTransport)
-  }
-  this.sendTimerId_ && (goog.Timer.clear(this.sendTimerId_), this.sendTimerId_ = 0);
-  goog.dispose(this.eventHandler_);
-  delete this.eventHandler_;
-  goog.dispose(this.maybeAttemptToConnectTimer_);
-  delete this.maybeAttemptToConnectTimer_;
-  this.setupAckReceived_.cancel();
-  delete this.setupAckReceived_;
-  this.setupAckSent_.cancel();
-  delete this.setupAckSent_;
-  this.connected_.cancel();
-  delete this.connected_;
-  delete this.send;
-  goog.net.xpc.NativeMessagingTransport.superClass_.disposeInternal.call(this)
-};
-goog.net.xpc.NativeMessagingTransport.parseTransportPayload_ = function(a) {
-  a = a.split(goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_);
-  a[1] = a[1] || null;
-  return a
-};
-goog.net.xpc.NixTransport = function(a, b) {
-  goog.net.xpc.Transport.call(this, b);
-  this.channel_ = a;
-  this.authToken_ = a[goog.net.xpc.CfgFields.AUTH_TOKEN] || "";
-  this.remoteAuthToken_ = a[goog.net.xpc.CfgFields.REMOTE_AUTH_TOKEN] || "";
-  goog.net.xpc.NixTransport.conductGlobalSetup_(this.getWindow());
-  this[goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE] = this.handleMessage_;
-  this[goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL] = this.createChannel_
-};
-goog.inherits(goog.net.xpc.NixTransport, goog.net.xpc.Transport);
-goog.net.xpc.NixTransport.NIX_WRAPPER = "GCXPC____NIXVBS_wrapper";
-goog.net.xpc.NixTransport.NIX_GET_WRAPPER = "GCXPC____NIXVBS_get_wrapper";
-goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE = "GCXPC____NIXJS_handle_message";
-goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL = "GCXPC____NIXJS_create_channel";
-goog.net.xpc.NixTransport.NIX_ID_FIELD = "GCXPC____NIXVBS_container";
-goog.net.xpc.NixTransport.isNixSupported = function() {
-  var a = !1;
-  try {
-    var b = window.opener;
-    window.opener = {};
-    a = goog.reflect.canAccessProperty(window, "opener");
-    window.opener = b
-  }catch(c) {
-  }
-  return a
-};
-goog.net.xpc.NixTransport.conductGlobalSetup_ = function(a) {
-  if(!a.nix_setup_complete) {
-    var b = "Class " + goog.net.xpc.NixTransport.NIX_WRAPPER + "\n Private m_Transport\nPrivate m_Auth\nPublic Sub SetTransport(transport)\nIf isEmpty(m_Transport) Then\nSet m_Transport = transport\nEnd If\nEnd Sub\nPublic Sub SetAuth(auth)\nIf isEmpty(m_Auth) Then\nm_Auth = auth\nEnd If\nEnd Sub\nPublic Function GetAuthToken()\n GetAuthToken = m_Auth\nEnd Function\nPublic Sub SendMessage(service, payload)\n Call m_Transport." + goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE + "(service, payload)\nEnd Sub\nPublic Sub CreateChannel(channel)\n Call m_Transport." + 
-    goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL + "(channel)\nEnd Sub\nPublic Sub " + goog.net.xpc.NixTransport.NIX_ID_FIELD + "()\n End Sub\nEnd Class\n Function " + goog.net.xpc.NixTransport.NIX_GET_WRAPPER + "(transport, auth)\nDim wrap\nSet wrap = New " + goog.net.xpc.NixTransport.NIX_WRAPPER + "\nwrap.SetTransport transport\nwrap.SetAuth auth\nSet " + goog.net.xpc.NixTransport.NIX_GET_WRAPPER + " = wrap\nEnd Function";
-    try {
-      a.execScript(b, "vbscript"), a.nix_setup_complete = !0
-    }catch(c) {
-      goog.net.xpc.logger.severe("exception caught while attempting global setup: " + c)
-    }
-  }
-};
-goog.net.xpc.NixTransport.prototype.transportType = goog.net.xpc.TransportTypes.NIX;
-goog.net.xpc.NixTransport.prototype.localSetupCompleted_ = !1;
-goog.net.xpc.NixTransport.prototype.nixChannel_ = null;
-goog.net.xpc.NixTransport.prototype.connect = function() {
-  this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER ? this.attemptOuterSetup_() : this.attemptInnerSetup_()
-};
-goog.net.xpc.NixTransport.prototype.attemptOuterSetup_ = function() {
-  if(!this.localSetupCompleted_) {
-    var a = this.channel_.iframeElement_;
-    try {
-      a.contentWindow.opener = this.getWindow()[goog.net.xpc.NixTransport.NIX_GET_WRAPPER](this, this.authToken_), this.localSetupCompleted_ = !0
-    }catch(b) {
-      goog.net.xpc.logger.severe("exception caught while attempting setup: " + b)
-    }
-    this.localSetupCompleted_ || this.getWindow().setTimeout(goog.bind(this.attemptOuterSetup_, this), 100)
-  }
-};
-goog.net.xpc.NixTransport.prototype.attemptInnerSetup_ = function() {
-  if(!this.localSetupCompleted_) {
-    try {
-      var a = this.getWindow().opener;
-      if(a && goog.net.xpc.NixTransport.NIX_ID_FIELD in a) {
-        this.nixChannel_ = a;
-        if(this.nixChannel_.GetAuthToken() != this.remoteAuthToken_) {
-          goog.net.xpc.logger.severe("Invalid auth token from other party");
-          return
-        }
-        this.nixChannel_.CreateChannel(this.getWindow()[goog.net.xpc.NixTransport.NIX_GET_WRAPPER](this, this.authToken_));
-        this.localSetupCompleted_ = !0;
-        this.channel_.notifyConnected()
-      }
-    }catch(b) {
-      goog.net.xpc.logger.severe("exception caught while attempting setup: " + b);
-      return
-    }
-    this.localSetupCompleted_ || this.getWindow().setTimeout(goog.bind(this.attemptInnerSetup_, this), 100)
-  }
-};
-goog.net.xpc.NixTransport.prototype.createChannel_ = function(a) {
-  ("unknown" != typeof a || !(goog.net.xpc.NixTransport.NIX_ID_FIELD in a)) && goog.net.xpc.logger.severe("Invalid NIX channel given to createChannel_");
-  this.nixChannel_ = a;
-  this.nixChannel_.GetAuthToken() != this.remoteAuthToken_ ? goog.net.xpc.logger.severe("Invalid auth token from other party") : this.channel_.notifyConnected()
-};
-goog.net.xpc.NixTransport.prototype.handleMessage_ = function(a, b) {
-  this.getWindow().setTimeout(goog.bind(function() {
-    this.channel_.safeDeliver(a, b)
-  }, this), 1)
-};
-goog.net.xpc.NixTransport.prototype.send = function(a, b) {
-  "unknown" !== typeof this.nixChannel_ && goog.net.xpc.logger.severe("NIX channel not connected");
-  this.nixChannel_.SendMessage(a, b)
-};
-goog.net.xpc.NixTransport.prototype.disposeInternal = function() {
-  goog.net.xpc.NixTransport.superClass_.disposeInternal.call(this);
-  this.nixChannel_ = null
-};
-goog.net.xpc.CrossPageChannel = function(a, b) {
-  goog.messaging.AbstractChannel.call(this);
-  for(var c = 0, d;d = goog.net.xpc.UriCfgFields[c];c++) {
-    if(d in a && !/^https?:\/\//.test(a[d])) {
-      throw Error("URI " + a[d] + " is invalid for field " + d);
-    }
-  }
-  this.cfg_ = a;
-  this.name = this.cfg_[goog.net.xpc.CfgFields.CHANNEL_NAME] || goog.net.xpc.getRandomString(10);
-  this.domHelper_ = b || goog.dom.getDomHelper();
-  this.deferredDeliveries_ = [];
-  this.peerLoadHandler_ = new goog.events.EventHandler(this);
-  a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] = a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] || goog.uri.utils.getHost(this.domHelper_.getWindow().location.href) + "/robots.txt";
-  a[goog.net.xpc.CfgFields.PEER_POLL_URI] = a[goog.net.xpc.CfgFields.PEER_POLL_URI] || goog.uri.utils.getHost(a[goog.net.xpc.CfgFields.PEER_URI] || "") + "/robots.txt";
-  goog.net.xpc.channels_[this.name] = this;
-  goog.events.listen(window, "unload", goog.net.xpc.CrossPageChannel.disposeAll_);
-  goog.net.xpc.logger.info("CrossPageChannel created: " + this.name)
-};
-goog.inherits(goog.net.xpc.CrossPageChannel, goog.messaging.AbstractChannel);
-goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_ESCAPE_RE_ = RegExp("^%*" + goog.net.xpc.TRANSPORT_SERVICE_ + "$");
-goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_UNESCAPE_RE_ = RegExp("^%+" + goog.net.xpc.TRANSPORT_SERVICE_ + "$");
-goog.net.xpc.CrossPageChannel.prototype.connectionDelay_ = null;
-goog.net.xpc.CrossPageChannel.prototype.peerWindowDeferred_ = null;
-goog.net.xpc.CrossPageChannel.prototype.transport_ = null;
-goog.net.xpc.CrossPageChannel.prototype.state_ = goog.net.xpc.ChannelStates.NOT_CONNECTED;
-goog.net.xpc.CrossPageChannel.prototype.isConnected = function() {
-  return this.state_ == goog.net.xpc.ChannelStates.CONNECTED
-};
-goog.net.xpc.CrossPageChannel.prototype.peerWindowObject_ = null;
-goog.net.xpc.CrossPageChannel.prototype.iframeElement_ = null;
-goog.net.xpc.CrossPageChannel.prototype.setPeerWindowObject = function(a) {
-  this.peerWindowObject_ = a
-};
-goog.net.xpc.CrossPageChannel.prototype.getPeerWindowObject = function() {
-  return this.peerWindowObject_
-};
-goog.net.xpc.CrossPageChannel.prototype.isPeerAvailable = function() {
-  try {
-    return!!this.peerWindowObject_ && !Boolean(this.peerWindowObject_.closed)
-  }catch(a) {
-    return!1
-  }
-};
-goog.net.xpc.CrossPageChannel.prototype.determineTransportType_ = function() {
-  return goog.isFunction(document.postMessage) || goog.isFunction(window.postMessage) || goog.userAgent.IE && window.postMessage ? goog.net.xpc.TransportTypes.NATIVE_MESSAGING : goog.userAgent.GECKO ? goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD : goog.userAgent.IE && this.cfg_[goog.net.xpc.CfgFields.PEER_RELAY_URI] ? goog.net.xpc.TransportTypes.IFRAME_RELAY : goog.userAgent.IE && goog.net.xpc.NixTransport.isNixSupported() ? goog.net.xpc.TransportTypes.NIX : goog.net.xpc.TransportTypes.IFRAME_POLLING
-};
-goog.net.xpc.CrossPageChannel.prototype.createTransport_ = function() {
-  if(!this.transport_) {
-    this.cfg_[goog.net.xpc.CfgFields.TRANSPORT] || (this.cfg_[goog.net.xpc.CfgFields.TRANSPORT] = this.determineTransportType_());
-    switch(this.cfg_[goog.net.xpc.CfgFields.TRANSPORT]) {
-      case goog.net.xpc.TransportTypes.NATIVE_MESSAGING:
-        this.transport_ = new goog.net.xpc.NativeMessagingTransport(this, this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME], this.domHelper_, !!this.cfg_[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE], this.cfg_[goog.net.xpc.CfgFields.NATIVE_TRANSPORT_PROTOCOL_VERSION] || 2);
-        break;
-      case goog.net.xpc.TransportTypes.NIX:
-        this.transport_ = new goog.net.xpc.NixTransport(this, this.domHelper_);
-        break;
-      case goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD:
-        this.transport_ = new goog.net.xpc.FrameElementMethodTransport(this, this.domHelper_);
-        break;
-      case goog.net.xpc.TransportTypes.IFRAME_RELAY:
-        this.transport_ = new goog.net.xpc.IframeRelayTransport(this, this.domHelper_);
-        break;
-      case goog.net.xpc.TransportTypes.IFRAME_POLLING:
-        this.transport_ = new goog.net.xpc.IframePollingTransport(this, this.domHelper_)
-    }
-    if(this.transport_) {
-      goog.net.xpc.logger.info("Transport created: " + this.transport_.getName())
-    }else {
-      throw Error("CrossPageChannel: No suitable transport found!");
-    }
-  }
-};
-goog.net.xpc.CrossPageChannel.prototype.getTransportType = function() {
-  return this.transport_.getType()
-};
-goog.net.xpc.CrossPageChannel.prototype.getTransportName = function() {
-  return this.transport_.getName()
-};
-goog.net.xpc.CrossPageChannel.prototype.getPeerConfiguration = function() {
-  var a = {};
-  a[goog.net.xpc.CfgFields.CHANNEL_NAME] = this.name;
-  a[goog.net.xpc.CfgFields.TRANSPORT] = this.cfg_[goog.net.xpc.CfgFields.TRANSPORT];
-  a[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE] = this.cfg_[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE];
-  this.cfg_[goog.net.xpc.CfgFields.LOCAL_RELAY_URI] && (a[goog.net.xpc.CfgFields.PEER_RELAY_URI] = this.cfg_[goog.net.xpc.CfgFields.LOCAL_RELAY_URI]);
-  this.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI] && (a[goog.net.xpc.CfgFields.PEER_POLL_URI] = this.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI]);
-  this.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI] && (a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] = this.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI]);
-  var b = this.cfg_[goog.net.xpc.CfgFields.ROLE];
-  b && (a[goog.net.xpc.CfgFields.ROLE] = b == goog.net.xpc.CrossPageChannelRole.INNER ? goog.net.xpc.CrossPageChannelRole.OUTER : goog.net.xpc.CrossPageChannelRole.INNER);
-  return a
-};
-goog.net.xpc.CrossPageChannel.prototype.createPeerIframe = function(a, b, c) {
-  goog.net.xpc.logger.info("createPeerIframe()");
-  var d = this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID];
-  d || (d = this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID] = "xpcpeer" + goog.net.xpc.getRandomString(4));
-  var e = goog.dom.getDomHelper(a).createElement("IFRAME");
-  e.id = e.name = d;
-  b ? b(e) : e.style.width = e.style.height = "100%";
-  this.cleanUpIncompleteConnection_();
-  this.peerWindowDeferred_ = new goog.async.Deferred(void 0, this);
-  var f = this.getPeerUri(c);
-  this.peerLoadHandler_.listenOnce(e, "load", this.peerWindowDeferred_.callback, !1, this.peerWindowDeferred_);
-  goog.userAgent.GECKO || goog.userAgent.WEBKIT ? window.setTimeout(goog.bind(function() {
-    a.appendChild(e);
-    e.src = f.toString();
-    goog.net.xpc.logger.info("peer iframe created (" + d + ")")
-  }, this), 1) : (e.src = f.toString(), a.appendChild(e), goog.net.xpc.logger.info("peer iframe created (" + d + ")"));
-  return e
-};
-goog.net.xpc.CrossPageChannel.prototype.cleanUpIncompleteConnection_ = function() {
-  this.peerWindowDeferred_ && (this.peerWindowDeferred_.cancel(), this.peerWindowDeferred_ = null);
-  this.deferredDeliveries_.length = 0;
-  this.peerLoadHandler_.removeAll()
-};
-goog.net.xpc.CrossPageChannel.prototype.getPeerUri = function(a) {
-  var b = this.cfg_[goog.net.xpc.CfgFields.PEER_URI];
-  goog.isString(b) && (b = this.cfg_[goog.net.xpc.CfgFields.PEER_URI] = new goog.Uri(b));
-  !1 !== a && b.setParameterValue("xpc", goog.json.serialize(this.getPeerConfiguration()));
-  return b
-};
-goog.net.xpc.CrossPageChannel.prototype.connect = function(a) {
-  this.connectCb_ = a || goog.nullFunction;
-  this.peerWindowDeferred_ ? this.peerWindowDeferred_.addCallback(this.continueConnection_) : this.continueConnection_()
-};
-goog.net.xpc.CrossPageChannel.prototype.continueConnection_ = function() {
-  goog.net.xpc.logger.info("continueConnection_()");
-  this.peerWindowDeferred_ = null;
-  this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID] && (this.iframeElement_ = this.domHelper_.getElement(this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID]));
-  if(this.iframeElement_) {
-    var a = this.iframeElement_.contentWindow;
-    a || (a = window.frames[this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID]]);
-    this.setPeerWindowObject(a)
-  }
-  if(!this.peerWindowObject_) {
-    if(window == window.top) {
-      throw Error("CrossPageChannel: Can't connect, peer window-object not set.");
-    }
-    this.setPeerWindowObject(window.parent)
-  }
-  this.createTransport_();
-  for(this.transport_.connect();0 < this.deferredDeliveries_.length;) {
-    this.deferredDeliveries_.shift()()
-  }
-};
-goog.net.xpc.CrossPageChannel.prototype.close = function() {
-  this.cleanUpIncompleteConnection_();
-  this.state_ = goog.net.xpc.ChannelStates.CLOSED;
-  goog.dispose(this.transport_);
-  this.connectCb_ = this.transport_ = null;
-  goog.dispose(this.connectionDelay_);
-  this.connectionDelay_ = null;
-  goog.net.xpc.logger.info('Channel "' + this.name + '" closed')
-};
-goog.net.xpc.CrossPageChannel.prototype.notifyConnected = function(a) {
-  this.isConnected() || this.connectionDelay_ && this.connectionDelay_.isActive() || (this.state_ = goog.net.xpc.ChannelStates.CONNECTED, goog.net.xpc.logger.info('Channel "' + this.name + '" connected'), goog.dispose(this.connectionDelay_), a ? (this.connectionDelay_ = new goog.async.Delay(this.connectCb_, a), this.connectionDelay_.start()) : (this.connectionDelay_ = null, this.connectCb_()))
-};
-goog.net.xpc.CrossPageChannel.prototype.notifyConnected_ = goog.net.xpc.CrossPageChannel.prototype.notifyConnected;
-goog.net.xpc.CrossPageChannel.prototype.notifyTransportError_ = function() {
-  goog.net.xpc.logger.info("Transport Error");
-  this.close()
-};
-goog.net.xpc.CrossPageChannel.prototype.send = function(a, b) {
-  this.isConnected() ? this.isPeerAvailable() ? (goog.isObject(b) && (b = goog.json.serialize(b)), this.transport_.send(this.escapeServiceName_(a), b)) : (goog.net.xpc.logger.severe("Peer has disappeared."), this.close()) : goog.net.xpc.logger.severe("Can't send. Channel not connected.")
-};
-goog.net.xpc.CrossPageChannel.prototype.safeDeliver = function(a, b, c) {
-  this.deliver_(a, b, c)
-};
-goog.net.xpc.CrossPageChannel.prototype.deliver_ = function(a, b, c) {
-  this.peerWindowDeferred_ ? this.deferredDeliveries_.push(goog.bind(this.deliver_, this, a, b, c)) : this.isMessageOriginAcceptable_(c) ? this.isDisposed() ? goog.net.xpc.logger.warning("CrossPageChannel::deliver_(): Disposed.") : !a || a == goog.net.xpc.TRANSPORT_SERVICE_ ? this.transport_.transportServiceHandler(b) : this.isConnected() ? this.deliver(this.unescapeServiceName_(a), b) : goog.net.xpc.logger.info("CrossPageChannel::deliver_(): Not connected.") : goog.net.xpc.logger.warning('Message received from unapproved origin "' + 
-  c + '" - rejected.')
-};
-goog.net.xpc.CrossPageChannel.prototype.escapeServiceName_ = function(a) {
-  goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_ESCAPE_RE_.test(a) && (a = "%" + a);
-  return a.replace(/[%:|]/g, encodeURIComponent)
-};
-goog.net.xpc.CrossPageChannel.prototype.unescapeServiceName_ = function(a) {
-  a = a.replace(/%[0-9a-f]{2}/gi, decodeURIComponent);
-  return goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_UNESCAPE_RE_.test(a) ? a.substring(1) : a
-};
-goog.net.xpc.CrossPageChannel.prototype.getRole = function() {
-  var a = this.cfg_[goog.net.xpc.CfgFields.ROLE];
-  return a ? a : window.parent == this.peerWindowObject_ ? goog.net.xpc.CrossPageChannelRole.INNER : goog.net.xpc.CrossPageChannelRole.OUTER
-};
-goog.net.xpc.CrossPageChannel.prototype.isMessageOriginAcceptable_ = function(a) {
-  var b = this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME];
-  return goog.string.isEmptySafe(a) || goog.string.isEmptySafe(b) || a == this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME]
-};
-goog.net.xpc.CrossPageChannel.prototype.disposeInternal = function() {
-  this.close();
-  this.iframeElement_ = this.peerWindowObject_ = null;
-  delete goog.net.xpc.channels_[this.name];
-  goog.dispose(this.peerLoadHandler_);
-  delete this.peerLoadHandler_;
-  goog.net.xpc.CrossPageChannel.superClass_.disposeInternal.call(this)
-};
-goog.net.xpc.CrossPageChannel.disposeAll_ = function() {
-  for(var a in goog.net.xpc.channels_) {
-    goog.dispose(goog.net.xpc.channels_[a])
-  }
-};
-goog.net.EventType = {COMPLETE:"complete", SUCCESS:"success", ERROR:"error", ABORT:"abort", READY:"ready", READY_STATE_CHANGE:"readystatechange", TIMEOUT:"timeout", INCREMENTAL_DATA:"incrementaldata", PROGRESS:"progress"};
-goog.net.ErrorCode = {NO_ERROR:0, ACCESS_DENIED:1, FILE_NOT_FOUND:2, FF_SILENT_ERROR:3, CUSTOM_ERROR:4, EXCEPTION:5, HTTP_ERROR:6, ABORT:7, TIMEOUT:8, OFFLINE:9};
-goog.net.ErrorCode.getDebugMessage = function(a) {
-  switch(a) {
-    case goog.net.ErrorCode.NO_ERROR:
-      return"No Error";
-    case goog.net.ErrorCode.ACCESS_DENIED:
-      return"Access denied to content document";
-    case goog.net.ErrorCode.FILE_NOT_FOUND:
-      return"File not found";
-    case goog.net.ErrorCode.FF_SILENT_ERROR:
-      return"Firefox silently errored";
-    case goog.net.ErrorCode.CUSTOM_ERROR:
-      return"Application custom error";
-    case goog.net.ErrorCode.EXCEPTION:
-      return"An exception occurred";
-    case goog.net.ErrorCode.HTTP_ERROR:
-      return"Http response at 400 or 500 level";
-    case goog.net.ErrorCode.ABORT:
-      return"Request was aborted";
-    case goog.net.ErrorCode.TIMEOUT:
-      return"Request timed out";
-    case goog.net.ErrorCode.OFFLINE:
-      return"The resource is not available offline";
-    default:
-      return"Unrecognized error code"
-  }
-};
-goog.net.HttpStatus = {CONTINUE:100, SWITCHING_PROTOCOLS:101, OK:200, CREATED:201, ACCEPTED:202, NON_AUTHORITATIVE_INFORMATION:203, NO_CONTENT:204, RESET_CONTENT:205, PARTIAL_CONTENT:206, MULTIPLE_CHOICES:300, MOVED_PERMANENTLY:301, FOUND:302, SEE_OTHER:303, NOT_MODIFIED:304, USE_PROXY:305, TEMPORARY_REDIRECT:307, BAD_REQUEST:400, UNAUTHORIZED:401, PAYMENT_REQUIRED:402, FORBIDDEN:403, NOT_FOUND:404, METHOD_NOT_ALLOWED:405, NOT_ACCEPTABLE:406, PROXY_AUTHENTICATION_REQUIRED:407, REQUEST_TIMEOUT:408, 
-CONFLICT:409, GONE:410, LENGTH_REQUIRED:411, PRECONDITION_FAILED:412, REQUEST_ENTITY_TOO_LARGE:413, REQUEST_URI_TOO_LONG:414, UNSUPPORTED_MEDIA_TYPE:415, REQUEST_RANGE_NOT_SATISFIABLE:416, EXPECTATION_FAILED:417, INTERNAL_SERVER_ERROR:500, NOT_IMPLEMENTED:501, BAD_GATEWAY:502, SERVICE_UNAVAILABLE:503, GATEWAY_TIMEOUT:504, HTTP_VERSION_NOT_SUPPORTED:505, QUIRK_IE_NO_CONTENT:1223};
-goog.net.HttpStatus.isSuccess = function(a) {
-  switch(a) {
-    case goog.net.HttpStatus.OK:
-    ;
-    case goog.net.HttpStatus.CREATED:
-    ;
-    case goog.net.HttpStatus.ACCEPTED:
-    ;
-    case goog.net.HttpStatus.NO_CONTENT:
-    ;
-    case goog.net.HttpStatus.NOT_MODIFIED:
-    ;
-    case goog.net.HttpStatus.QUIRK_IE_NO_CONTENT:
-      return!0;
-    default:
-      return!1
-  }
-};
-goog.net.XmlHttpFactory = function() {
-};
-goog.net.XmlHttpFactory.prototype.cachedOptions_ = null;
-goog.net.XmlHttpFactory.prototype.getOptions = function() {
-  return this.cachedOptions_ || (this.cachedOptions_ = this.internalGetOptions())
-};
-goog.net.WrapperXmlHttpFactory = function(a, b) {
-  goog.net.XmlHttpFactory.call(this);
-  this.xhrFactory_ = a;
-  this.optionsFactory_ = b
-};
-goog.inherits(goog.net.WrapperXmlHttpFactory, goog.net.XmlHttpFactory);
-goog.net.WrapperXmlHttpFactory.prototype.createInstance = function() {
-  return this.xhrFactory_()
-};
-goog.net.WrapperXmlHttpFactory.prototype.getOptions = function() {
-  return this.optionsFactory_()
-};
-goog.net.XmlHttp = function() {
-  return goog.net.XmlHttp.factory_.createInstance()
-};
-goog.net.XmlHttp.ASSUME_NATIVE_XHR = !1;
-goog.net.XmlHttp.getOptions = function() {
-  return goog.net.XmlHttp.factory_.getOptions()
-};
-goog.net.XmlHttp.OptionType = {USE_NULL_FUNCTION:0, LOCAL_REQUEST_ERROR:1};
-goog.net.XmlHttp.ReadyState = {UNINITIALIZED:0, LOADING:1, LOADED:2, INTERACTIVE:3, COMPLETE:4};
-goog.net.XmlHttp.setFactory = function(a, b) {
-  goog.net.XmlHttp.setGlobalFactory(new goog.net.WrapperXmlHttpFactory(a, b))
-};
-goog.net.XmlHttp.setGlobalFactory = function(a) {
-  goog.net.XmlHttp.factory_ = a
-};
-goog.net.DefaultXmlHttpFactory = function() {
-  goog.net.XmlHttpFactory.call(this)
-};
-goog.inherits(goog.net.DefaultXmlHttpFactory, goog.net.XmlHttpFactory);
-goog.net.DefaultXmlHttpFactory.prototype.createInstance = function() {
-  var a = this.getProgId_();
-  return a ? new ActiveXObject(a) : new XMLHttpRequest
-};
-goog.net.DefaultXmlHttpFactory.prototype.internalGetOptions = function() {
-  var a = {};
-  this.getProgId_() && (a[goog.net.XmlHttp.OptionType.USE_NULL_FUNCTION] = !0, a[goog.net.XmlHttp.OptionType.LOCAL_REQUEST_ERROR] = !0);
-  return a
-};
-goog.net.DefaultXmlHttpFactory.prototype.getProgId_ = function() {
-  if(goog.net.XmlHttp.ASSUME_NATIVE_XHR) {
-    return""
-  }
-  if(!this.ieProgId_ && "undefined" == typeof XMLHttpRequest && "undefined" != typeof ActiveXObject) {
-    for(var a = ["MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP"], b = 0;b < a.length;b++) {
-      var c = a[b];
-      try {
-        return new ActiveXObject(c), this.ieProgId_ = c
-      }catch(d) {
-      }
-    }
-    throw Error("Could not create ActiveXObject. ActiveX might be disabled, or MSXML might not be installed");
-  }
-  return this.ieProgId_
-};
-goog.net.XmlHttp.setGlobalFactory(new goog.net.DefaultXmlHttpFactory);
-goog.net.XhrIo = function(a) {
-  goog.events.EventTarget.call(this);
-  this.headers = new goog.structs.Map;
-  this.xmlHttpFactory_ = a || null
-};
-goog.inherits(goog.net.XhrIo, goog.events.EventTarget);
-goog.net.XhrIo.ResponseType = {DEFAULT:"", TEXT:"text", DOCUMENT:"document", BLOB:"blob", ARRAY_BUFFER:"arraybuffer"};
-goog.net.XhrIo.prototype.logger_ = goog.debug.Logger.getLogger("goog.net.XhrIo");
-goog.net.XhrIo.CONTENT_TYPE_HEADER = "Content-Type";
-goog.net.XhrIo.HTTP_SCHEME_PATTERN = /^https?$/i;
-goog.net.XhrIo.FORM_CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf-8";
-goog.net.XhrIo.sendInstances_ = [];
-goog.net.XhrIo.send = function(a, b, c, d, e, f) {
-  var g = new goog.net.XhrIo;
-  goog.net.XhrIo.sendInstances_.push(g);
-  b && goog.events.listen(g, goog.net.EventType.COMPLETE, b);
-  goog.events.listen(g, goog.net.EventType.READY, goog.partial(goog.net.XhrIo.cleanupSend_, g));
-  f && g.setTimeoutInterval(f);
-  g.send(a, c, d, e)
-};
-goog.net.XhrIo.cleanup = function() {
-  for(var a = goog.net.XhrIo.sendInstances_;a.length;) {
-    a.pop().dispose()
-  }
-};
-goog.net.XhrIo.protectEntryPoints = function(a) {
-  goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = a.protectEntryPoint(goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_)
-};
-goog.net.XhrIo.cleanupSend_ = function(a) {
-  a.dispose();
-  goog.array.remove(goog.net.XhrIo.sendInstances_, a)
-};
-goog.net.XhrIo.prototype.active_ = !1;
-goog.net.XhrIo.prototype.xhr_ = null;
-goog.net.XhrIo.prototype.xhrOptions_ = null;
-goog.net.XhrIo.prototype.lastUri_ = "";
-goog.net.XhrIo.prototype.lastMethod_ = "";
-goog.net.XhrIo.prototype.lastErrorCode_ = goog.net.ErrorCode.NO_ERROR;
-goog.net.XhrIo.prototype.lastError_ = "";
-goog.net.XhrIo.prototype.errorDispatched_ = !1;
-goog.net.XhrIo.prototype.inSend_ = !1;
-goog.net.XhrIo.prototype.inOpen_ = !1;
-goog.net.XhrIo.prototype.inAbort_ = !1;
-goog.net.XhrIo.prototype.timeoutInterval_ = 0;
-goog.net.XhrIo.prototype.timeoutId_ = null;
-goog.net.XhrIo.prototype.responseType_ = goog.net.XhrIo.ResponseType.DEFAULT;
-goog.net.XhrIo.prototype.withCredentials_ = !1;
-goog.net.XhrIo.prototype.getTimeoutInterval = function() {
-  return this.timeoutInterval_
-};
-goog.net.XhrIo.prototype.setTimeoutInterval = function(a) {
-  this.timeoutInterval_ = Math.max(0, a)
-};
-goog.net.XhrIo.prototype.setResponseType = function(a) {
-  this.responseType_ = a
-};
-goog.net.XhrIo.prototype.getResponseType = function() {
-  return this.responseType_
-};
-goog.net.XhrIo.prototype.setWithCredentials = function(a) {
-  this.withCredentials_ = a
-};
-goog.net.XhrIo.prototype.getWithCredentials = function() {
-  return this.withCredentials_
-};
-goog.net.XhrIo.prototype.send = function(a, b, c, d) {
-  if(this.xhr_) {
-    throw Error("[goog.net.XhrIo] Object is active with another request");
-  }
-  b = b ? b.toUpperCase() : "GET";
-  this.lastUri_ = a;
-  this.lastError_ = "";
-  this.lastErrorCode_ = goog.net.ErrorCode.NO_ERROR;
-  this.lastMethod_ = b;
-  this.errorDispatched_ = !1;
-  this.active_ = !0;
-  this.xhr_ = this.createXhr();
-  this.xhrOptions_ = this.xmlHttpFactory_ ? this.xmlHttpFactory_.getOptions() : goog.net.XmlHttp.getOptions();
-  this.xhr_.onreadystatechange = goog.bind(this.onReadyStateChange_, this);
-  try {
-    this.logger_.fine(this.formatMsg_("Opening Xhr")), this.inOpen_ = !0, this.xhr_.open(b, a, !0), this.inOpen_ = !1
-  }catch(e) {
-    this.logger_.fine(this.formatMsg_("Error opening Xhr: " + e.message));
-    this.error_(goog.net.ErrorCode.EXCEPTION, e);
-    return
-  }
-  var a = c || "", f = this.headers.clone();
-  d && goog.structs.forEach(d, function(a, b) {
-    f.set(b, a)
-  });
-  "POST" == b && !f.containsKey(goog.net.XhrIo.CONTENT_TYPE_HEADER) && f.set(goog.net.XhrIo.CONTENT_TYPE_HEADER, goog.net.XhrIo.FORM_CONTENT_TYPE);
-  goog.structs.forEach(f, function(a, b) {
-    this.xhr_.setRequestHeader(b, a)
-  }, this);
-  this.responseType_ && (this.xhr_.responseType = this.responseType_);
-  goog.object.containsKey(this.xhr_, "withCredentials") && (this.xhr_.withCredentials = this.withCredentials_);
-  try {
-    this.timeoutId_ && (goog.Timer.defaultTimerObject.clearTimeout(this.timeoutId_), this.timeoutId_ = null), 0 < this.timeoutInterval_ && (this.logger_.fine(this.formatMsg_("Will abort after " + this.timeoutInterval_ + "ms if incomplete")), this.timeoutId_ = goog.Timer.defaultTimerObject.setTimeout(goog.bind(this.timeout_, this), this.timeoutInterval_)), this.logger_.fine(this.formatMsg_("Sending request")), this.inSend_ = !0, this.xhr_.send(a), this.inSend_ = !1
-  }catch(g) {
-    this.logger_.fine(this.formatMsg_("Send error: " + g.message)), this.error_(goog.net.ErrorCode.EXCEPTION, g)
-  }
-};
-goog.net.XhrIo.prototype.createXhr = function() {
-  return this.xmlHttpFactory_ ? this.xmlHttpFactory_.createInstance() : goog.net.XmlHttp()
-};
-goog.net.XhrIo.prototype.timeout_ = function() {
-  "undefined" != typeof goog && this.xhr_ && (this.lastError_ = "Timed out after " + this.timeoutInterval_ + "ms, aborting", this.lastErrorCode_ = goog.net.ErrorCode.TIMEOUT, this.logger_.fine(this.formatMsg_(this.lastError_)), this.dispatchEvent(goog.net.EventType.TIMEOUT), this.abort(goog.net.ErrorCode.TIMEOUT))
-};
-goog.net.XhrIo.prototype.error_ = function(a, b) {
-  this.active_ = !1;
-  this.xhr_ && (this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1);
-  this.lastError_ = b;
-  this.lastErrorCode_ = a;
-  this.dispatchErrors_();
-  this.cleanUpXhr_()
-};
-goog.net.XhrIo.prototype.dispatchErrors_ = function() {
-  this.errorDispatched_ || (this.errorDispatched_ = !0, this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.ERROR))
-};
-goog.net.XhrIo.prototype.abort = function(a) {
-  this.xhr_ && this.active_ && (this.logger_.fine(this.formatMsg_("Aborting")), this.active_ = !1, this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1, this.lastErrorCode_ = a || goog.net.ErrorCode.ABORT, this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.ABORT), this.cleanUpXhr_())
-};
-goog.net.XhrIo.prototype.disposeInternal = function() {
-  this.xhr_ && (this.active_ && (this.active_ = !1, this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1), this.cleanUpXhr_(!0));
-  goog.net.XhrIo.superClass_.disposeInternal.call(this)
-};
-goog.net.XhrIo.prototype.onReadyStateChange_ = function() {
-  if(!this.inOpen_ && !this.inSend_ && !this.inAbort_) {
-    this.onReadyStateChangeEntryPoint_()
-  }else {
-    this.onReadyStateChangeHelper_()
-  }
-};
-goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = function() {
-  this.onReadyStateChangeHelper_()
-};
-goog.net.XhrIo.prototype.onReadyStateChangeHelper_ = function() {
-  if(this.active_ && "undefined" != typeof goog) {
-    if(this.xhrOptions_[goog.net.XmlHttp.OptionType.LOCAL_REQUEST_ERROR] && this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE && 2 == this.getStatus()) {
-      this.logger_.fine(this.formatMsg_("Local request error detected and ignored"))
-    }else {
-      if(this.inSend_ && this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE) {
-        goog.Timer.defaultTimerObject.setTimeout(goog.bind(this.onReadyStateChange_, this), 0)
-      }else {
-        if(this.dispatchEvent(goog.net.EventType.READY_STATE_CHANGE), this.isComplete()) {
-          this.logger_.fine(this.formatMsg_("Request complete"));
-          this.active_ = !1;
-          try {
-            this.isSuccess() ? (this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.SUCCESS)) : (this.lastErrorCode_ = goog.net.ErrorCode.HTTP_ERROR, this.lastError_ = this.getStatusText() + " [" + this.getStatus() + "]", this.dispatchErrors_())
-          }finally {
-            this.cleanUpXhr_()
-          }
-        }
-      }
-    }
-  }
-};
-goog.net.XhrIo.prototype.cleanUpXhr_ = function(a) {
-  if(this.xhr_) {
-    var b = this.xhr_, c = this.xhrOptions_[goog.net.XmlHttp.OptionType.USE_NULL_FUNCTION] ? goog.nullFunction : null;
-    this.xhrOptions_ = this.xhr_ = null;
-    this.timeoutId_ && (goog.Timer.defaultTimerObject.clearTimeout(this.timeoutId_), this.timeoutId_ = null);
-    a || this.dispatchEvent(goog.net.EventType.READY);
-    try {
-      b.onreadystatechange = c
-    }catch(d) {
-      this.logger_.severe("Problem encountered resetting onreadystatechange: " + d.message)
-    }
-  }
-};
-goog.net.XhrIo.prototype.isActive = function() {
-  return!!this.xhr_
-};
-goog.net.XhrIo.prototype.isComplete = function() {
-  return this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE
-};
-goog.net.XhrIo.prototype.isSuccess = function() {
-  var a = this.getStatus();
-  return goog.net.HttpStatus.isSuccess(a) || 0 === a && !this.isLastUriEffectiveSchemeHttp_()
-};
-goog.net.XhrIo.prototype.isLastUriEffectiveSchemeHttp_ = function() {
-  var a = goog.uri.utils.getEffectiveScheme(String(this.lastUri_));
-  return goog.net.XhrIo.HTTP_SCHEME_PATTERN.test(a)
-};
-goog.net.XhrIo.prototype.getReadyState = function() {
-  return this.xhr_ ? this.xhr_.readyState : goog.net.XmlHttp.ReadyState.UNINITIALIZED
-};
-goog.net.XhrIo.prototype.getStatus = function() {
-  try {
-    return this.getReadyState() > goog.net.XmlHttp.ReadyState.LOADED ? this.xhr_.status : -1
-  }catch(a) {
-    return this.logger_.warning("Can not get status: " + a.message), -1
-  }
-};
-goog.net.XhrIo.prototype.getStatusText = function() {
-  try {
-    return this.getReadyState() > goog.net.XmlHttp.ReadyState.LOADED ? this.xhr_.statusText : ""
-  }catch(a) {
-    return this.logger_.fine("Can not get status: " + a.message), ""
-  }
-};
-goog.net.XhrIo.prototype.getLastUri = function() {
-  return String(this.lastUri_)
-};
-goog.net.XhrIo.prototype.getResponseText = function() {
-  try {
-    return this.xhr_ ? this.xhr_.responseText : ""
-  }catch(a) {
-    return this.logger_.fine("Can not get responseText: " + a.message), ""
-  }
-};
-goog.net.XhrIo.prototype.getResponseXml = function() {
-  try {
-    return this.xhr_ ? this.xhr_.responseXML : null
-  }catch(a) {
-    return this.logger_.fine("Can not get responseXML: " + a.message), null
-  }
-};
-goog.net.XhrIo.prototype.getResponseJson = function(a) {
-  if(this.xhr_) {
-    var b = this.xhr_.responseText;
-    a && 0 == b.indexOf(a) && (b = b.substring(a.length));
-    return goog.json.parse(b)
-  }
-};
-goog.net.XhrIo.prototype.getResponse = function() {
-  try {
-    if(!this.xhr_) {
-      return null
-    }
-    if("response" in this.xhr_) {
-      return this.xhr_.response
-    }
-    switch(this.responseType_) {
-      case goog.net.XhrIo.ResponseType.DEFAULT:
-      ;
-      case goog.net.XhrIo.ResponseType.TEXT:
-        return this.xhr_.responseText;
-      case goog.net.XhrIo.ResponseType.ARRAY_BUFFER:
-        if("mozResponseArrayBuffer" in this.xhr_) {
-          return this.xhr_.mozResponseArrayBuffer
-        }
-    }
-    this.logger_.severe("Response type " + this.responseType_ + " is not supported on this browser");
-    return null
-  }catch(a) {
-    return this.logger_.fine("Can not get response: " + a.message), null
-  }
-};
-goog.net.XhrIo.prototype.getResponseHeader = function(a) {
-  return this.xhr_ && this.isComplete() ? this.xhr_.getResponseHeader(a) : void 0
-};
-goog.net.XhrIo.prototype.getAllResponseHeaders = function() {
-  return this.xhr_ && this.isComplete() ? this.xhr_.getAllResponseHeaders() : ""
-};
-goog.net.XhrIo.prototype.getLastErrorCode = function() {
-  return this.lastErrorCode_
-};
-goog.net.XhrIo.prototype.getLastError = function() {
-  return goog.isString(this.lastError_) ? this.lastError_ : String(this.lastError_)
-};
-goog.net.XhrIo.prototype.formatMsg_ = function(a) {
-  return a + " [" + this.lastMethod_ + " " + this.lastUri_ + " " + this.getStatus() + "]"
-};
-goog.debug.entryPointRegistry.register(function(a) {
-  goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = a(goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_)
-});
-clojure.browser.net = {};
-clojure.browser.net._STAR_timeout_STAR_ = 1E4;
-clojure.browser.net.event_types = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
-  var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
-  return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
-}, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.net.EventType))));
-clojure.browser.net.IConnection = {};
-clojure.browser.net.connect = function() {
-  var a = null, b = function(a) {
-    var b;
-    b = a ? a.clojure$browser$net$IConnection$connect$arity$1 : a;
-    if(b) {
-      return a.clojure$browser$net$IConnection$connect$arity$1(a)
-    }
-    b = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
-    if(!b && (b = clojure.browser.net.connect._, !b)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
-    }
-    return b.call(null, a)
-  }, c = function(a, b) {
-    var c;
-    c = a ? a.clojure$browser$net$IConnection$connect$arity$2 : a;
-    if(c) {
-      return a.clojure$browser$net$IConnection$connect$arity$2(a, b)
-    }
-    c = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
-    if(!c && (c = clojure.browser.net.connect._, !c)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
-    }
-    return c.call(null, a, b)
-  }, d = function(a, b, c) {
-    var d;
-    d = a ? a.clojure$browser$net$IConnection$connect$arity$3 : a;
-    if(d) {
-      return a.clojure$browser$net$IConnection$connect$arity$3(a, b, c)
-    }
-    d = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
-    if(!d && (d = clojure.browser.net.connect._, !d)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
-    }
-    return d.call(null, a, b, c)
-  }, e = function(a, b, c, d) {
-    var e;
-    e = a ? a.clojure$browser$net$IConnection$connect$arity$4 : a;
-    if(e) {
-      return a.clojure$browser$net$IConnection$connect$arity$4(a, b, c, d)
-    }
-    e = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
-    if(!e && (e = clojure.browser.net.connect._, !e)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
-    }
-    return e.call(null, a, b, c, d)
-  }, a = function(a, g, h, i) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, a);
-      case 2:
-        return c.call(this, a, g);
-      case 3:
-        return d.call(this, a, g, h);
-      case 4:
-        return e.call(this, a, g, h, i)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$1 = b;
-  a.cljs$lang$arity$2 = c;
-  a.cljs$lang$arity$3 = d;
-  a.cljs$lang$arity$4 = e;
-  return a
-}();
-clojure.browser.net.transmit = function() {
-  var a = null, b = function(a, b) {
-    var c;
-    c = a ? a.clojure$browser$net$IConnection$transmit$arity$2 : a;
-    if(c) {
-      return a.clojure$browser$net$IConnection$transmit$arity$2(a, b)
-    }
-    c = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
-    if(!c && (c = clojure.browser.net.transmit._, !c)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
-    }
-    return c.call(null, a, b)
-  }, c = function(a, b, c) {
-    var d;
-    d = a ? a.clojure$browser$net$IConnection$transmit$arity$3 : a;
-    if(d) {
-      return a.clojure$browser$net$IConnection$transmit$arity$3(a, b, c)
-    }
-    d = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
-    if(!d && (d = clojure.browser.net.transmit._, !d)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
-    }
-    return d.call(null, a, b, c)
-  }, d = function(a, b, c, d) {
-    var e;
-    e = a ? a.clojure$browser$net$IConnection$transmit$arity$4 : a;
-    if(e) {
-      return a.clojure$browser$net$IConnection$transmit$arity$4(a, b, c, d)
-    }
-    e = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
-    if(!e && (e = clojure.browser.net.transmit._, !e)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
-    }
-    return e.call(null, a, b, c, d)
-  }, e = function(a, b, c, d, e) {
-    var f;
-    f = a ? a.clojure$browser$net$IConnection$transmit$arity$5 : a;
-    if(f) {
-      return a.clojure$browser$net$IConnection$transmit$arity$5(a, b, c, d, e)
-    }
-    f = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
-    if(!f && (f = clojure.browser.net.transmit._, !f)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
-    }
-    return f.call(null, a, b, c, d, e)
-  }, f = function(a, b, c, d, e, f) {
-    var k;
-    k = a ? a.clojure$browser$net$IConnection$transmit$arity$6 : a;
-    if(k) {
-      return a.clojure$browser$net$IConnection$transmit$arity$6(a, b, c, d, e, f)
-    }
-    k = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
-    if(!k && (k = clojure.browser.net.transmit._, !k)) {
-      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
-    }
-    return k.call(null, a, b, c, d, e, f)
-  }, a = function(a, h, i, j, l, m) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, h);
-      case 3:
-        return c.call(this, a, h, i);
-      case 4:
-        return d.call(this, a, h, i, j);
-      case 5:
-        return e.call(this, a, h, i, j, l);
-      case 6:
-        return f.call(this, a, h, i, j, l, m)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  a.cljs$lang$arity$4 = d;
-  a.cljs$lang$arity$5 = e;
-  a.cljs$lang$arity$6 = f;
-  return a
-}();
-clojure.browser.net.close = function(a) {
-  var b;
-  b = a ? a.clojure$browser$net$IConnection$close$arity$1 : a;
-  if(b) {
-    return a.clojure$browser$net$IConnection$close$arity$1(a)
-  }
-  b = clojure.browser.net.close[goog.typeOf(null == a ? null : a)];
-  if(!b && (b = clojure.browser.net.close._, !b)) {
-    throw cljs.core.missing_protocol.call(null, "IConnection.close", a);
-  }
-  return b.call(null, a)
-};
-goog.net.XhrIo.prototype.clojure$browser$event$EventType$ = !0;
-goog.net.XhrIo.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
-  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
-    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
-    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
-  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.net.EventType))))
-};
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$ = !0;
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$2 = function(a, b) {
-  return clojure.browser.net.transmit.call(null, a, b, "GET", null, null, clojure.browser.net._STAR_timeout_STAR_)
-};
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$3 = function(a, b, c) {
-  return clojure.browser.net.transmit.call(null, a, b, c, null, null, clojure.browser.net._STAR_timeout_STAR_)
-};
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$4 = function(a, b, c, d) {
-  return clojure.browser.net.transmit.call(null, a, b, c, d, null, clojure.browser.net._STAR_timeout_STAR_)
-};
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$5 = function(a, b, c, d, e) {
-  return clojure.browser.net.transmit.call(null, a, b, c, d, e, clojure.browser.net._STAR_timeout_STAR_)
-};
-goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$6 = function(a, b, c, d, e, f) {
-  a.setTimeoutInterval(f);
-  return a.send(b, c, d, e)
-};
-clojure.browser.net.xpc_config_fields = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
-  var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
-  return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
-}, cljs.core.js__GT_clj.call(null, goog.net.xpc.CfgFields)));
-clojure.browser.net.xhr_connection = function() {
-  return new goog.net.XhrIo
-};
-clojure.browser.net.ICrossPageChannel = {};
-clojure.browser.net.register_service = function() {
-  var a = null, b = function(a, b, c) {
-    var g;
-    g = a ? a.clojure$browser$net$ICrossPageChannel$register_service$arity$3 : a;
-    if(g) {
-      return a.clojure$browser$net$ICrossPageChannel$register_service$arity$3(a, b, c)
-    }
-    g = clojure.browser.net.register_service[goog.typeOf(null == a ? null : a)];
-    if(!g && (g = clojure.browser.net.register_service._, !g)) {
-      throw cljs.core.missing_protocol.call(null, "ICrossPageChannel.register-service", a);
-    }
-    return g.call(null, a, b, c)
-  }, c = function(a, b, c, g) {
-    var h;
-    h = a ? a.clojure$browser$net$ICrossPageChannel$register_service$arity$4 : a;
-    if(h) {
-      return a.clojure$browser$net$ICrossPageChannel$register_service$arity$4(a, b, c, g)
-    }
-    h = clojure.browser.net.register_service[goog.typeOf(null == a ? null : a)];
-    if(!h && (h = clojure.browser.net.register_service._, !h)) {
-      throw cljs.core.missing_protocol.call(null, "ICrossPageChannel.register-service", a);
-    }
-    return h.call(null, a, b, c, g)
-  }, a = function(a, e, f, g) {
-    switch(arguments.length) {
-      case 3:
-        return b.call(this, a, e, f);
-      case 4:
-        return c.call(this, a, e, f, g)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$3 = b;
-  a.cljs$lang$arity$4 = c;
-  return a
-}();
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$ = !0;
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$1 = function(a) {
-  return clojure.browser.net.connect.call(null, a, null)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$2 = function(a, b) {
-  return a.connect(b)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$3 = function(a, b, c) {
-  return clojure.browser.net.connect.call(null, a, b, c, document.body)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$4 = function(a, b, c, d) {
-  a.createPeerIframe(d, c);
-  return a.connect(b)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$transmit$arity$3 = function(a, b, c) {
-  return a.send(cljs.core.name.call(null, b), c)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$close$arity$1 = function(a) {
-  return a.close(cljs.core.List.EMPTY)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$ = !0;
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$register_service$arity$3 = function(a, b, c) {
-  return clojure.browser.net.register_service.call(null, a, b, c, !1)
-};
-goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$register_service$arity$4 = function(a, b, c, d) {
-  return a.registerService(cljs.core.name.call(null, b), c, d)
-};
-clojure.browser.net.xpc_connection = function() {
-  var a = null, b = function() {
-    var a = (new goog.Uri(window.location.href)).getParameterValue("xpc");
-    return cljs.core.truth_(a) ? new goog.net.xpc.CrossPageChannel(goog.json.parse(a)) : null
-  }, c = function(a) {
-    return new goog.net.xpc.CrossPageChannel(cljs.core.reduce.call(null, function(a, b) {
-      var c = cljs.core.nth.call(null, b, 0, null), d = cljs.core.nth.call(null, b, 1, null), c = cljs.core._lookup.call(null, clojure.browser.net.xpc_config_fields, c, null);
-      cljs.core.truth_(c) && (a[c] = d);
-      return a
-    }, {}, a))
-  }, a = function(a) {
-    switch(arguments.length) {
-      case 0:
-        return b.call(this);
-      case 1:
-        return c.call(this, a)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$0 = b;
-  a.cljs$lang$arity$1 = c;
-  return a
-}();
-clojure.browser.repl = {};
-clojure.browser.repl.xpc_connection = cljs.core.atom.call(null, null);
-clojure.browser.repl.repl_print = function(a) {
-  var b = cljs.core.deref.call(null, clojure.browser.repl.xpc_connection);
-  return cljs.core.truth_(b) ? clojure.browser.net.transmit.call(null, b, "\ufdd0:print", cljs.core.pr_str.call(null, a)) : null
-};
-clojure.browser.repl.evaluate_javascript = function(a, b) {
-  var c = function() {
-    try {
-      return cljs.core.ObjMap.fromObject(["\ufdd0:status", "\ufdd0:value"], {"\ufdd0:status":"\ufdd0:success", "\ufdd0:value":"" + cljs.core.str(eval(b))})
-    }catch(a) {
-      if(cljs.core.instance_QMARK_.call(null, Error, a)) {
-        return cljs.core.ObjMap.fromObject(["\ufdd0:status", "\ufdd0:value", "\ufdd0:stacktrace"], {"\ufdd0:status":"\ufdd0:exception", "\ufdd0:value":cljs.core.pr_str.call(null, a), "\ufdd0:stacktrace":cljs.core.truth_(a.hasOwnProperty("stack")) ? a.stack : "No stacktrace available."})
-      }
-      throw a;
-    }
-  }();
-  return cljs.core.pr_str.call(null, c)
-};
-clojure.browser.repl.send_result = function(a, b, c) {
-  return clojure.browser.net.transmit.call(null, a, b, "POST", c, null, 0)
-};
-clojure.browser.repl.send_print = function() {
-  var a = null, b = function(b, c) {
-    return a.call(null, b, c, 0)
-  }, c = function(b, c, f) {
-    var g = clojure.browser.net.xhr_connection.call(null);
-    clojure.browser.event.listen.call(null, g, "\ufdd0:error", function() {
-      return 10 > f ? a.call(null, b, c, f + 1) : console.log([cljs.core.str("Could not send "), cljs.core.str(c), cljs.core.str(" after "), cljs.core.str(f), cljs.core.str(" attempts.")].join(""))
-    });
-    return clojure.browser.net.transmit.call(null, g, b, "POST", c, null, 0)
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
-clojure.browser.repl.order = cljs.core.atom.call(null, 0);
-clojure.browser.repl.wrap_message = function(a, b) {
-  return cljs.core.pr_str.call(null, cljs.core.ObjMap.fromObject(["\ufdd0:type", "\ufdd0:content", "\ufdd0:order"], {"\ufdd0:type":a, "\ufdd0:content":b, "\ufdd0:order":cljs.core.swap_BANG_.call(null, clojure.browser.repl.order, cljs.core.inc)}))
-};
-clojure.browser.repl.start_evaluator = function(a) {
-  var b = clojure.browser.net.xpc_connection.call(null);
-  if(cljs.core.truth_(b)) {
-    var c = clojure.browser.net.xhr_connection.call(null);
-    clojure.browser.event.listen.call(null, c, "\ufdd0:success", function(a) {
-      return clojure.browser.net.transmit.call(null, b, "\ufdd0:evaluate-javascript", a.currentTarget.getResponseText(cljs.core.List.EMPTY))
-    });
-    clojure.browser.net.register_service.call(null, b, "\ufdd0:send-result", function(b) {
-      return clojure.browser.repl.send_result.call(null, c, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:result", b))
-    });
-    clojure.browser.net.register_service.call(null, b, "\ufdd0:print", function(b) {
-      return clojure.browser.repl.send_print.call(null, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:print", b))
-    });
-    clojure.browser.net.connect.call(null, b, cljs.core.constantly.call(null, null));
-    return setTimeout(function() {
-      return clojure.browser.repl.send_result.call(null, c, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:ready", "ready"))
-    }, 50)
-  }
-  return alert("No 'xpc' param provided to child iframe.")
-};
-clojure.browser.repl.connect = function(a) {
-  var b = clojure.browser.net.xpc_connection.call(null, cljs.core.ObjMap.fromObject(["\ufdd0:peer_uri"], {"\ufdd0:peer_uri":a}));
-  cljs.core.swap_BANG_.call(null, clojure.browser.repl.xpc_connection, cljs.core.constantly.call(null, b));
-  clojure.browser.net.register_service.call(null, b, "\ufdd0:evaluate-javascript", function(a) {
-    return clojure.browser.net.transmit.call(null, b, "\ufdd0:send-result", clojure.browser.repl.evaluate_javascript.call(null, b, a))
-  });
-  return clojure.browser.net.connect.call(null, b, cljs.core.constantly.call(null, null), function(a) {
-    return a.style.display = "none"
-  })
-};
-com.ewen.utils_cljs.dev = {};
-com.ewen.utils_cljs.dev.connect_repl = function() {
-  return clojure.browser.repl.connect.call(null, "http://localhost:9000/repl")
-};
+var domina = {support:{}}, div_3872 = document.createElement("div"), test_html_3873 = "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
+div_3872.innerHTML = test_html_3873;
+domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_3872.firstChild.nodeType, 3);
+domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_3872.getElementsByTagName("tbody").length, 0);
+domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_3872.getElementsByTagName("link").length, 0);
 goog.dom.xml = {};
 goog.dom.xml.MAX_XML_SIZE_KB = 2048;
 goog.dom.xml.MAX_ELEMENT_DEPTH = 256;
@@ -18629,6 +15805,290 @@ goog.dom.xml.createMsXmlDocument_ = function() {
     }
   }
   return a
+};
+goog.dom.forms = {};
+goog.dom.forms.getFormDataMap = function(a) {
+  var b = new goog.structs.Map;
+  goog.dom.forms.getFormDataHelper_(a, b, goog.dom.forms.addFormDataToMap_);
+  return b
+};
+goog.dom.forms.getFormDataString = function(a) {
+  var b = [];
+  goog.dom.forms.getFormDataHelper_(a, b, goog.dom.forms.addFormDataToStringBuffer_);
+  return b.join("&")
+};
+goog.dom.forms.getFormDataHelper_ = function(a, b, c) {
+  for(var d = a.elements, e, f = 0;e = d[f];f++) {
+    if(!(e.form != a || e.disabled || "fieldset" == e.tagName.toLowerCase())) {
+      var g = e.name;
+      switch(e.type.toLowerCase()) {
+        case "file":
+        ;
+        case "submit":
+        ;
+        case "reset":
+        ;
+        case "button":
+          break;
+        case "select-multiple":
+          e = goog.dom.forms.getValue(e);
+          if(null != e) {
+            for(var h, i = 0;h = e[i];i++) {
+              c(b, g, h)
+            }
+          }
+          break;
+        default:
+          h = goog.dom.forms.getValue(e), null != h && c(b, g, h)
+      }
+    }
+  }
+  d = a.getElementsByTagName("input");
+  for(f = 0;e = d[f];f++) {
+    e.form == a && "image" == e.type.toLowerCase() && (g = e.name, c(b, g, e.value), c(b, g + ".x", "0"), c(b, g + ".y", "0"))
+  }
+};
+goog.dom.forms.addFormDataToMap_ = function(a, b, c) {
+  var d = a.get(b);
+  d || (d = [], a.set(b, d));
+  d.push(c)
+};
+goog.dom.forms.addFormDataToStringBuffer_ = function(a, b, c) {
+  a.push(encodeURIComponent(b) + "=" + encodeURIComponent(c))
+};
+goog.dom.forms.hasFileInput = function(a) {
+  for(var a = a.elements, b, c = 0;b = a[c];c++) {
+    if(!b.disabled && b.type && "file" == b.type.toLowerCase()) {
+      return!0
+    }
+  }
+  return!1
+};
+goog.dom.forms.setDisabled = function(a, b) {
+  if("FORM" == a.tagName) {
+    for(var c = a.elements, d = 0;a = c[d];d++) {
+      goog.dom.forms.setDisabled(a, b)
+    }
+  }else {
+    !0 == b && a.blur(), a.disabled = b
+  }
+};
+goog.dom.forms.focusAndSelect = function(a) {
+  a.focus();
+  a.select && a.select()
+};
+goog.dom.forms.hasValue = function(a) {
+  return!!goog.dom.forms.getValue(a)
+};
+goog.dom.forms.hasValueByName = function(a, b) {
+  return!!goog.dom.forms.getValueByName(a, b)
+};
+goog.dom.forms.getValue = function(a) {
+  var b = a.type;
+  if(!goog.isDef(b)) {
+    return null
+  }
+  switch(b.toLowerCase()) {
+    case "checkbox":
+    ;
+    case "radio":
+      return goog.dom.forms.getInputChecked_(a);
+    case "select-one":
+      return goog.dom.forms.getSelectSingle_(a);
+    case "select-multiple":
+      return goog.dom.forms.getSelectMultiple_(a);
+    default:
+      return goog.isDef(a.value) ? a.value : null
+  }
+};
+goog.dom.$F = goog.dom.forms.getValue;
+goog.dom.forms.getValueByName = function(a, b) {
+  var c = a.elements[b];
+  if(c.type) {
+    return goog.dom.forms.getValue(c)
+  }
+  for(var d = 0;d < c.length;d++) {
+    var e = goog.dom.forms.getValue(c[d]);
+    if(e) {
+      return e
+    }
+  }
+  return null
+};
+goog.dom.forms.getInputChecked_ = function(a) {
+  return a.checked ? a.value : null
+};
+goog.dom.forms.getSelectSingle_ = function(a) {
+  var b = a.selectedIndex;
+  return 0 <= b ? a.options[b].value : null
+};
+goog.dom.forms.getSelectMultiple_ = function(a) {
+  for(var b = [], c, d = 0;c = a.options[d];d++) {
+    c.selected && b.push(c.value)
+  }
+  return b.length ? b : null
+};
+goog.dom.forms.setValue = function(a, b) {
+  var c = a.type;
+  if(goog.isDef(c)) {
+    switch(c.toLowerCase()) {
+      case "checkbox":
+      ;
+      case "radio":
+        goog.dom.forms.setInputChecked_(a, b);
+        break;
+      case "select-one":
+        goog.dom.forms.setSelectSingle_(a, b);
+        break;
+      case "select-multiple":
+        goog.dom.forms.setSelectMultiple_(a, b);
+        break;
+      default:
+        a.value = goog.isDefAndNotNull(b) ? b : ""
+    }
+  }
+};
+goog.dom.forms.setInputChecked_ = function(a, b) {
+  a.checked = b ? "checked" : null
+};
+goog.dom.forms.setSelectSingle_ = function(a, b) {
+  a.selectedIndex = -1;
+  if(goog.isString(b)) {
+    for(var c, d = 0;c = a.options[d];d++) {
+      if(c.value == b) {
+        c.selected = !0;
+        break
+      }
+    }
+  }
+};
+goog.dom.forms.setSelectMultiple_ = function(a, b) {
+  goog.isString(b) && (b = [b]);
+  for(var c, d = 0;c = a.options[d];d++) {
+    if(c.selected = !1, b) {
+      for(var e, f = 0;e = b[f];f++) {
+        c.value == e && (c.selected = !0)
+      }
+    }
+  }
+};
+var clojure = {string:{}};
+clojure.string.seq_reverse = function(a) {
+  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
+};
+clojure.string.reverse = function(a) {
+  return a.split("").reverse().join("")
+};
+clojure.string.replace = function(a, b, c) {
+  if(cljs.core.string_QMARK_.call(null, b)) {
+    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
+  }
+  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
+    return a.replace(RegExp(b.source, "g"), c)
+  }
+  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
+};
+clojure.string.replace_first = function(a, b, c) {
+  return a.replace(b, c)
+};
+clojure.string.join = function() {
+  var a = null, b = function(a) {
+    return cljs.core.apply.call(null, cljs.core.str, a)
+  }, c = function(a, b) {
+    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
+  }, a = function(a, e) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, e)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  return a
+}();
+clojure.string.upper_case = function(a) {
+  return a.toUpperCase()
+};
+clojure.string.lower_case = function(a) {
+  return a.toLowerCase()
+};
+clojure.string.capitalize = function(a) {
+  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
+};
+clojure.string.split = function() {
+  var a = null, b = function(a, b) {
+    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+  }, c = function(a, b, c) {
+    if(1 > c) {
+      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+    }
+    for(var g = cljs.core.PersistentVector.EMPTY;;) {
+      if(cljs.core._EQ_.call(null, c, 1)) {
+        return cljs.core.conj.call(null, g, a)
+      }
+      var h = cljs.core.re_find.call(null, b, a);
+      if(cljs.core.truth_(h)) {
+        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
+      }else {
+        return cljs.core.conj.call(null, g, a)
+      }
+    }
+  }, a = function(a, e, f) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, e);
+      case 3:
+        return c.call(this, a, e, f)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  return a
+}();
+clojure.string.split_lines = function(a) {
+  return clojure.string.split.call(null, a, /\n|\r\n/)
+};
+clojure.string.trim = function(a) {
+  return goog.string.trim(a)
+};
+clojure.string.triml = function(a) {
+  return goog.string.trimLeft(a)
+};
+clojure.string.trimr = function(a) {
+  return goog.string.trimRight(a)
+};
+clojure.string.trim_newline = function(a) {
+  for(var b = a.length;;) {
+    if(0 === b) {
+      return""
+    }
+    var c = cljs.core._lookup.call(null, a, b - 1, null);
+    if(cljs.core.truth_(function() {
+      var a = cljs.core._EQ_.call(null, c, "\n");
+      return a ? a : cljs.core._EQ_.call(null, c, "\r")
+    }())) {
+      b -= 1
+    }else {
+      return a.substring(0, b)
+    }
+  }
+};
+clojure.string.blank_QMARK_ = function(a) {
+  return goog.string.isEmptySafe(a)
+};
+clojure.string.escape = function(a, b) {
+  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
+    if(cljs.core._EQ_.call(null, d, e)) {
+      return c.toString()
+    }
+    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
+    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
+    e += 1
+  }
 };
 goog.math.Box = function(a, b, c, d) {
   this.top = a;
@@ -19291,186 +16751,15 @@ goog.style.getCssTranslation = function(a) {
   a = c.match(goog.style.MATRIX_TRANSLATION_REGEX_);
   return!a ? new goog.math.Coordinate(0, 0) : new goog.math.Coordinate(parseFloat(a[1]), parseFloat(a[2]))
 };
-goog.dom.forms = {};
-goog.dom.forms.getFormDataMap = function(a) {
-  var b = new goog.structs.Map;
-  goog.dom.forms.getFormDataHelper_(a, b, goog.dom.forms.addFormDataToMap_);
-  return b
-};
-goog.dom.forms.getFormDataString = function(a) {
-  var b = [];
-  goog.dom.forms.getFormDataHelper_(a, b, goog.dom.forms.addFormDataToStringBuffer_);
-  return b.join("&")
-};
-goog.dom.forms.getFormDataHelper_ = function(a, b, c) {
-  for(var d = a.elements, e, f = 0;e = d[f];f++) {
-    if(!(e.form != a || e.disabled || "fieldset" == e.tagName.toLowerCase())) {
-      var g = e.name;
-      switch(e.type.toLowerCase()) {
-        case "file":
-        ;
-        case "submit":
-        ;
-        case "reset":
-        ;
-        case "button":
-          break;
-        case "select-multiple":
-          e = goog.dom.forms.getValue(e);
-          if(null != e) {
-            for(var h, i = 0;h = e[i];i++) {
-              c(b, g, h)
-            }
-          }
-          break;
-        default:
-          h = goog.dom.forms.getValue(e), null != h && c(b, g, h)
-      }
-    }
-  }
-  d = a.getElementsByTagName("input");
-  for(f = 0;e = d[f];f++) {
-    e.form == a && "image" == e.type.toLowerCase() && (g = e.name, c(b, g, e.value), c(b, g + ".x", "0"), c(b, g + ".y", "0"))
-  }
-};
-goog.dom.forms.addFormDataToMap_ = function(a, b, c) {
-  var d = a.get(b);
-  d || (d = [], a.set(b, d));
-  d.push(c)
-};
-goog.dom.forms.addFormDataToStringBuffer_ = function(a, b, c) {
-  a.push(encodeURIComponent(b) + "=" + encodeURIComponent(c))
-};
-goog.dom.forms.hasFileInput = function(a) {
-  for(var a = a.elements, b, c = 0;b = a[c];c++) {
-    if(!b.disabled && b.type && "file" == b.type.toLowerCase()) {
-      return!0
-    }
-  }
-  return!1
-};
-goog.dom.forms.setDisabled = function(a, b) {
-  if("FORM" == a.tagName) {
-    for(var c = a.elements, d = 0;a = c[d];d++) {
-      goog.dom.forms.setDisabled(a, b)
-    }
-  }else {
-    !0 == b && a.blur(), a.disabled = b
-  }
-};
-goog.dom.forms.focusAndSelect = function(a) {
-  a.focus();
-  a.select && a.select()
-};
-goog.dom.forms.hasValue = function(a) {
-  return!!goog.dom.forms.getValue(a)
-};
-goog.dom.forms.hasValueByName = function(a, b) {
-  return!!goog.dom.forms.getValueByName(a, b)
-};
-goog.dom.forms.getValue = function(a) {
-  var b = a.type;
-  if(!goog.isDef(b)) {
-    return null
-  }
-  switch(b.toLowerCase()) {
-    case "checkbox":
-    ;
-    case "radio":
-      return goog.dom.forms.getInputChecked_(a);
-    case "select-one":
-      return goog.dom.forms.getSelectSingle_(a);
-    case "select-multiple":
-      return goog.dom.forms.getSelectMultiple_(a);
-    default:
-      return goog.isDef(a.value) ? a.value : null
-  }
-};
-goog.dom.$F = goog.dom.forms.getValue;
-goog.dom.forms.getValueByName = function(a, b) {
-  var c = a.elements[b];
-  if(c.type) {
-    return goog.dom.forms.getValue(c)
-  }
-  for(var d = 0;d < c.length;d++) {
-    var e = goog.dom.forms.getValue(c[d]);
-    if(e) {
-      return e
-    }
-  }
-  return null
-};
-goog.dom.forms.getInputChecked_ = function(a) {
-  return a.checked ? a.value : null
-};
-goog.dom.forms.getSelectSingle_ = function(a) {
-  var b = a.selectedIndex;
-  return 0 <= b ? a.options[b].value : null
-};
-goog.dom.forms.getSelectMultiple_ = function(a) {
-  for(var b = [], c, d = 0;c = a.options[d];d++) {
-    c.selected && b.push(c.value)
-  }
-  return b.length ? b : null
-};
-goog.dom.forms.setValue = function(a, b) {
-  var c = a.type;
-  if(goog.isDef(c)) {
-    switch(c.toLowerCase()) {
-      case "checkbox":
-      ;
-      case "radio":
-        goog.dom.forms.setInputChecked_(a, b);
-        break;
-      case "select-one":
-        goog.dom.forms.setSelectSingle_(a, b);
-        break;
-      case "select-multiple":
-        goog.dom.forms.setSelectMultiple_(a, b);
-        break;
-      default:
-        a.value = goog.isDefAndNotNull(b) ? b : ""
-    }
-  }
-};
-goog.dom.forms.setInputChecked_ = function(a, b) {
-  a.checked = b ? "checked" : null
-};
-goog.dom.forms.setSelectSingle_ = function(a, b) {
-  a.selectedIndex = -1;
-  if(goog.isString(b)) {
-    for(var c, d = 0;c = a.options[d];d++) {
-      if(c.value == b) {
-        c.selected = !0;
-        break
-      }
-    }
-  }
-};
-goog.dom.forms.setSelectMultiple_ = function(a, b) {
-  goog.isString(b) && (b = [b]);
-  for(var c, d = 0;c = a.options[d];d++) {
-    if(c.selected = !1, b) {
-      for(var e, f = 0;e = b[f];f++) {
-        c.value == e && (c.selected = !0)
-      }
-    }
-  }
-};
-var domina = {support:{}}, div_3868 = document.createElement("div"), test_html_3869 = "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
-div_3868.innerHTML = test_html_3869;
-domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_3868.firstChild.nodeType, 3);
-domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_3868.getElementsByTagName("tbody").length, 0);
-domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_3868.getElementsByTagName("link").length, 0);
 domina.re_html = /<|&#?\w+;/;
 domina.re_leading_whitespace = /^\s+/;
 domina.re_xhtml_tag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/i;
 domina.re_tag_name = /<([\w:]+)/;
 domina.re_no_inner_html = /<(?:script|style)/i;
 domina.re_tbody = /<tbody/i;
-var opt_wrapper_3756 = cljs.core.PersistentVector.fromArray([1, "<select multiple='multiple'>", "</select>"], !0), table_section_wrapper_3757 = cljs.core.PersistentVector.fromArray([1, "<table>", "</table>"], !0), cell_wrapper_3758 = cljs.core.PersistentVector.fromArray([3, "<table><tbody><tr>", "</tr></tbody></table>"], !0);
-domina.wrap_map = cljs.core.ObjMap.fromObject("col \ufdd0:default tfoot caption optgroup legend area td thead th option tbody tr colgroup".split(" "), {col:cljs.core.PersistentVector.fromArray([2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"], !0), "\ufdd0:default":cljs.core.PersistentVector.fromArray([0, "", ""], !0), tfoot:table_section_wrapper_3757, caption:table_section_wrapper_3757, optgroup:opt_wrapper_3756, legend:cljs.core.PersistentVector.fromArray([1, "<fieldset>", "</fieldset>"], 
-!0), area:cljs.core.PersistentVector.fromArray([1, "<map>", "</map>"], !0), td:cell_wrapper_3758, thead:table_section_wrapper_3757, th:cell_wrapper_3758, option:opt_wrapper_3756, tbody:table_section_wrapper_3757, tr:cljs.core.PersistentVector.fromArray([2, "<table><tbody>", "</tbody></table>"], !0), colgroup:table_section_wrapper_3757});
+var opt_wrapper_3760 = cljs.core.PersistentVector.fromArray([1, "<select multiple='multiple'>", "</select>"], !0), table_section_wrapper_3761 = cljs.core.PersistentVector.fromArray([1, "<table>", "</table>"], !0), cell_wrapper_3762 = cljs.core.PersistentVector.fromArray([3, "<table><tbody><tr>", "</tr></tbody></table>"], !0);
+domina.wrap_map = cljs.core.ObjMap.fromObject("col \ufdd0:default tfoot caption optgroup legend area td thead th option tbody tr colgroup".split(" "), {col:cljs.core.PersistentVector.fromArray([2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"], !0), "\ufdd0:default":cljs.core.PersistentVector.fromArray([0, "", ""], !0), tfoot:table_section_wrapper_3761, caption:table_section_wrapper_3761, optgroup:opt_wrapper_3760, legend:cljs.core.PersistentVector.fromArray([1, "<fieldset>", "</fieldset>"], 
+!0), area:cljs.core.PersistentVector.fromArray([1, "<map>", "</map>"], !0), td:cell_wrapper_3762, thead:table_section_wrapper_3761, th:cell_wrapper_3762, option:opt_wrapper_3760, tbody:table_section_wrapper_3761, tr:cljs.core.PersistentVector.fromArray([2, "<table><tbody>", "</tbody></table>"], !0), colgroup:table_section_wrapper_3761});
 domina.remove_extraneous_tbody_BANG_ = function(a, b, c, d) {
   var e = cljs.core.not.call(null, cljs.core.re_find.call(null, domina.re_tbody, b));
   cljs.core.truth_(function() {
@@ -19589,26 +16878,26 @@ domina.by_id = function(a) {
 };
 domina.normalize_seq = void 0;
 domina.by_class = function by_class(b) {
-  void 0 === domina.t3771 && (domina.t3771 = {}, domina.t3771 = function(b, d, e) {
+  void 0 === domina.t3775 && (domina.t3775 = {}, domina.t3775 = function(b, d, e) {
     this.class_name = b;
     this.by_class = d;
-    this.meta3772 = e;
+    this.meta3776 = e;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 393216
-  }, domina.t3771.cljs$lang$type = !0, domina.t3771.cljs$lang$ctorPrSeq = function() {
-    return cljs.core.list.call(null, "domina/t3771")
-  }, domina.t3771.cljs$lang$ctorPrWriter = function(b, d) {
-    return cljs.core._write.call(null, d, "domina/t3771")
-  }, domina.t3771.prototype.domina$DomContent$ = !0, domina.t3771.prototype.domina$DomContent$nodes$arity$1 = function() {
+  }, domina.t3775.cljs$lang$type = !0, domina.t3775.cljs$lang$ctorPrSeq = function() {
+    return cljs.core.list.call(null, "domina/t3775")
+  }, domina.t3775.cljs$lang$ctorPrWriter = function(b, d) {
+    return cljs.core._write.call(null, d, "domina/t3775")
+  }, domina.t3775.prototype.domina$DomContent$ = !0, domina.t3775.prototype.domina$DomContent$nodes$arity$1 = function() {
     return domina.normalize_seq.call(null, goog.dom.getElementsByClass(cljs.core.name.call(null, this.class_name)))
-  }, domina.t3771.prototype.domina$DomContent$single_node$arity$1 = function() {
+  }, domina.t3775.prototype.domina$DomContent$single_node$arity$1 = function() {
     return domina.normalize_seq.call(null, goog.dom.getElementByClass(cljs.core.name.call(null, this.class_name)))
-  }, domina.t3771.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
-    return this.meta3772
-  }, domina.t3771.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
-    return new domina.t3771(this.class_name, this.by_class, d)
+  }, domina.t3775.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
+    return this.meta3776
+  }, domina.t3775.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
+    return new domina.t3775(this.class_name, this.by_class, d)
   });
-  return new domina.t3771(b, by_class, null)
+  return new domina.t3775(b, by_class, null)
 };
 domina.children = function(a) {
   return cljs.core.doall.call(null, cljs.core.mapcat.call(null, goog.dom.getChildren, domina.nodes.call(null, a)))
@@ -20625,19 +17914,19 @@ goog.dom.query = function() {
   var b = goog.userAgent.WEBKIT && "BackCompat" == goog.dom.getDocument().compatMode, c = goog.dom.getDocument().firstChild.children ? "children" : "childNodes", d = !1, e = function(a) {
     for(var a = 0 <= ">~+".indexOf(a.slice(-1)) ? a + " * " : a + " ", b = function(b, c) {
       return goog.string.trim(a.slice(b, c))
-    }, c = [], e = -1, f = -1, g = -1, h = -1, i = -1, j = -1, k = -1, l = "", m = "", n, p = 0, r = a.length, q = null, s = null, t = function() {
+    }, c = [], e = -1, f = -1, g = -1, h = -1, i = -1, j = -1, l = -1, k = "", m = "", n, p = 0, r = a.length, q = null, s = null, t = function() {
       0 <= j && (q.id = b(j, p).replace(/\\/g, ""), j = -1);
-      if(0 <= k) {
-        var a = k == p ? null : b(k, p);
+      if(0 <= l) {
+        var a = l == p ? null : b(l, p);
         0 > ">~+".indexOf(a) ? q.tag = a : q.oper = a;
-        k = -1
+        l = -1
       }
       0 <= i && (q.classes.push(b(i + 1, p).replace(/\\/g, "")), i = -1)
-    };l = m, m = a.charAt(p), p < r;p++) {
-      if("\\" != l) {
+    };k = m, m = a.charAt(p), p < r;p++) {
+      if("\\" != k) {
         if(q || (n = p, q = {query:null, pseudos:[], attrs:[], classes:[], tag:null, oper:null, id:null, getTag:function() {
           return d ? this.otag : this.tag
-        }}, k = p), 0 <= e) {
+        }}, l = p), 0 <= e) {
           if("]" == m) {
             s.attr ? s.matchFor = b(g || e + 1, p) : s.attr = b(e + 1, p);
             if((e = s.matchFor) && ('"' == e.charAt(0) || "'" == e.charAt(0))) {
@@ -20647,10 +17936,10 @@ goog.dom.query = function() {
             s = null;
             e = g = -1
           }else {
-            "=" == m && (g = 0 <= "|~^$*".indexOf(l) ? l : "", s.type = g + m, s.attr = b(e + 1, p - g.length), g = p + 1)
+            "=" == m && (g = 0 <= "|~^$*".indexOf(k) ? k : "", s.type = g + m, s.attr = b(e + 1, p - g.length), g = p + 1)
           }
         }else {
-          0 <= f ? ")" == m && (0 <= h && (s.value = b(f + 1, p)), h = f = -1) : "#" == m ? (t(), j = p + 1) : "." == m ? (t(), i = p) : ":" == m ? (t(), h = p) : "[" == m ? (t(), e = p, s = {}) : "(" == m ? (0 <= h && (s = {name:b(h + 1, p), value:null}, q.pseudos.push(s)), f = p) : " " == m && l != m && (t(), 0 <= h && q.pseudos.push({name:b(h + 1, p)}), q.loops = q.pseudos.length || q.attrs.length || q.classes.length, q.oquery = q.query = b(n, p), q.otag = q.tag = q.oper ? null : q.tag || "*", 
+          0 <= f ? ")" == m && (0 <= h && (s.value = b(f + 1, p)), h = f = -1) : "#" == m ? (t(), j = p + 1) : "." == m ? (t(), i = p) : ":" == m ? (t(), h = p) : "[" == m ? (t(), e = p, s = {}) : "(" == m ? (0 <= h && (s = {name:b(h + 1, p), value:null}, q.pseudos.push(s)), f = p) : " " == m && k != m && (t(), 0 <= h && q.pseudos.push({name:b(h + 1, p)}), q.loops = q.pseudos.length || q.attrs.length || q.classes.length, q.oquery = q.query = b(n, p), q.otag = q.tag = q.oper ? null : q.tag || "*", 
           q.tag && (q.tag = q.tag.toUpperCase()), c.length && c[c.length - 1].oper && (q.infixOper = c.pop(), q.query = q.infixOper.query + " " + q.query), c.push(q), q = null)
         }
       }
@@ -21044,33 +18333,33 @@ domina.css.sel = function() {
   var a = null, b = function(b) {
     return a.call(null, domina.css.root_element.call(null), b)
   }, c = function(b, c) {
-    void 0 === domina.css.t3922 && (domina.css.t3922 = {}, domina.css.t3922 = function(a, b, c, d) {
+    void 0 === domina.css.t3926 && (domina.css.t3926 = {}, domina.css.t3926 = function(a, b, c, d) {
       this.expr = a;
       this.base = b;
       this.sel = c;
-      this.meta3923 = d;
+      this.meta3927 = d;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216
-    }, domina.css.t3922.cljs$lang$type = !0, domina.css.t3922.cljs$lang$ctorPrSeq = function() {
-      return cljs.core.list.call(null, "domina.css/t3922")
-    }, domina.css.t3922.cljs$lang$ctorPrWriter = function(a, b) {
-      return cljs.core._write.call(null, b, "domina.css/t3922")
-    }, domina.css.t3922.prototype.domina$DomContent$ = !0, domina.css.t3922.prototype.domina$DomContent$nodes$arity$1 = function() {
+    }, domina.css.t3926.cljs$lang$type = !0, domina.css.t3926.cljs$lang$ctorPrSeq = function() {
+      return cljs.core.list.call(null, "domina.css/t3926")
+    }, domina.css.t3926.cljs$lang$ctorPrWriter = function(a, b) {
+      return cljs.core._write.call(null, b, "domina.css/t3926")
+    }, domina.css.t3926.prototype.domina$DomContent$ = !0, domina.css.t3926.prototype.domina$DomContent$nodes$arity$1 = function() {
       var a = this;
       return cljs.core.mapcat.call(null, function(b) {
         return domina.normalize_seq.call(null, goog.dom.query(a.expr, b))
       }, domina.nodes.call(null, a.base))
-    }, domina.css.t3922.prototype.domina$DomContent$single_node$arity$1 = function() {
+    }, domina.css.t3926.prototype.domina$DomContent$single_node$arity$1 = function() {
       var a = this;
       return cljs.core.first.call(null, cljs.core.filter.call(null, cljs.core.complement.call(null, cljs.core.nil_QMARK_), cljs.core.mapcat.call(null, function(b) {
         return domina.normalize_seq.call(null, goog.dom.query(a.expr, b))
       }, domina.nodes.call(null, a.base))))
-    }, domina.css.t3922.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
-      return this.meta3923
-    }, domina.css.t3922.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
-      return new domina.css.t3922(this.expr, this.base, this.sel, b)
+    }, domina.css.t3926.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
+      return this.meta3927
+    }, domina.css.t3926.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
+      return new domina.css.t3926(this.expr, this.base, this.sel, b)
     });
-    return new domina.css.t3922(c, b, a, null)
+    return new domina.css.t3926(c, b, a, null)
   }, a = function(a, e) {
     switch(arguments.length) {
       case 1:
@@ -21084,20 +18373,1327 @@ domina.css.sel = function() {
   a.cljs$lang$arity$2 = c;
   return a
 }();
-var shoreleave = {remotes:{}};
-shoreleave.remotes.protocols = {};
-shoreleave.remotes.protocols.ITransportData = {};
-shoreleave.remotes.protocols._data_str = function(a) {
-  var b;
-  b = a ? a.shoreleave$remotes$protocols$ITransportData$_data_str$arity$1 : a;
-  if(b) {
-    return a.shoreleave$remotes$protocols$ITransportData$_data_str$arity$1(a)
+goog.json = {};
+goog.json.isValid_ = function(a) {
+  return/^\s*$/.test(a) ? !1 : /^[\],:{}\s\u2028\u2029]*$/.test(a.replace(/\\["\\\/bfnrtu]/g, "@").replace(/"[^"\\\n\r\u2028\u2029\x00-\x08\x10-\x1f\x80-\x9f]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, "]").replace(/(?:^|:|,)(?:[\s\u2028\u2029]*\[)+/g, ""))
+};
+goog.json.parse = function(a) {
+  a = String(a);
+  if(goog.json.isValid_(a)) {
+    try {
+      return eval("(" + a + ")")
+    }catch(b) {
+    }
   }
-  b = shoreleave.remotes.protocols._data_str[goog.typeOf(null == a ? null : a)];
-  if(!b && (b = shoreleave.remotes.protocols._data_str._, !b)) {
-    throw cljs.core.missing_protocol.call(null, "ITransportData.-data-str", a);
+  throw Error("Invalid JSON string: " + a);
+};
+goog.json.unsafeParse = function(a) {
+  return eval("(" + a + ")")
+};
+goog.json.serialize = function(a, b) {
+  return(new goog.json.Serializer(b)).serialize(a)
+};
+goog.json.Serializer = function(a) {
+  this.replacer_ = a
+};
+goog.json.Serializer.prototype.serialize = function(a) {
+  var b = [];
+  this.serialize_(a, b);
+  return b.join("")
+};
+goog.json.Serializer.prototype.serialize_ = function(a, b) {
+  switch(typeof a) {
+    case "string":
+      this.serializeString_(a, b);
+      break;
+    case "number":
+      this.serializeNumber_(a, b);
+      break;
+    case "boolean":
+      b.push(a);
+      break;
+    case "undefined":
+      b.push("null");
+      break;
+    case "object":
+      if(null == a) {
+        b.push("null");
+        break
+      }
+      if(goog.isArray(a)) {
+        this.serializeArray(a, b);
+        break
+      }
+      this.serializeObject_(a, b);
+      break;
+    case "function":
+      break;
+    default:
+      throw Error("Unknown type: " + typeof a);
   }
-  return b.call(null, a)
+};
+goog.json.Serializer.charToJsonCharCache_ = {'"':'\\"', "\\":"\\\\", "/":"\\/", "\b":"\\b", "\f":"\\f", "\n":"\\n", "\r":"\\r", "\t":"\\t", "\x0B":"\\u000b"};
+goog.json.Serializer.charsToReplace_ = /\uffff/.test("\uffff") ? /[\\\"\x00-\x1f\x7f-\uffff]/g : /[\\\"\x00-\x1f\x7f-\xff]/g;
+goog.json.Serializer.prototype.serializeString_ = function(a, b) {
+  b.push('"', a.replace(goog.json.Serializer.charsToReplace_, function(a) {
+    if(a in goog.json.Serializer.charToJsonCharCache_) {
+      return goog.json.Serializer.charToJsonCharCache_[a]
+    }
+    var b = a.charCodeAt(0), e = "\\u";
+    16 > b ? e += "000" : 256 > b ? e += "00" : 4096 > b && (e += "0");
+    return goog.json.Serializer.charToJsonCharCache_[a] = e + b.toString(16)
+  }), '"')
+};
+goog.json.Serializer.prototype.serializeNumber_ = function(a, b) {
+  b.push(isFinite(a) && !isNaN(a) ? a : "null")
+};
+goog.json.Serializer.prototype.serializeArray = function(a, b) {
+  var c = a.length;
+  b.push("[");
+  for(var d = "", e = 0;e < c;e++) {
+    b.push(d), d = a[e], this.serialize_(this.replacer_ ? this.replacer_.call(a, String(e), d) : d, b), d = ","
+  }
+  b.push("]")
+};
+goog.json.Serializer.prototype.serializeObject_ = function(a, b) {
+  b.push("{");
+  var c = "", d;
+  for(d in a) {
+    if(Object.prototype.hasOwnProperty.call(a, d)) {
+      var e = a[d];
+      "function" != typeof e && (b.push(c), this.serializeString_(d, b), b.push(":"), this.serialize_(this.replacer_ ? this.replacer_.call(a, d, e) : e, b), c = ",")
+    }
+  }
+  b.push("}")
+};
+goog.net.ErrorCode = {NO_ERROR:0, ACCESS_DENIED:1, FILE_NOT_FOUND:2, FF_SILENT_ERROR:3, CUSTOM_ERROR:4, EXCEPTION:5, HTTP_ERROR:6, ABORT:7, TIMEOUT:8, OFFLINE:9};
+goog.net.ErrorCode.getDebugMessage = function(a) {
+  switch(a) {
+    case goog.net.ErrorCode.NO_ERROR:
+      return"No Error";
+    case goog.net.ErrorCode.ACCESS_DENIED:
+      return"Access denied to content document";
+    case goog.net.ErrorCode.FILE_NOT_FOUND:
+      return"File not found";
+    case goog.net.ErrorCode.FF_SILENT_ERROR:
+      return"Firefox silently errored";
+    case goog.net.ErrorCode.CUSTOM_ERROR:
+      return"Application custom error";
+    case goog.net.ErrorCode.EXCEPTION:
+      return"An exception occurred";
+    case goog.net.ErrorCode.HTTP_ERROR:
+      return"Http response at 400 or 500 level";
+    case goog.net.ErrorCode.ABORT:
+      return"Request was aborted";
+    case goog.net.ErrorCode.TIMEOUT:
+      return"Request timed out";
+    case goog.net.ErrorCode.OFFLINE:
+      return"The resource is not available offline";
+    default:
+      return"Unrecognized error code"
+  }
+};
+goog.net.EventType = {COMPLETE:"complete", SUCCESS:"success", ERROR:"error", ABORT:"abort", READY:"ready", READY_STATE_CHANGE:"readystatechange", TIMEOUT:"timeout", INCREMENTAL_DATA:"incrementaldata", PROGRESS:"progress"};
+goog.net.HttpStatus = {CONTINUE:100, SWITCHING_PROTOCOLS:101, OK:200, CREATED:201, ACCEPTED:202, NON_AUTHORITATIVE_INFORMATION:203, NO_CONTENT:204, RESET_CONTENT:205, PARTIAL_CONTENT:206, MULTIPLE_CHOICES:300, MOVED_PERMANENTLY:301, FOUND:302, SEE_OTHER:303, NOT_MODIFIED:304, USE_PROXY:305, TEMPORARY_REDIRECT:307, BAD_REQUEST:400, UNAUTHORIZED:401, PAYMENT_REQUIRED:402, FORBIDDEN:403, NOT_FOUND:404, METHOD_NOT_ALLOWED:405, NOT_ACCEPTABLE:406, PROXY_AUTHENTICATION_REQUIRED:407, REQUEST_TIMEOUT:408, 
+CONFLICT:409, GONE:410, LENGTH_REQUIRED:411, PRECONDITION_FAILED:412, REQUEST_ENTITY_TOO_LARGE:413, REQUEST_URI_TOO_LONG:414, UNSUPPORTED_MEDIA_TYPE:415, REQUEST_RANGE_NOT_SATISFIABLE:416, EXPECTATION_FAILED:417, INTERNAL_SERVER_ERROR:500, NOT_IMPLEMENTED:501, BAD_GATEWAY:502, SERVICE_UNAVAILABLE:503, GATEWAY_TIMEOUT:504, HTTP_VERSION_NOT_SUPPORTED:505, QUIRK_IE_NO_CONTENT:1223};
+goog.net.HttpStatus.isSuccess = function(a) {
+  switch(a) {
+    case goog.net.HttpStatus.OK:
+    ;
+    case goog.net.HttpStatus.CREATED:
+    ;
+    case goog.net.HttpStatus.ACCEPTED:
+    ;
+    case goog.net.HttpStatus.NO_CONTENT:
+    ;
+    case goog.net.HttpStatus.NOT_MODIFIED:
+    ;
+    case goog.net.HttpStatus.QUIRK_IE_NO_CONTENT:
+      return!0;
+    default:
+      return!1
+  }
+};
+goog.net.XmlHttpFactory = function() {
+};
+goog.net.XmlHttpFactory.prototype.cachedOptions_ = null;
+goog.net.XmlHttpFactory.prototype.getOptions = function() {
+  return this.cachedOptions_ || (this.cachedOptions_ = this.internalGetOptions())
+};
+goog.net.WrapperXmlHttpFactory = function(a, b) {
+  goog.net.XmlHttpFactory.call(this);
+  this.xhrFactory_ = a;
+  this.optionsFactory_ = b
+};
+goog.inherits(goog.net.WrapperXmlHttpFactory, goog.net.XmlHttpFactory);
+goog.net.WrapperXmlHttpFactory.prototype.createInstance = function() {
+  return this.xhrFactory_()
+};
+goog.net.WrapperXmlHttpFactory.prototype.getOptions = function() {
+  return this.optionsFactory_()
+};
+goog.net.XmlHttp = function() {
+  return goog.net.XmlHttp.factory_.createInstance()
+};
+goog.net.XmlHttp.ASSUME_NATIVE_XHR = !1;
+goog.net.XmlHttp.getOptions = function() {
+  return goog.net.XmlHttp.factory_.getOptions()
+};
+goog.net.XmlHttp.OptionType = {USE_NULL_FUNCTION:0, LOCAL_REQUEST_ERROR:1};
+goog.net.XmlHttp.ReadyState = {UNINITIALIZED:0, LOADING:1, LOADED:2, INTERACTIVE:3, COMPLETE:4};
+goog.net.XmlHttp.setFactory = function(a, b) {
+  goog.net.XmlHttp.setGlobalFactory(new goog.net.WrapperXmlHttpFactory(a, b))
+};
+goog.net.XmlHttp.setGlobalFactory = function(a) {
+  goog.net.XmlHttp.factory_ = a
+};
+goog.net.DefaultXmlHttpFactory = function() {
+  goog.net.XmlHttpFactory.call(this)
+};
+goog.inherits(goog.net.DefaultXmlHttpFactory, goog.net.XmlHttpFactory);
+goog.net.DefaultXmlHttpFactory.prototype.createInstance = function() {
+  var a = this.getProgId_();
+  return a ? new ActiveXObject(a) : new XMLHttpRequest
+};
+goog.net.DefaultXmlHttpFactory.prototype.internalGetOptions = function() {
+  var a = {};
+  this.getProgId_() && (a[goog.net.XmlHttp.OptionType.USE_NULL_FUNCTION] = !0, a[goog.net.XmlHttp.OptionType.LOCAL_REQUEST_ERROR] = !0);
+  return a
+};
+goog.net.DefaultXmlHttpFactory.prototype.getProgId_ = function() {
+  if(goog.net.XmlHttp.ASSUME_NATIVE_XHR) {
+    return""
+  }
+  if(!this.ieProgId_ && "undefined" == typeof XMLHttpRequest && "undefined" != typeof ActiveXObject) {
+    for(var a = ["MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP"], b = 0;b < a.length;b++) {
+      var c = a[b];
+      try {
+        return new ActiveXObject(c), this.ieProgId_ = c
+      }catch(d) {
+      }
+    }
+    throw Error("Could not create ActiveXObject. ActiveX might be disabled, or MSXML might not be installed");
+  }
+  return this.ieProgId_
+};
+goog.net.XmlHttp.setGlobalFactory(new goog.net.DefaultXmlHttpFactory);
+goog.uri = {};
+goog.uri.utils = {};
+goog.uri.utils.CharCode_ = {AMPERSAND:38, EQUAL:61, HASH:35, QUESTION:63};
+goog.uri.utils.buildFromEncodedParts = function(a, b, c, d, e, f, g) {
+  var h = [];
+  a && h.push(a, ":");
+  c && (h.push("//"), b && h.push(b, "@"), h.push(c), d && h.push(":", d));
+  e && h.push(e);
+  f && h.push("?", f);
+  g && h.push("#", g);
+  return h.join("")
+};
+goog.uri.utils.splitRe_ = RegExp("^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?(?:#(.*))?$");
+goog.uri.utils.ComponentIndex = {SCHEME:1, USER_INFO:2, DOMAIN:3, PORT:4, PATH:5, QUERY_DATA:6, FRAGMENT:7};
+goog.uri.utils.split = function(a) {
+  return a.match(goog.uri.utils.splitRe_)
+};
+goog.uri.utils.decodeIfPossible_ = function(a) {
+  return a && decodeURIComponent(a)
+};
+goog.uri.utils.getComponentByIndex_ = function(a, b) {
+  return goog.uri.utils.split(b)[a] || null
+};
+goog.uri.utils.getScheme = function(a) {
+  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.SCHEME, a)
+};
+goog.uri.utils.getEffectiveScheme = function(a) {
+  a = goog.uri.utils.getScheme(a);
+  !a && self.location && (a = self.location.protocol, a = a.substr(0, a.length - 1));
+  return a ? a.toLowerCase() : ""
+};
+goog.uri.utils.getUserInfoEncoded = function(a) {
+  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.USER_INFO, a)
+};
+goog.uri.utils.getUserInfo = function(a) {
+  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getUserInfoEncoded(a))
+};
+goog.uri.utils.getDomainEncoded = function(a) {
+  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.DOMAIN, a)
+};
+goog.uri.utils.getDomain = function(a) {
+  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getDomainEncoded(a))
+};
+goog.uri.utils.getPort = function(a) {
+  return Number(goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.PORT, a)) || null
+};
+goog.uri.utils.getPathEncoded = function(a) {
+  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.PATH, a)
+};
+goog.uri.utils.getPath = function(a) {
+  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getPathEncoded(a))
+};
+goog.uri.utils.getQueryData = function(a) {
+  return goog.uri.utils.getComponentByIndex_(goog.uri.utils.ComponentIndex.QUERY_DATA, a)
+};
+goog.uri.utils.getFragmentEncoded = function(a) {
+  var b = a.indexOf("#");
+  return 0 > b ? null : a.substr(b + 1)
+};
+goog.uri.utils.setFragmentEncoded = function(a, b) {
+  return goog.uri.utils.removeFragment(a) + (b ? "#" + b : "")
+};
+goog.uri.utils.getFragment = function(a) {
+  return goog.uri.utils.decodeIfPossible_(goog.uri.utils.getFragmentEncoded(a))
+};
+goog.uri.utils.getHost = function(a) {
+  a = goog.uri.utils.split(a);
+  return goog.uri.utils.buildFromEncodedParts(a[goog.uri.utils.ComponentIndex.SCHEME], a[goog.uri.utils.ComponentIndex.USER_INFO], a[goog.uri.utils.ComponentIndex.DOMAIN], a[goog.uri.utils.ComponentIndex.PORT])
+};
+goog.uri.utils.getPathAndAfter = function(a) {
+  a = goog.uri.utils.split(a);
+  return goog.uri.utils.buildFromEncodedParts(null, null, null, null, a[goog.uri.utils.ComponentIndex.PATH], a[goog.uri.utils.ComponentIndex.QUERY_DATA], a[goog.uri.utils.ComponentIndex.FRAGMENT])
+};
+goog.uri.utils.removeFragment = function(a) {
+  var b = a.indexOf("#");
+  return 0 > b ? a : a.substr(0, b)
+};
+goog.uri.utils.haveSameDomain = function(a, b) {
+  var c = goog.uri.utils.split(a), d = goog.uri.utils.split(b);
+  return c[goog.uri.utils.ComponentIndex.DOMAIN] == d[goog.uri.utils.ComponentIndex.DOMAIN] && c[goog.uri.utils.ComponentIndex.SCHEME] == d[goog.uri.utils.ComponentIndex.SCHEME] && c[goog.uri.utils.ComponentIndex.PORT] == d[goog.uri.utils.ComponentIndex.PORT]
+};
+goog.uri.utils.assertNoFragmentsOrQueries_ = function(a) {
+  if(goog.DEBUG && (0 <= a.indexOf("#") || 0 <= a.indexOf("?"))) {
+    throw Error("goog.uri.utils: Fragment or query identifiers are not supported: [" + a + "]");
+  }
+};
+goog.uri.utils.appendQueryData_ = function(a) {
+  if(a[1]) {
+    var b = a[0], c = b.indexOf("#");
+    0 <= c && (a.push(b.substr(c)), a[0] = b = b.substr(0, c));
+    c = b.indexOf("?");
+    0 > c ? a[1] = "?" : c == b.length - 1 && (a[1] = void 0)
+  }
+  return a.join("")
+};
+goog.uri.utils.appendKeyValuePairs_ = function(a, b, c) {
+  if(goog.isArray(b)) {
+    goog.asserts.assertArray(b);
+    for(var d = 0;d < b.length;d++) {
+      goog.uri.utils.appendKeyValuePairs_(a, String(b[d]), c)
+    }
+  }else {
+    null != b && c.push("&", a, "" === b ? "" : "=", goog.string.urlEncode(b))
+  }
+};
+goog.uri.utils.buildQueryDataBuffer_ = function(a, b, c) {
+  goog.asserts.assert(0 == Math.max(b.length - (c || 0), 0) % 2, "goog.uri.utils: Key/value lists must be even in length.");
+  for(c = c || 0;c < b.length;c += 2) {
+    goog.uri.utils.appendKeyValuePairs_(b[c], b[c + 1], a)
+  }
+  return a
+};
+goog.uri.utils.buildQueryData = function(a, b) {
+  var c = goog.uri.utils.buildQueryDataBuffer_([], a, b);
+  c[0] = "";
+  return c.join("")
+};
+goog.uri.utils.buildQueryDataBufferFromMap_ = function(a, b) {
+  for(var c in b) {
+    goog.uri.utils.appendKeyValuePairs_(c, b[c], a)
+  }
+  return a
+};
+goog.uri.utils.buildQueryDataFromMap = function(a) {
+  a = goog.uri.utils.buildQueryDataBufferFromMap_([], a);
+  a[0] = "";
+  return a.join("")
+};
+goog.uri.utils.appendParams = function(a, b) {
+  return goog.uri.utils.appendQueryData_(2 == arguments.length ? goog.uri.utils.buildQueryDataBuffer_([a], arguments[1], 0) : goog.uri.utils.buildQueryDataBuffer_([a], arguments, 1))
+};
+goog.uri.utils.appendParamsFromMap = function(a, b) {
+  return goog.uri.utils.appendQueryData_(goog.uri.utils.buildQueryDataBufferFromMap_([a], b))
+};
+goog.uri.utils.appendParam = function(a, b, c) {
+  return goog.uri.utils.appendQueryData_([a, "&", b, "=", goog.string.urlEncode(c)])
+};
+goog.uri.utils.findParam_ = function(a, b, c, d) {
+  for(var e = c.length;0 <= (b = a.indexOf(c, b)) && b < d;) {
+    var f = a.charCodeAt(b - 1);
+    if(f == goog.uri.utils.CharCode_.AMPERSAND || f == goog.uri.utils.CharCode_.QUESTION) {
+      if(f = a.charCodeAt(b + e), !f || f == goog.uri.utils.CharCode_.EQUAL || f == goog.uri.utils.CharCode_.AMPERSAND || f == goog.uri.utils.CharCode_.HASH) {
+        return b
+      }
+    }
+    b += e + 1
+  }
+  return-1
+};
+goog.uri.utils.hashOrEndRe_ = /#|$/;
+goog.uri.utils.hasParam = function(a, b) {
+  return 0 <= goog.uri.utils.findParam_(a, 0, b, a.search(goog.uri.utils.hashOrEndRe_))
+};
+goog.uri.utils.getParamValue = function(a, b) {
+  var c = a.search(goog.uri.utils.hashOrEndRe_), d = goog.uri.utils.findParam_(a, 0, b, c);
+  if(0 > d) {
+    return null
+  }
+  var e = a.indexOf("&", d);
+  if(0 > e || e > c) {
+    e = c
+  }
+  d += b.length + 1;
+  return goog.string.urlDecode(a.substr(d, e - d))
+};
+goog.uri.utils.getParamValues = function(a, b) {
+  for(var c = a.search(goog.uri.utils.hashOrEndRe_), d = 0, e, f = [];0 <= (e = goog.uri.utils.findParam_(a, d, b, c));) {
+    d = a.indexOf("&", e);
+    if(0 > d || d > c) {
+      d = c
+    }
+    e += b.length + 1;
+    f.push(goog.string.urlDecode(a.substr(e, d - e)))
+  }
+  return f
+};
+goog.uri.utils.trailingQueryPunctuationRe_ = /[?&]($|#)/;
+goog.uri.utils.removeParam = function(a, b) {
+  for(var c = a.search(goog.uri.utils.hashOrEndRe_), d = 0, e, f = [];0 <= (e = goog.uri.utils.findParam_(a, d, b, c));) {
+    f.push(a.substring(d, e)), d = Math.min(a.indexOf("&", e) + 1 || c, c)
+  }
+  f.push(a.substr(d));
+  return f.join("").replace(goog.uri.utils.trailingQueryPunctuationRe_, "$1")
+};
+goog.uri.utils.setParam = function(a, b, c) {
+  return goog.uri.utils.appendParam(goog.uri.utils.removeParam(a, b), b, c)
+};
+goog.uri.utils.appendPath = function(a, b) {
+  goog.uri.utils.assertNoFragmentsOrQueries_(a);
+  goog.string.endsWith(a, "/") && (a = a.substr(0, a.length - 1));
+  goog.string.startsWith(b, "/") && (b = b.substr(1));
+  return goog.string.buildString(a, "/", b)
+};
+goog.uri.utils.StandardQueryParam = {RANDOM:"zx"};
+goog.uri.utils.makeUnique = function(a) {
+  return goog.uri.utils.setParam(a, goog.uri.utils.StandardQueryParam.RANDOM, goog.string.getRandomString())
+};
+goog.net.XhrIo = function(a) {
+  goog.events.EventTarget.call(this);
+  this.headers = new goog.structs.Map;
+  this.xmlHttpFactory_ = a || null
+};
+goog.inherits(goog.net.XhrIo, goog.events.EventTarget);
+goog.net.XhrIo.ResponseType = {DEFAULT:"", TEXT:"text", DOCUMENT:"document", BLOB:"blob", ARRAY_BUFFER:"arraybuffer"};
+goog.net.XhrIo.prototype.logger_ = goog.debug.Logger.getLogger("goog.net.XhrIo");
+goog.net.XhrIo.CONTENT_TYPE_HEADER = "Content-Type";
+goog.net.XhrIo.HTTP_SCHEME_PATTERN = /^https?$/i;
+goog.net.XhrIo.FORM_CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf-8";
+goog.net.XhrIo.sendInstances_ = [];
+goog.net.XhrIo.send = function(a, b, c, d, e, f) {
+  var g = new goog.net.XhrIo;
+  goog.net.XhrIo.sendInstances_.push(g);
+  b && goog.events.listen(g, goog.net.EventType.COMPLETE, b);
+  goog.events.listen(g, goog.net.EventType.READY, goog.partial(goog.net.XhrIo.cleanupSend_, g));
+  f && g.setTimeoutInterval(f);
+  g.send(a, c, d, e)
+};
+goog.net.XhrIo.cleanup = function() {
+  for(var a = goog.net.XhrIo.sendInstances_;a.length;) {
+    a.pop().dispose()
+  }
+};
+goog.net.XhrIo.protectEntryPoints = function(a) {
+  goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = a.protectEntryPoint(goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_)
+};
+goog.net.XhrIo.cleanupSend_ = function(a) {
+  a.dispose();
+  goog.array.remove(goog.net.XhrIo.sendInstances_, a)
+};
+goog.net.XhrIo.prototype.active_ = !1;
+goog.net.XhrIo.prototype.xhr_ = null;
+goog.net.XhrIo.prototype.xhrOptions_ = null;
+goog.net.XhrIo.prototype.lastUri_ = "";
+goog.net.XhrIo.prototype.lastMethod_ = "";
+goog.net.XhrIo.prototype.lastErrorCode_ = goog.net.ErrorCode.NO_ERROR;
+goog.net.XhrIo.prototype.lastError_ = "";
+goog.net.XhrIo.prototype.errorDispatched_ = !1;
+goog.net.XhrIo.prototype.inSend_ = !1;
+goog.net.XhrIo.prototype.inOpen_ = !1;
+goog.net.XhrIo.prototype.inAbort_ = !1;
+goog.net.XhrIo.prototype.timeoutInterval_ = 0;
+goog.net.XhrIo.prototype.timeoutId_ = null;
+goog.net.XhrIo.prototype.responseType_ = goog.net.XhrIo.ResponseType.DEFAULT;
+goog.net.XhrIo.prototype.withCredentials_ = !1;
+goog.net.XhrIo.prototype.getTimeoutInterval = function() {
+  return this.timeoutInterval_
+};
+goog.net.XhrIo.prototype.setTimeoutInterval = function(a) {
+  this.timeoutInterval_ = Math.max(0, a)
+};
+goog.net.XhrIo.prototype.setResponseType = function(a) {
+  this.responseType_ = a
+};
+goog.net.XhrIo.prototype.getResponseType = function() {
+  return this.responseType_
+};
+goog.net.XhrIo.prototype.setWithCredentials = function(a) {
+  this.withCredentials_ = a
+};
+goog.net.XhrIo.prototype.getWithCredentials = function() {
+  return this.withCredentials_
+};
+goog.net.XhrIo.prototype.send = function(a, b, c, d) {
+  if(this.xhr_) {
+    throw Error("[goog.net.XhrIo] Object is active with another request");
+  }
+  b = b ? b.toUpperCase() : "GET";
+  this.lastUri_ = a;
+  this.lastError_ = "";
+  this.lastErrorCode_ = goog.net.ErrorCode.NO_ERROR;
+  this.lastMethod_ = b;
+  this.errorDispatched_ = !1;
+  this.active_ = !0;
+  this.xhr_ = this.createXhr();
+  this.xhrOptions_ = this.xmlHttpFactory_ ? this.xmlHttpFactory_.getOptions() : goog.net.XmlHttp.getOptions();
+  this.xhr_.onreadystatechange = goog.bind(this.onReadyStateChange_, this);
+  try {
+    this.logger_.fine(this.formatMsg_("Opening Xhr")), this.inOpen_ = !0, this.xhr_.open(b, a, !0), this.inOpen_ = !1
+  }catch(e) {
+    this.logger_.fine(this.formatMsg_("Error opening Xhr: " + e.message));
+    this.error_(goog.net.ErrorCode.EXCEPTION, e);
+    return
+  }
+  var a = c || "", f = this.headers.clone();
+  d && goog.structs.forEach(d, function(a, b) {
+    f.set(b, a)
+  });
+  "POST" == b && !f.containsKey(goog.net.XhrIo.CONTENT_TYPE_HEADER) && f.set(goog.net.XhrIo.CONTENT_TYPE_HEADER, goog.net.XhrIo.FORM_CONTENT_TYPE);
+  goog.structs.forEach(f, function(a, b) {
+    this.xhr_.setRequestHeader(b, a)
+  }, this);
+  this.responseType_ && (this.xhr_.responseType = this.responseType_);
+  goog.object.containsKey(this.xhr_, "withCredentials") && (this.xhr_.withCredentials = this.withCredentials_);
+  try {
+    this.timeoutId_ && (goog.Timer.defaultTimerObject.clearTimeout(this.timeoutId_), this.timeoutId_ = null), 0 < this.timeoutInterval_ && (this.logger_.fine(this.formatMsg_("Will abort after " + this.timeoutInterval_ + "ms if incomplete")), this.timeoutId_ = goog.Timer.defaultTimerObject.setTimeout(goog.bind(this.timeout_, this), this.timeoutInterval_)), this.logger_.fine(this.formatMsg_("Sending request")), this.inSend_ = !0, this.xhr_.send(a), this.inSend_ = !1
+  }catch(g) {
+    this.logger_.fine(this.formatMsg_("Send error: " + g.message)), this.error_(goog.net.ErrorCode.EXCEPTION, g)
+  }
+};
+goog.net.XhrIo.prototype.createXhr = function() {
+  return this.xmlHttpFactory_ ? this.xmlHttpFactory_.createInstance() : goog.net.XmlHttp()
+};
+goog.net.XhrIo.prototype.timeout_ = function() {
+  "undefined" != typeof goog && this.xhr_ && (this.lastError_ = "Timed out after " + this.timeoutInterval_ + "ms, aborting", this.lastErrorCode_ = goog.net.ErrorCode.TIMEOUT, this.logger_.fine(this.formatMsg_(this.lastError_)), this.dispatchEvent(goog.net.EventType.TIMEOUT), this.abort(goog.net.ErrorCode.TIMEOUT))
+};
+goog.net.XhrIo.prototype.error_ = function(a, b) {
+  this.active_ = !1;
+  this.xhr_ && (this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1);
+  this.lastError_ = b;
+  this.lastErrorCode_ = a;
+  this.dispatchErrors_();
+  this.cleanUpXhr_()
+};
+goog.net.XhrIo.prototype.dispatchErrors_ = function() {
+  this.errorDispatched_ || (this.errorDispatched_ = !0, this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.ERROR))
+};
+goog.net.XhrIo.prototype.abort = function(a) {
+  this.xhr_ && this.active_ && (this.logger_.fine(this.formatMsg_("Aborting")), this.active_ = !1, this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1, this.lastErrorCode_ = a || goog.net.ErrorCode.ABORT, this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.ABORT), this.cleanUpXhr_())
+};
+goog.net.XhrIo.prototype.disposeInternal = function() {
+  this.xhr_ && (this.active_ && (this.active_ = !1, this.inAbort_ = !0, this.xhr_.abort(), this.inAbort_ = !1), this.cleanUpXhr_(!0));
+  goog.net.XhrIo.superClass_.disposeInternal.call(this)
+};
+goog.net.XhrIo.prototype.onReadyStateChange_ = function() {
+  if(!this.inOpen_ && !this.inSend_ && !this.inAbort_) {
+    this.onReadyStateChangeEntryPoint_()
+  }else {
+    this.onReadyStateChangeHelper_()
+  }
+};
+goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = function() {
+  this.onReadyStateChangeHelper_()
+};
+goog.net.XhrIo.prototype.onReadyStateChangeHelper_ = function() {
+  if(this.active_ && "undefined" != typeof goog) {
+    if(this.xhrOptions_[goog.net.XmlHttp.OptionType.LOCAL_REQUEST_ERROR] && this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE && 2 == this.getStatus()) {
+      this.logger_.fine(this.formatMsg_("Local request error detected and ignored"))
+    }else {
+      if(this.inSend_ && this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE) {
+        goog.Timer.defaultTimerObject.setTimeout(goog.bind(this.onReadyStateChange_, this), 0)
+      }else {
+        if(this.dispatchEvent(goog.net.EventType.READY_STATE_CHANGE), this.isComplete()) {
+          this.logger_.fine(this.formatMsg_("Request complete"));
+          this.active_ = !1;
+          try {
+            this.isSuccess() ? (this.dispatchEvent(goog.net.EventType.COMPLETE), this.dispatchEvent(goog.net.EventType.SUCCESS)) : (this.lastErrorCode_ = goog.net.ErrorCode.HTTP_ERROR, this.lastError_ = this.getStatusText() + " [" + this.getStatus() + "]", this.dispatchErrors_())
+          }finally {
+            this.cleanUpXhr_()
+          }
+        }
+      }
+    }
+  }
+};
+goog.net.XhrIo.prototype.cleanUpXhr_ = function(a) {
+  if(this.xhr_) {
+    var b = this.xhr_, c = this.xhrOptions_[goog.net.XmlHttp.OptionType.USE_NULL_FUNCTION] ? goog.nullFunction : null;
+    this.xhrOptions_ = this.xhr_ = null;
+    this.timeoutId_ && (goog.Timer.defaultTimerObject.clearTimeout(this.timeoutId_), this.timeoutId_ = null);
+    a || this.dispatchEvent(goog.net.EventType.READY);
+    try {
+      b.onreadystatechange = c
+    }catch(d) {
+      this.logger_.severe("Problem encountered resetting onreadystatechange: " + d.message)
+    }
+  }
+};
+goog.net.XhrIo.prototype.isActive = function() {
+  return!!this.xhr_
+};
+goog.net.XhrIo.prototype.isComplete = function() {
+  return this.getReadyState() == goog.net.XmlHttp.ReadyState.COMPLETE
+};
+goog.net.XhrIo.prototype.isSuccess = function() {
+  var a = this.getStatus();
+  return goog.net.HttpStatus.isSuccess(a) || 0 === a && !this.isLastUriEffectiveSchemeHttp_()
+};
+goog.net.XhrIo.prototype.isLastUriEffectiveSchemeHttp_ = function() {
+  var a = goog.uri.utils.getEffectiveScheme(String(this.lastUri_));
+  return goog.net.XhrIo.HTTP_SCHEME_PATTERN.test(a)
+};
+goog.net.XhrIo.prototype.getReadyState = function() {
+  return this.xhr_ ? this.xhr_.readyState : goog.net.XmlHttp.ReadyState.UNINITIALIZED
+};
+goog.net.XhrIo.prototype.getStatus = function() {
+  try {
+    return this.getReadyState() > goog.net.XmlHttp.ReadyState.LOADED ? this.xhr_.status : -1
+  }catch(a) {
+    return this.logger_.warning("Can not get status: " + a.message), -1
+  }
+};
+goog.net.XhrIo.prototype.getStatusText = function() {
+  try {
+    return this.getReadyState() > goog.net.XmlHttp.ReadyState.LOADED ? this.xhr_.statusText : ""
+  }catch(a) {
+    return this.logger_.fine("Can not get status: " + a.message), ""
+  }
+};
+goog.net.XhrIo.prototype.getLastUri = function() {
+  return String(this.lastUri_)
+};
+goog.net.XhrIo.prototype.getResponseText = function() {
+  try {
+    return this.xhr_ ? this.xhr_.responseText : ""
+  }catch(a) {
+    return this.logger_.fine("Can not get responseText: " + a.message), ""
+  }
+};
+goog.net.XhrIo.prototype.getResponseXml = function() {
+  try {
+    return this.xhr_ ? this.xhr_.responseXML : null
+  }catch(a) {
+    return this.logger_.fine("Can not get responseXML: " + a.message), null
+  }
+};
+goog.net.XhrIo.prototype.getResponseJson = function(a) {
+  if(this.xhr_) {
+    var b = this.xhr_.responseText;
+    a && 0 == b.indexOf(a) && (b = b.substring(a.length));
+    return goog.json.parse(b)
+  }
+};
+goog.net.XhrIo.prototype.getResponse = function() {
+  try {
+    if(!this.xhr_) {
+      return null
+    }
+    if("response" in this.xhr_) {
+      return this.xhr_.response
+    }
+    switch(this.responseType_) {
+      case goog.net.XhrIo.ResponseType.DEFAULT:
+      ;
+      case goog.net.XhrIo.ResponseType.TEXT:
+        return this.xhr_.responseText;
+      case goog.net.XhrIo.ResponseType.ARRAY_BUFFER:
+        if("mozResponseArrayBuffer" in this.xhr_) {
+          return this.xhr_.mozResponseArrayBuffer
+        }
+    }
+    this.logger_.severe("Response type " + this.responseType_ + " is not supported on this browser");
+    return null
+  }catch(a) {
+    return this.logger_.fine("Can not get response: " + a.message), null
+  }
+};
+goog.net.XhrIo.prototype.getResponseHeader = function(a) {
+  return this.xhr_ && this.isComplete() ? this.xhr_.getResponseHeader(a) : void 0
+};
+goog.net.XhrIo.prototype.getAllResponseHeaders = function() {
+  return this.xhr_ && this.isComplete() ? this.xhr_.getAllResponseHeaders() : ""
+};
+goog.net.XhrIo.prototype.getLastErrorCode = function() {
+  return this.lastErrorCode_
+};
+goog.net.XhrIo.prototype.getLastError = function() {
+  return goog.isString(this.lastError_) ? this.lastError_ : String(this.lastError_)
+};
+goog.net.XhrIo.prototype.formatMsg_ = function(a) {
+  return a + " [" + this.lastMethod_ + " " + this.lastUri_ + " " + this.getStatus() + "]"
+};
+goog.debug.entryPointRegistry.register(function(a) {
+  goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_ = a(goog.net.XhrIo.prototype.onReadyStateChangeEntryPoint_)
+});
+goog.net.xpc = {};
+goog.net.xpc.TransportTypes = {NATIVE_MESSAGING:1, FRAME_ELEMENT_METHOD:2, IFRAME_RELAY:3, IFRAME_POLLING:4, FLASH:5, NIX:6};
+goog.net.xpc.TransportNames = {1:"NativeMessagingTransport", 2:"FrameElementMethodTransport", 3:"IframeRelayTransport", 4:"IframePollingTransport", 5:"FlashTransport", 6:"NixTransport"};
+goog.net.xpc.CfgFields = {CHANNEL_NAME:"cn", AUTH_TOKEN:"at", REMOTE_AUTH_TOKEN:"rat", PEER_URI:"pu", IFRAME_ID:"ifrid", TRANSPORT:"tp", LOCAL_RELAY_URI:"lru", PEER_RELAY_URI:"pru", LOCAL_POLL_URI:"lpu", PEER_POLL_URI:"ppu", PEER_HOSTNAME:"ph", ONE_SIDED_HANDSHAKE:"osh", ROLE:"role", NATIVE_TRANSPORT_PROTOCOL_VERSION:"nativeProtocolVersion"};
+goog.net.xpc.UriCfgFields = [goog.net.xpc.CfgFields.PEER_URI, goog.net.xpc.CfgFields.LOCAL_RELAY_URI, goog.net.xpc.CfgFields.PEER_RELAY_URI, goog.net.xpc.CfgFields.LOCAL_POLL_URI, goog.net.xpc.CfgFields.PEER_POLL_URI];
+goog.net.xpc.ChannelStates = {NOT_CONNECTED:1, CONNECTED:2, CLOSED:3};
+goog.net.xpc.TRANSPORT_SERVICE_ = "tp";
+goog.net.xpc.SETUP = "SETUP";
+goog.net.xpc.SETUP_NTPV2 = "SETUP_NTPV2";
+goog.net.xpc.SETUP_ACK_ = "SETUP_ACK";
+goog.net.xpc.SETUP_ACK_NTPV2 = "SETUP_ACK_NTPV2";
+goog.net.xpc.channels_ = {};
+goog.net.xpc.getRandomString = function(a, b) {
+  for(var c = b || goog.net.xpc.randomStringCharacters_, d = c.length, e = "";0 < a--;) {
+    e += c.charAt(Math.floor(Math.random() * d))
+  }
+  return e
+};
+goog.net.xpc.randomStringCharacters_ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+goog.net.xpc.logger = goog.debug.Logger.getLogger("goog.net.xpc");
+/*
+ Portions of this code are from MochiKit, received by
+ The Closure Authors under the MIT license. All other code is Copyright
+ 2005-2009 The Closure Authors. All Rights Reserved.
+*/
+goog.async = {};
+goog.async.Deferred = function(a, b) {
+  this.chain_ = [];
+  this.canceller_ = a;
+  this.defaultScope_ = b || null
+};
+goog.async.Deferred.prototype.fired_ = !1;
+goog.async.Deferred.prototype.hadError_ = !1;
+goog.async.Deferred.prototype.paused_ = 0;
+goog.async.Deferred.prototype.silentlyCancelled_ = !1;
+goog.async.Deferred.prototype.chained_ = !1;
+goog.async.Deferred.prototype.branches_ = 0;
+goog.async.Deferred.prototype.cancel = function(a) {
+  if(this.hasFired()) {
+    this.result_ instanceof goog.async.Deferred && this.result_.cancel()
+  }else {
+    if(this.parent_) {
+      var b = this.parent_;
+      delete this.parent_;
+      a ? b.cancel(a) : b.branchCancel_()
+    }
+    this.canceller_ ? this.canceller_.call(this.defaultScope_, this) : this.silentlyCancelled_ = !0;
+    this.hasFired() || this.errback(new goog.async.Deferred.CancelledError(this))
+  }
+};
+goog.async.Deferred.prototype.branchCancel_ = function() {
+  this.branches_--;
+  0 >= this.branches_ && this.cancel()
+};
+goog.async.Deferred.prototype.pause_ = function() {
+  this.paused_++
+};
+goog.async.Deferred.prototype.unpause_ = function() {
+  this.paused_--;
+  0 == this.paused_ && this.hasFired() && this.fire_()
+};
+goog.async.Deferred.prototype.continue_ = function(a, b) {
+  this.resback_(a, b);
+  this.unpause_()
+};
+goog.async.Deferred.prototype.resback_ = function(a, b) {
+  this.fired_ = !0;
+  this.result_ = b;
+  this.hadError_ = !a;
+  this.fire_()
+};
+goog.async.Deferred.prototype.check_ = function() {
+  if(this.hasFired()) {
+    if(!this.silentlyCancelled_) {
+      throw new goog.async.Deferred.AlreadyCalledError(this);
+    }
+    this.silentlyCancelled_ = !1
+  }
+};
+goog.async.Deferred.prototype.callback = function(a) {
+  this.check_();
+  this.assertNotDeferred_(a);
+  this.resback_(!0, a)
+};
+goog.async.Deferred.prototype.errback = function(a) {
+  this.check_();
+  this.assertNotDeferred_(a);
+  this.resback_(!1, a)
+};
+goog.async.Deferred.prototype.assertNotDeferred_ = function(a) {
+  goog.asserts.assert(!(a instanceof goog.async.Deferred), "Deferred instances can only be chained if they are the result of a callback")
+};
+goog.async.Deferred.prototype.addCallback = function(a, b) {
+  return this.addCallbacks(a, null, b)
+};
+goog.async.Deferred.prototype.addErrback = function(a, b) {
+  return this.addCallbacks(null, a, b)
+};
+goog.async.Deferred.prototype.addCallbacks = function(a, b, c) {
+  goog.asserts.assert(!this.chained_, "Chained Deferreds can not be re-used");
+  this.chain_.push([a, b, c]);
+  this.hasFired() && this.fire_();
+  return this
+};
+goog.async.Deferred.prototype.chainDeferred = function(a) {
+  this.addCallbacks(a.callback, a.errback, a);
+  return this
+};
+goog.async.Deferred.prototype.awaitDeferred = function(a) {
+  return this.addCallback(goog.bind(a.branch, a))
+};
+goog.async.Deferred.prototype.branch = function(a) {
+  var b = new goog.async.Deferred;
+  this.chainDeferred(b);
+  a && (b.parent_ = this, this.branches_++);
+  return b
+};
+goog.async.Deferred.prototype.addBoth = function(a, b) {
+  return this.addCallbacks(a, a, b)
+};
+goog.async.Deferred.prototype.hasFired = function() {
+  return this.fired_
+};
+goog.async.Deferred.prototype.isError = function(a) {
+  return a instanceof Error
+};
+goog.async.Deferred.prototype.hasErrback_ = function() {
+  return goog.array.some(this.chain_, function(a) {
+    return goog.isFunction(a[1])
+  })
+};
+goog.async.Deferred.prototype.fire_ = function() {
+  this.unhandledExceptionTimeoutId_ && (this.hasFired() && this.hasErrback_()) && (goog.global.clearTimeout(this.unhandledExceptionTimeoutId_), delete this.unhandledExceptionTimeoutId_);
+  this.parent_ && (this.parent_.branches_--, delete this.parent_);
+  for(var a = this.result_, b = !1, c = !1;this.chain_.length && 0 == this.paused_;) {
+    var d = this.chain_.shift(), e = d[0], f = d[1], d = d[2];
+    if(e = this.hadError_ ? f : e) {
+      try {
+        var g = e.call(d || this.defaultScope_, a);
+        goog.isDef(g) && (this.hadError_ = this.hadError_ && (g == a || this.isError(g)), this.result_ = a = g);
+        a instanceof goog.async.Deferred && (c = !0, this.pause_())
+      }catch(h) {
+        a = h, this.hadError_ = !0, this.hasErrback_() || (b = !0)
+      }
+    }
+  }
+  this.result_ = a;
+  c && this.paused_ && (a.addCallbacks(goog.bind(this.continue_, this, !0), goog.bind(this.continue_, this, !1)), a.chained_ = !0);
+  b && (this.unhandledExceptionTimeoutId_ = goog.global.setTimeout(function() {
+    throw new goog.async.Deferred.UnhandledError(a);
+  }, 0))
+};
+goog.async.Deferred.succeed = function(a) {
+  var b = new goog.async.Deferred;
+  b.callback(a);
+  return b
+};
+goog.async.Deferred.fail = function(a) {
+  var b = new goog.async.Deferred;
+  b.errback(a);
+  return b
+};
+goog.async.Deferred.cancelled = function() {
+  var a = new goog.async.Deferred;
+  a.cancel();
+  return a
+};
+goog.async.Deferred.when = function(a, b, c) {
+  return a instanceof goog.async.Deferred ? a.branch(!0).addCallback(b, c) : goog.async.Deferred.succeed(a).addCallback(b, c)
+};
+goog.async.Deferred.AlreadyCalledError = function(a) {
+  goog.debug.Error.call(this);
+  this.deferred = a
+};
+goog.inherits(goog.async.Deferred.AlreadyCalledError, goog.debug.Error);
+goog.async.Deferred.AlreadyCalledError.prototype.message = "Already called";
+goog.async.Deferred.CancelledError = function(a) {
+  goog.debug.Error.call(this);
+  this.deferred = a
+};
+goog.inherits(goog.async.Deferred.CancelledError, goog.debug.Error);
+goog.async.Deferred.CancelledError.prototype.message = "Deferred was cancelled";
+goog.async.Deferred.UnhandledError = function(a) {
+  goog.debug.Error.call(this);
+  this.cause = a;
+  this.message = "Unhandled Error in Deferred: " + (a.message || "[No message]")
+};
+goog.inherits(goog.async.Deferred.UnhandledError, goog.debug.Error);
+goog.Uri = function(a, b) {
+  var c;
+  a instanceof goog.Uri ? (this.ignoreCase_ = goog.isDef(b) ? b : a.getIgnoreCase(), this.setScheme(a.getScheme()), this.setUserInfo(a.getUserInfo()), this.setDomain(a.getDomain()), this.setPort(a.getPort()), this.setPath(a.getPath()), this.setQueryData(a.getQueryData().clone()), this.setFragment(a.getFragment())) : a && (c = goog.uri.utils.split(String(a))) ? (this.ignoreCase_ = !!b, this.setScheme(c[goog.uri.utils.ComponentIndex.SCHEME] || "", !0), this.setUserInfo(c[goog.uri.utils.ComponentIndex.USER_INFO] || 
+  "", !0), this.setDomain(c[goog.uri.utils.ComponentIndex.DOMAIN] || "", !0), this.setPort(c[goog.uri.utils.ComponentIndex.PORT]), this.setPath(c[goog.uri.utils.ComponentIndex.PATH] || "", !0), this.setQueryData(c[goog.uri.utils.ComponentIndex.QUERY_DATA] || "", !0), this.setFragment(c[goog.uri.utils.ComponentIndex.FRAGMENT] || "", !0)) : (this.ignoreCase_ = !!b, this.queryData_ = new goog.Uri.QueryData(null, null, this.ignoreCase_))
+};
+goog.Uri.preserveParameterTypesCompatibilityFlag = !1;
+goog.Uri.RANDOM_PARAM = goog.uri.utils.StandardQueryParam.RANDOM;
+goog.Uri.prototype.scheme_ = "";
+goog.Uri.prototype.userInfo_ = "";
+goog.Uri.prototype.domain_ = "";
+goog.Uri.prototype.port_ = null;
+goog.Uri.prototype.path_ = "";
+goog.Uri.prototype.fragment_ = "";
+goog.Uri.prototype.isReadOnly_ = !1;
+goog.Uri.prototype.ignoreCase_ = !1;
+goog.Uri.prototype.toString = function() {
+  var a = [], b = this.getScheme();
+  b && a.push(goog.Uri.encodeSpecialChars_(b, goog.Uri.reDisallowedInSchemeOrUserInfo_), ":");
+  if(b = this.getDomain()) {
+    a.push("//");
+    var c = this.getUserInfo();
+    c && a.push(goog.Uri.encodeSpecialChars_(c, goog.Uri.reDisallowedInSchemeOrUserInfo_), "@");
+    a.push(goog.string.urlEncode(b));
+    b = this.getPort();
+    null != b && a.push(":", String(b))
+  }
+  if(b = this.getPath()) {
+    this.hasDomain() && "/" != b.charAt(0) && a.push("/"), a.push(goog.Uri.encodeSpecialChars_(b, "/" == b.charAt(0) ? goog.Uri.reDisallowedInAbsolutePath_ : goog.Uri.reDisallowedInRelativePath_))
+  }
+  (b = this.getEncodedQuery()) && a.push("?", b);
+  (b = this.getFragment()) && a.push("#", goog.Uri.encodeSpecialChars_(b, goog.Uri.reDisallowedInFragment_));
+  return a.join("")
+};
+goog.Uri.prototype.resolve = function(a) {
+  var b = this.clone(), c = a.hasScheme();
+  c ? b.setScheme(a.getScheme()) : c = a.hasUserInfo();
+  c ? b.setUserInfo(a.getUserInfo()) : c = a.hasDomain();
+  c ? b.setDomain(a.getDomain()) : c = a.hasPort();
+  var d = a.getPath();
+  if(c) {
+    b.setPort(a.getPort())
+  }else {
+    if(c = a.hasPath()) {
+      if("/" != d.charAt(0)) {
+        if(this.hasDomain() && !this.hasPath()) {
+          d = "/" + d
+        }else {
+          var e = b.getPath().lastIndexOf("/");
+          -1 != e && (d = b.getPath().substr(0, e + 1) + d)
+        }
+      }
+      d = goog.Uri.removeDotSegments(d)
+    }
+  }
+  c ? b.setPath(d) : c = a.hasQuery();
+  c ? b.setQueryData(a.getDecodedQuery()) : c = a.hasFragment();
+  c && b.setFragment(a.getFragment());
+  return b
+};
+goog.Uri.prototype.clone = function() {
+  return new goog.Uri(this)
+};
+goog.Uri.prototype.getScheme = function() {
+  return this.scheme_
+};
+goog.Uri.prototype.setScheme = function(a, b) {
+  this.enforceReadOnly();
+  if(this.scheme_ = b ? goog.Uri.decodeOrEmpty_(a) : a) {
+    this.scheme_ = this.scheme_.replace(/:$/, "")
+  }
+  return this
+};
+goog.Uri.prototype.hasScheme = function() {
+  return!!this.scheme_
+};
+goog.Uri.prototype.getUserInfo = function() {
+  return this.userInfo_
+};
+goog.Uri.prototype.setUserInfo = function(a, b) {
+  this.enforceReadOnly();
+  this.userInfo_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
+  return this
+};
+goog.Uri.prototype.hasUserInfo = function() {
+  return!!this.userInfo_
+};
+goog.Uri.prototype.getDomain = function() {
+  return this.domain_
+};
+goog.Uri.prototype.setDomain = function(a, b) {
+  this.enforceReadOnly();
+  this.domain_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
+  return this
+};
+goog.Uri.prototype.hasDomain = function() {
+  return!!this.domain_
+};
+goog.Uri.prototype.getPort = function() {
+  return this.port_
+};
+goog.Uri.prototype.setPort = function(a) {
+  this.enforceReadOnly();
+  if(a) {
+    a = Number(a);
+    if(isNaN(a) || 0 > a) {
+      throw Error("Bad port number " + a);
+    }
+    this.port_ = a
+  }else {
+    this.port_ = null
+  }
+  return this
+};
+goog.Uri.prototype.hasPort = function() {
+  return null != this.port_
+};
+goog.Uri.prototype.getPath = function() {
+  return this.path_
+};
+goog.Uri.prototype.setPath = function(a, b) {
+  this.enforceReadOnly();
+  this.path_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
+  return this
+};
+goog.Uri.prototype.hasPath = function() {
+  return!!this.path_
+};
+goog.Uri.prototype.hasQuery = function() {
+  return"" !== this.queryData_.toString()
+};
+goog.Uri.prototype.setQueryData = function(a, b) {
+  this.enforceReadOnly();
+  a instanceof goog.Uri.QueryData ? (this.queryData_ = a, this.queryData_.setIgnoreCase(this.ignoreCase_)) : (b || (a = goog.Uri.encodeSpecialChars_(a, goog.Uri.reDisallowedInQuery_)), this.queryData_ = new goog.Uri.QueryData(a, null, this.ignoreCase_));
+  return this
+};
+goog.Uri.prototype.setQuery = function(a, b) {
+  return this.setQueryData(a, b)
+};
+goog.Uri.prototype.getEncodedQuery = function() {
+  return this.queryData_.toString()
+};
+goog.Uri.prototype.getDecodedQuery = function() {
+  return this.queryData_.toDecodedString()
+};
+goog.Uri.prototype.getQueryData = function() {
+  return this.queryData_
+};
+goog.Uri.prototype.getQuery = function() {
+  return this.getEncodedQuery()
+};
+goog.Uri.prototype.setParameterValue = function(a, b) {
+  this.enforceReadOnly();
+  this.queryData_.set(a, b);
+  return this
+};
+goog.Uri.prototype.setParameterValues = function(a, b) {
+  this.enforceReadOnly();
+  goog.isArray(b) || (b = [String(b)]);
+  this.queryData_.setValues(a, b);
+  return this
+};
+goog.Uri.prototype.getParameterValues = function(a) {
+  return this.queryData_.getValues(a)
+};
+goog.Uri.prototype.getParameterValue = function(a) {
+  return this.queryData_.get(a)
+};
+goog.Uri.prototype.getFragment = function() {
+  return this.fragment_
+};
+goog.Uri.prototype.setFragment = function(a, b) {
+  this.enforceReadOnly();
+  this.fragment_ = b ? goog.Uri.decodeOrEmpty_(a) : a;
+  return this
+};
+goog.Uri.prototype.hasFragment = function() {
+  return!!this.fragment_
+};
+goog.Uri.prototype.hasSameDomainAs = function(a) {
+  return(!this.hasDomain() && !a.hasDomain() || this.getDomain() == a.getDomain()) && (!this.hasPort() && !a.hasPort() || this.getPort() == a.getPort())
+};
+goog.Uri.prototype.makeUnique = function() {
+  this.enforceReadOnly();
+  this.setParameterValue(goog.Uri.RANDOM_PARAM, goog.string.getRandomString());
+  return this
+};
+goog.Uri.prototype.removeParameter = function(a) {
+  this.enforceReadOnly();
+  this.queryData_.remove(a);
+  return this
+};
+goog.Uri.prototype.setReadOnly = function(a) {
+  this.isReadOnly_ = a;
+  return this
+};
+goog.Uri.prototype.isReadOnly = function() {
+  return this.isReadOnly_
+};
+goog.Uri.prototype.enforceReadOnly = function() {
+  if(this.isReadOnly_) {
+    throw Error("Tried to modify a read-only Uri");
+  }
+};
+goog.Uri.prototype.setIgnoreCase = function(a) {
+  this.ignoreCase_ = a;
+  this.queryData_ && this.queryData_.setIgnoreCase(a);
+  return this
+};
+goog.Uri.prototype.getIgnoreCase = function() {
+  return this.ignoreCase_
+};
+goog.Uri.parse = function(a, b) {
+  return a instanceof goog.Uri ? a.clone() : new goog.Uri(a, b)
+};
+goog.Uri.create = function(a, b, c, d, e, f, g, h) {
+  h = new goog.Uri(null, h);
+  a && h.setScheme(a);
+  b && h.setUserInfo(b);
+  c && h.setDomain(c);
+  d && h.setPort(d);
+  e && h.setPath(e);
+  f && h.setQueryData(f);
+  g && h.setFragment(g);
+  return h
+};
+goog.Uri.resolve = function(a, b) {
+  a instanceof goog.Uri || (a = goog.Uri.parse(a));
+  b instanceof goog.Uri || (b = goog.Uri.parse(b));
+  return a.resolve(b)
+};
+goog.Uri.removeDotSegments = function(a) {
+  if(".." == a || "." == a) {
+    return""
+  }
+  if(!goog.string.contains(a, "./") && !goog.string.contains(a, "/.")) {
+    return a
+  }
+  for(var b = goog.string.startsWith(a, "/"), a = a.split("/"), c = [], d = 0;d < a.length;) {
+    var e = a[d++];
+    "." == e ? b && d == a.length && c.push("") : ".." == e ? ((1 < c.length || 1 == c.length && "" != c[0]) && c.pop(), b && d == a.length && c.push("")) : (c.push(e), b = !0)
+  }
+  return c.join("/")
+};
+goog.Uri.decodeOrEmpty_ = function(a) {
+  return a ? decodeURIComponent(a) : ""
+};
+goog.Uri.encodeSpecialChars_ = function(a, b) {
+  return goog.isString(a) ? encodeURI(a).replace(b, goog.Uri.encodeChar_) : null
+};
+goog.Uri.encodeChar_ = function(a) {
+  a = a.charCodeAt(0);
+  return"%" + (a >> 4 & 15).toString(16) + (a & 15).toString(16)
+};
+goog.Uri.reDisallowedInSchemeOrUserInfo_ = /[#\/\?@]/g;
+goog.Uri.reDisallowedInRelativePath_ = /[\#\?:]/g;
+goog.Uri.reDisallowedInAbsolutePath_ = /[\#\?]/g;
+goog.Uri.reDisallowedInQuery_ = /[\#\?@]/g;
+goog.Uri.reDisallowedInFragment_ = /#/g;
+goog.Uri.haveSameDomain = function(a, b) {
+  var c = goog.uri.utils.split(a), d = goog.uri.utils.split(b);
+  return c[goog.uri.utils.ComponentIndex.DOMAIN] == d[goog.uri.utils.ComponentIndex.DOMAIN] && c[goog.uri.utils.ComponentIndex.PORT] == d[goog.uri.utils.ComponentIndex.PORT]
+};
+goog.Uri.QueryData = function(a, b, c) {
+  this.encodedQuery_ = a || null;
+  this.ignoreCase_ = !!c
+};
+goog.Uri.QueryData.prototype.ensureKeyMapInitialized_ = function() {
+  if(!this.keyMap_ && (this.keyMap_ = new goog.structs.Map, this.count_ = 0, this.encodedQuery_)) {
+    for(var a = this.encodedQuery_.split("&"), b = 0;b < a.length;b++) {
+      var c = a[b].indexOf("="), d = null, e = null;
+      0 <= c ? (d = a[b].substring(0, c), e = a[b].substring(c + 1)) : d = a[b];
+      d = goog.string.urlDecode(d);
+      d = this.getKeyName_(d);
+      this.add(d, e ? goog.string.urlDecode(e) : "")
+    }
+  }
+};
+goog.Uri.QueryData.createFromMap = function(a, b, c) {
+  b = goog.structs.getKeys(a);
+  if("undefined" == typeof b) {
+    throw Error("Keys are undefined");
+  }
+  for(var c = new goog.Uri.QueryData(null, null, c), a = goog.structs.getValues(a), d = 0;d < b.length;d++) {
+    var e = b[d], f = a[d];
+    goog.isArray(f) ? c.setValues(e, f) : c.add(e, f)
+  }
+  return c
+};
+goog.Uri.QueryData.createFromKeysValues = function(a, b, c, d) {
+  if(a.length != b.length) {
+    throw Error("Mismatched lengths for keys/values");
+  }
+  c = new goog.Uri.QueryData(null, null, d);
+  for(d = 0;d < a.length;d++) {
+    c.add(a[d], b[d])
+  }
+  return c
+};
+goog.Uri.QueryData.prototype.keyMap_ = null;
+goog.Uri.QueryData.prototype.count_ = null;
+goog.Uri.QueryData.prototype.getCount = function() {
+  this.ensureKeyMapInitialized_();
+  return this.count_
+};
+goog.Uri.QueryData.prototype.add = function(a, b) {
+  this.ensureKeyMapInitialized_();
+  this.invalidateCache_();
+  var a = this.getKeyName_(a), c = this.keyMap_.get(a);
+  c || this.keyMap_.set(a, c = []);
+  c.push(b);
+  this.count_++;
+  return this
+};
+goog.Uri.QueryData.prototype.remove = function(a) {
+  this.ensureKeyMapInitialized_();
+  a = this.getKeyName_(a);
+  return this.keyMap_.containsKey(a) ? (this.invalidateCache_(), this.count_ -= this.keyMap_.get(a).length, this.keyMap_.remove(a)) : !1
+};
+goog.Uri.QueryData.prototype.clear = function() {
+  this.invalidateCache_();
+  this.keyMap_ = null;
+  this.count_ = 0
+};
+goog.Uri.QueryData.prototype.isEmpty = function() {
+  this.ensureKeyMapInitialized_();
+  return 0 == this.count_
+};
+goog.Uri.QueryData.prototype.containsKey = function(a) {
+  this.ensureKeyMapInitialized_();
+  a = this.getKeyName_(a);
+  return this.keyMap_.containsKey(a)
+};
+goog.Uri.QueryData.prototype.containsValue = function(a) {
+  var b = this.getValues();
+  return goog.array.contains(b, a)
+};
+goog.Uri.QueryData.prototype.getKeys = function() {
+  this.ensureKeyMapInitialized_();
+  for(var a = this.keyMap_.getValues(), b = this.keyMap_.getKeys(), c = [], d = 0;d < b.length;d++) {
+    for(var e = a[d], f = 0;f < e.length;f++) {
+      c.push(b[d])
+    }
+  }
+  return c
+};
+goog.Uri.QueryData.prototype.getValues = function(a) {
+  this.ensureKeyMapInitialized_();
+  var b = [];
+  if(a) {
+    this.containsKey(a) && (b = goog.array.concat(b, this.keyMap_.get(this.getKeyName_(a))))
+  }else {
+    for(var a = this.keyMap_.getValues(), c = 0;c < a.length;c++) {
+      b = goog.array.concat(b, a[c])
+    }
+  }
+  return b
+};
+goog.Uri.QueryData.prototype.set = function(a, b) {
+  this.ensureKeyMapInitialized_();
+  this.invalidateCache_();
+  a = this.getKeyName_(a);
+  this.containsKey(a) && (this.count_ -= this.keyMap_.get(a).length);
+  this.keyMap_.set(a, [b]);
+  this.count_++;
+  return this
+};
+goog.Uri.QueryData.prototype.get = function(a, b) {
+  var c = a ? this.getValues(a) : [];
+  return goog.Uri.preserveParameterTypesCompatibilityFlag ? 0 < c.length ? c[0] : b : 0 < c.length ? String(c[0]) : b
+};
+goog.Uri.QueryData.prototype.setValues = function(a, b) {
+  this.remove(a);
+  0 < b.length && (this.invalidateCache_(), this.keyMap_.set(this.getKeyName_(a), goog.array.clone(b)), this.count_ += b.length)
+};
+goog.Uri.QueryData.prototype.toString = function() {
+  if(this.encodedQuery_) {
+    return this.encodedQuery_
+  }
+  if(!this.keyMap_) {
+    return""
+  }
+  for(var a = [], b = this.keyMap_.getKeys(), c = 0;c < b.length;c++) {
+    for(var d = b[c], e = goog.string.urlEncode(d), d = this.getValues(d), f = 0;f < d.length;f++) {
+      var g = e;
+      "" !== d[f] && (g += "=" + goog.string.urlEncode(d[f]));
+      a.push(g)
+    }
+  }
+  return this.encodedQuery_ = a.join("&")
+};
+goog.Uri.QueryData.prototype.toDecodedString = function() {
+  return goog.Uri.decodeOrEmpty_(this.toString())
+};
+goog.Uri.QueryData.prototype.invalidateCache_ = function() {
+  this.encodedQuery_ = null
+};
+goog.Uri.QueryData.prototype.filterKeys = function(a) {
+  this.ensureKeyMapInitialized_();
+  goog.structs.forEach(this.keyMap_, function(b, c) {
+    goog.array.contains(a, c) || this.remove(c)
+  }, this);
+  return this
+};
+goog.Uri.QueryData.prototype.clone = function() {
+  var a = new goog.Uri.QueryData;
+  a.encodedQuery_ = this.encodedQuery_;
+  this.keyMap_ && (a.keyMap_ = this.keyMap_.clone());
+  return a
+};
+goog.Uri.QueryData.prototype.getKeyName_ = function(a) {
+  a = String(a);
+  this.ignoreCase_ && (a = a.toLowerCase());
+  return a
+};
+goog.Uri.QueryData.prototype.setIgnoreCase = function(a) {
+  a && !this.ignoreCase_ && (this.ensureKeyMapInitialized_(), this.invalidateCache_(), goog.structs.forEach(this.keyMap_, function(a, c) {
+    var d = c.toLowerCase();
+    c != d && (this.remove(c), this.setValues(d, a))
+  }, this));
+  this.ignoreCase_ = a
+};
+goog.Uri.QueryData.prototype.extend = function(a) {
+  for(var b = 0;b < arguments.length;b++) {
+    goog.structs.forEach(arguments[b], function(a, b) {
+      this.add(b, a)
+    }, this)
+  }
+};
+goog.async.Delay = function(a, b, c) {
+  goog.Disposable.call(this);
+  this.listener_ = a;
+  this.interval_ = b || 0;
+  this.handler_ = c;
+  this.callback_ = goog.bind(this.doAction_, this)
+};
+goog.inherits(goog.async.Delay, goog.Disposable);
+goog.Delay = goog.async.Delay;
+goog.async.Delay.prototype.id_ = 0;
+goog.async.Delay.prototype.disposeInternal = function() {
+  goog.async.Delay.superClass_.disposeInternal.call(this);
+  this.stop();
+  delete this.listener_;
+  delete this.handler_
+};
+goog.async.Delay.prototype.start = function(a) {
+  this.stop();
+  this.id_ = goog.Timer.callOnce(this.callback_, goog.isDef(a) ? a : this.interval_)
+};
+goog.async.Delay.prototype.stop = function() {
+  this.isActive() && goog.Timer.clear(this.id_);
+  this.id_ = 0
+};
+goog.async.Delay.prototype.fire = function() {
+  this.stop();
+  this.doAction_()
+};
+goog.async.Delay.prototype.fireIfActive = function() {
+  this.isActive() && this.fire()
+};
+goog.async.Delay.prototype.isActive = function() {
+  return 0 != this.id_
+};
+goog.async.Delay.prototype.doAction_ = function() {
+  this.id_ = 0;
+  this.listener_ && this.listener_.call(this.handler_)
 };
 goog.net.Cookies = function(a) {
   this.document_ = a
@@ -21188,7 +19784,7 @@ goog.net.Cookies.prototype.getKeyValues_ = function() {
 };
 goog.net.cookies = new goog.net.Cookies(document);
 goog.net.cookies.MAX_COOKIE_LENGTH = goog.net.Cookies.MAX_COOKIE_LENGTH;
-shoreleave.browser = {};
+var shoreleave = {browser:{}};
 shoreleave.browser.cookies = {};
 shoreleave.browser.cookies.as_hash_map = void 0;
 goog.net.Cookies.prototype.cljs$core$IHash$ = !0;
@@ -21322,6 +19918,1503 @@ shoreleave.browser.cookies.cookies_enabled_QMARK_ = function() {
 shoreleave.browser.cookies.empty_BANG_ = function(a) {
   return a.clear()
 };
+goog.net.xpc.Transport = function(a) {
+  goog.Disposable.call(this);
+  this.domHelper_ = a || goog.dom.getDomHelper()
+};
+goog.inherits(goog.net.xpc.Transport, goog.Disposable);
+goog.net.xpc.Transport.prototype.transportType = 0;
+goog.net.xpc.Transport.prototype.getType = function() {
+  return this.transportType
+};
+goog.net.xpc.Transport.prototype.getWindow = function() {
+  return this.domHelper_.getWindow()
+};
+goog.net.xpc.Transport.prototype.getName = function() {
+  return goog.net.xpc.TransportNames[this.transportType] || ""
+};
+var com = {ewen:{}};
+com.ewen.utils_cljs = {};
+com.ewen.utils_cljs.utils = {};
+com.ewen.utils_cljs.utils.log = function(a) {
+  return console.log(a)
+};
+com.ewen.utils_cljs.utils.space_to_dash = function(a) {
+  return clojure.string.replace.call(null, a, " ", "-")
+};
+com.ewen.utils_cljs.utils.get_load_fn = function() {
+  return"function" === goog.typeOf(window.onload) ? window.onload : function() {
+    return cljs.core.List.EMPTY
+  }
+};
+com.ewen.utils_cljs.utils.add_load_event = function(a) {
+  var b = com.ewen.utils_cljs.utils.get_load_fn.call(null);
+  return window.onload = function() {
+    b.call(null);
+    return a.call(null)
+  }
+};
+goog.messaging = {};
+goog.messaging.MessageChannel = function() {
+};
+goog.messaging.MessageChannel.prototype.connect = function() {
+};
+goog.messaging.MessageChannel.prototype.isConnected = function() {
+};
+goog.messaging.MessageChannel.prototype.registerService = function() {
+};
+goog.messaging.MessageChannel.prototype.registerDefaultService = function() {
+};
+goog.messaging.MessageChannel.prototype.send = function() {
+};
+goog.messaging.AbstractChannel = function() {
+  goog.Disposable.call(this);
+  this.services_ = {}
+};
+goog.inherits(goog.messaging.AbstractChannel, goog.Disposable);
+goog.messaging.AbstractChannel.prototype.logger = goog.debug.Logger.getLogger("goog.messaging.AbstractChannel");
+goog.messaging.AbstractChannel.prototype.connect = function(a) {
+  a && a()
+};
+goog.messaging.AbstractChannel.prototype.isConnected = function() {
+  return!0
+};
+goog.messaging.AbstractChannel.prototype.registerService = function(a, b, c) {
+  this.services_[a] = {callback:b, objectPayload:!!c}
+};
+goog.messaging.AbstractChannel.prototype.registerDefaultService = function(a) {
+  this.defaultService_ = a
+};
+goog.messaging.AbstractChannel.prototype.deliver = function(a, b) {
+  var c = this.getService(a, b);
+  if(c) {
+    var d = this.decodePayload(a, b, c.objectPayload);
+    goog.isDefAndNotNull(d) && c.callback(d)
+  }
+};
+goog.messaging.AbstractChannel.prototype.getService = function(a, b) {
+  var c = this.services_[a];
+  if(c) {
+    return c
+  }
+  if(this.defaultService_) {
+    var c = goog.partial(this.defaultService_, a), d = goog.isObject(b);
+    return{callback:c, objectPayload:d}
+  }
+  this.logger.warning('Unknown service name "' + a + '"');
+  return null
+};
+goog.messaging.AbstractChannel.prototype.decodePayload = function(a, b, c) {
+  if(c && goog.isString(b)) {
+    try {
+      return goog.json.parse(b)
+    }catch(d) {
+      return this.logger.warning("Expected JSON payload for " + a + ', was "' + b + '"'), null
+    }
+  }else {
+    if(!c && !goog.isString(b)) {
+      return goog.json.serialize(b)
+    }
+  }
+  return b
+};
+goog.messaging.AbstractChannel.prototype.disposeInternal = function() {
+  goog.messaging.AbstractChannel.superClass_.disposeInternal.call(this);
+  goog.dispose(this.logger);
+  delete this.logger;
+  delete this.services_;
+  delete this.defaultService_
+};
+clojure.browser = {};
+clojure.browser.event = {};
+clojure.browser.event.EventType = {};
+clojure.browser.event.event_types = function(a) {
+  var b;
+  b = a ? a.clojure$browser$event$EventType$event_types$arity$1 : a;
+  if(b) {
+    return a.clojure$browser$event$EventType$event_types$arity$1(a)
+  }
+  b = clojure.browser.event.event_types[goog.typeOf(null == a ? null : a)];
+  if(!b && (b = clojure.browser.event.event_types._, !b)) {
+    throw cljs.core.missing_protocol.call(null, "EventType.event-types", a);
+  }
+  return b.call(null, a)
+};
+Element.prototype.clojure$browser$event$EventType$ = !0;
+Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
+  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
+    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
+  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.events.EventType))))
+};
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = !0;
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
+  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
+    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
+  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.events.EventType))))
+};
+clojure.browser.event.listen = function() {
+  var a = null, b = function(b, c, f) {
+    return a.call(null, b, c, f, !1)
+  }, c = function(a, b, c, g) {
+    return goog.events.listen(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
+  }, a = function(a, e, f, g) {
+    switch(arguments.length) {
+      case 3:
+        return b.call(this, a, e, f);
+      case 4:
+        return c.call(this, a, e, f, g)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$3 = b;
+  a.cljs$lang$arity$4 = c;
+  return a
+}();
+clojure.browser.event.listen_once = function() {
+  var a = null, b = function(b, c, f) {
+    return a.call(null, b, c, f, !1)
+  }, c = function(a, b, c, g) {
+    return goog.events.listenOnce(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
+  }, a = function(a, e, f, g) {
+    switch(arguments.length) {
+      case 3:
+        return b.call(this, a, e, f);
+      case 4:
+        return c.call(this, a, e, f, g)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$3 = b;
+  a.cljs$lang$arity$4 = c;
+  return a
+}();
+clojure.browser.event.unlisten = function() {
+  var a = null, b = function(b, c, f) {
+    return a.call(null, b, c, f, !1)
+  }, c = function(a, b, c, g) {
+    return goog.events.unlisten(a, cljs.core._lookup.call(null, clojure.browser.event.event_types.call(null, a), b, b), c, g)
+  }, a = function(a, e, f, g) {
+    switch(arguments.length) {
+      case 3:
+        return b.call(this, a, e, f);
+      case 4:
+        return c.call(this, a, e, f, g)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$3 = b;
+  a.cljs$lang$arity$4 = c;
+  return a
+}();
+clojure.browser.event.unlisten_by_key = function(a) {
+  return goog.events.unlistenByKey(a)
+};
+clojure.browser.event.dispatch_event = function(a, b) {
+  return goog.events.dispatchEvent(a, b)
+};
+clojure.browser.event.expose = function(a) {
+  return goog.events.expose(a)
+};
+clojure.browser.event.fire_listeners = function() {
+  return null
+};
+clojure.browser.event.total_listener_count = function() {
+  return goog.events.getTotalListenerCount()
+};
+clojure.browser.event.get_listener = function() {
+  return null
+};
+clojure.browser.event.all_listeners = function() {
+  return null
+};
+clojure.browser.event.unique_event_id = function() {
+  return null
+};
+clojure.browser.event.has_listener = function() {
+  return null
+};
+clojure.browser.event.remove_all = function() {
+  return null
+};
+goog.net.xpc.CrossPageChannelRole = {OUTER:0, INNER:1};
+goog.net.xpc.IframePollingTransport = function(a, b) {
+  goog.net.xpc.Transport.call(this, b);
+  this.channel_ = a;
+  this.sendUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI];
+  this.rcvUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI];
+  this.sendQueue_ = []
+};
+goog.inherits(goog.net.xpc.IframePollingTransport, goog.net.xpc.Transport);
+goog.net.xpc.IframePollingTransport.prototype.pollsBeforeReconnect_ = 5;
+goog.net.xpc.IframePollingTransport.prototype.transportType = goog.net.xpc.TransportTypes.IFRAME_POLLING;
+goog.net.xpc.IframePollingTransport.prototype.sequence_ = 0;
+goog.net.xpc.IframePollingTransport.prototype.waitForAck_ = !1;
+goog.net.xpc.IframePollingTransport.prototype.initialized_ = !1;
+goog.net.xpc.IframePollingTransport.prototype.reconnectFrame_ = null;
+goog.net.xpc.IframePollingTransport.IFRAME_PREFIX = "googlexpc";
+goog.net.xpc.IframePollingTransport.prototype.getMsgFrameName_ = function() {
+  return goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_" + this.channel_.name + "_msg"
+};
+goog.net.xpc.IframePollingTransport.prototype.getAckFrameName_ = function() {
+  return goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_" + this.channel_.name + "_ack"
+};
+goog.net.xpc.IframePollingTransport.prototype.isChannelAvailable = function() {
+  return!this.isDisposed() && this.channel_.isPeerAvailable()
+};
+goog.net.xpc.IframePollingTransport.prototype.getPeerFrames_ = function() {
+  try {
+    if(this.isChannelAvailable()) {
+      return this.channel_.getPeerWindowObject().frames || {}
+    }
+  }catch(a) {
+    goog.net.xpc.logger.fine("error retrieving peer frames")
+  }
+  return{}
+};
+goog.net.xpc.IframePollingTransport.prototype.getPeerFrame_ = function(a) {
+  return this.getPeerFrames_()[a]
+};
+goog.net.xpc.IframePollingTransport.prototype.connect = function() {
+  this.isChannelAvailable() && (goog.net.xpc.logger.fine("transport connect called"), this.initialized_ || (goog.net.xpc.logger.fine("initializing..."), this.constructSenderFrames_(), this.initialized_ = !0), this.checkForeignFramesReady_())
+};
+goog.net.xpc.IframePollingTransport.prototype.constructSenderFrames_ = function() {
+  var a = this.getMsgFrameName_();
+  this.msgIframeElm_ = this.constructSenderFrame_(a);
+  this.msgWinObj_ = this.getWindow().frames[a];
+  a = this.getAckFrameName_();
+  this.ackIframeElm_ = this.constructSenderFrame_(a);
+  this.ackWinObj_ = this.getWindow().frames[a]
+};
+goog.net.xpc.IframePollingTransport.prototype.constructSenderFrame_ = function(a) {
+  goog.net.xpc.logger.finest("constructing sender frame: " + a);
+  var b = goog.dom.createElement("iframe"), c = b.style;
+  c.position = "absolute";
+  c.top = "-10px";
+  c.left = "10px";
+  c.width = "1px";
+  c.height = "1px";
+  b.id = b.name = a;
+  b.src = this.sendUri_ + "#INITIAL";
+  this.getWindow().document.body.appendChild(b);
+  return b
+};
+goog.net.xpc.IframePollingTransport.prototype.maybeInnerPeerReconnect_ = function() {
+  this.reconnectFrame_ || 0 < this.pollsBeforeReconnect_-- || (goog.net.xpc.logger.finest("Inner peer reconnect triggered."), this.channel_.name = goog.net.xpc.getRandomString(10), goog.net.xpc.logger.finest("switching channels: " + this.channel_.name), this.deconstructSenderFrames_(), this.initialized_ = !1, this.reconnectFrame_ = this.constructSenderFrame_(goog.net.xpc.IframePollingTransport.IFRAME_PREFIX + "_reconnect_" + this.channel_.name))
+};
+goog.net.xpc.IframePollingTransport.prototype.outerPeerReconnect_ = function() {
+  goog.net.xpc.logger.finest("outerPeerReconnect called");
+  for(var a = this.getPeerFrames_(), b = a.length, c = 0;c < b;c++) {
+    var d;
+    try {
+      a[c] && a[c].name && (d = a[c].name)
+    }catch(e) {
+    }
+    if(d) {
+      var f = d.split("_");
+      if(3 == f.length && f[0] == goog.net.xpc.IframePollingTransport.IFRAME_PREFIX && "reconnect" == f[1]) {
+        this.channel_.name = f[2];
+        this.deconstructSenderFrames_();
+        this.initialized_ = !1;
+        break
+      }
+    }
+  }
+};
+goog.net.xpc.IframePollingTransport.prototype.deconstructSenderFrames_ = function() {
+  goog.net.xpc.logger.finest("deconstructSenderFrames called");
+  this.msgIframeElm_ && (this.msgIframeElm_.parentNode.removeChild(this.msgIframeElm_), this.msgWinObj_ = this.msgIframeElm_ = null);
+  this.ackIframeElm_ && (this.ackIframeElm_.parentNode.removeChild(this.ackIframeElm_), this.ackWinObj_ = this.ackIframeElm_ = null)
+};
+goog.net.xpc.IframePollingTransport.prototype.checkForeignFramesReady_ = function() {
+  !this.isRcvFrameReady_(this.getMsgFrameName_()) || !this.isRcvFrameReady_(this.getAckFrameName_()) ? (goog.net.xpc.logger.finest("foreign frames not (yet) present"), this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.INNER ? this.maybeInnerPeerReconnect_() : this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER && this.outerPeerReconnect_(), this.getWindow().setTimeout(goog.bind(this.connect, this), 100)) : (goog.net.xpc.logger.fine("foreign frames present"), this.msgReceiver_ = 
+  new goog.net.xpc.IframePollingTransport.Receiver(this, this.getPeerFrame_(this.getMsgFrameName_()), goog.bind(this.processIncomingMsg, this)), this.ackReceiver_ = new goog.net.xpc.IframePollingTransport.Receiver(this, this.getPeerFrame_(this.getAckFrameName_()), goog.bind(this.processIncomingAck, this)), this.checkLocalFramesPresent_())
+};
+goog.net.xpc.IframePollingTransport.prototype.isRcvFrameReady_ = function(a) {
+  goog.net.xpc.logger.finest("checking for receive frame: " + a);
+  try {
+    var b = this.getPeerFrame_(a);
+    if(!b || 0 != b.location.href.indexOf(this.rcvUri_)) {
+      return!1
+    }
+  }catch(c) {
+    return!1
+  }
+  return!0
+};
+goog.net.xpc.IframePollingTransport.prototype.checkLocalFramesPresent_ = function() {
+  var a = this.getPeerFrames_();
+  !a[this.getAckFrameName_()] || !a[this.getMsgFrameName_()] ? (this.checkLocalFramesPresentCb_ || (this.checkLocalFramesPresentCb_ = goog.bind(this.checkLocalFramesPresent_, this)), this.getWindow().setTimeout(this.checkLocalFramesPresentCb_, 100), goog.net.xpc.logger.fine("local frames not (yet) present")) : (this.msgSender_ = new goog.net.xpc.IframePollingTransport.Sender(this.sendUri_, this.msgWinObj_), this.ackSender_ = new goog.net.xpc.IframePollingTransport.Sender(this.sendUri_, this.ackWinObj_), 
+  goog.net.xpc.logger.fine("local frames ready"), this.getWindow().setTimeout(goog.bind(function() {
+    this.msgSender_.send(goog.net.xpc.SETUP);
+    this.waitForAck_ = this.sentConnectionSetup_ = !0;
+    goog.net.xpc.logger.fine("SETUP sent")
+  }, this), 100))
+};
+goog.net.xpc.IframePollingTransport.prototype.checkIfConnected_ = function() {
+  if(this.sentConnectionSetupAck_ && this.rcvdConnectionSetupAck_) {
+    if(this.channel_.notifyConnected(), this.deliveryQueue_) {
+      goog.net.xpc.logger.fine("delivering queued messages (" + this.deliveryQueue_.length + ")");
+      for(var a = 0, b;a < this.deliveryQueue_.length;a++) {
+        b = this.deliveryQueue_[a], this.channel_.deliver_(b.service, b.payload)
+      }
+      delete this.deliveryQueue_
+    }
+  }else {
+    goog.net.xpc.logger.finest("checking if connected: ack sent:" + this.sentConnectionSetupAck_ + ", ack rcvd: " + this.rcvdConnectionSetupAck_)
+  }
+};
+goog.net.xpc.IframePollingTransport.prototype.processIncomingMsg = function(a) {
+  goog.net.xpc.logger.finest("msg received: " + a);
+  if(a == goog.net.xpc.SETUP) {
+    this.ackSender_ && (this.ackSender_.send(goog.net.xpc.SETUP_ACK_), goog.net.xpc.logger.finest("SETUP_ACK sent"), this.sentConnectionSetupAck_ = !0, this.checkIfConnected_())
+  }else {
+    if(this.channel_.isConnected() || this.sentConnectionSetupAck_) {
+      var b = a.indexOf("|"), c = a.substring(0, b), a = a.substring(b + 1), b = c.indexOf(",");
+      if(-1 == b) {
+        var d;
+        this.ackSender_.send("ACK:" + c);
+        this.deliverPayload_(a)
+      }else {
+        d = c.substring(0, b), this.ackSender_.send("ACK:" + d), c = c.substring(b + 1).split("/"), b = parseInt(c[0], 10), c = parseInt(c[1], 10), 1 == b && (this.parts_ = []), this.parts_.push(a), b == c && (this.deliverPayload_(this.parts_.join("")), delete this.parts_)
+      }
+    }else {
+      goog.net.xpc.logger.warning("received msg, but channel is not connected")
+    }
+  }
+};
+goog.net.xpc.IframePollingTransport.prototype.processIncomingAck = function(a) {
+  goog.net.xpc.logger.finest("ack received: " + a);
+  a == goog.net.xpc.SETUP_ACK_ ? (this.waitForAck_ = !1, this.rcvdConnectionSetupAck_ = !0, this.checkIfConnected_()) : this.channel_.isConnected() ? this.waitForAck_ ? parseInt(a.split(":")[1], 10) == this.sequence_ ? (this.waitForAck_ = !1, this.sendNextFrame_()) : goog.net.xpc.logger.warning("got ack with wrong sequence") : goog.net.xpc.logger.warning("got unexpected ack") : goog.net.xpc.logger.warning("received ack, but channel not connected")
+};
+goog.net.xpc.IframePollingTransport.prototype.sendNextFrame_ = function() {
+  if(!this.waitForAck_ && this.sendQueue_.length) {
+    var a = this.sendQueue_.shift();
+    ++this.sequence_;
+    this.msgSender_.send(this.sequence_ + a);
+    goog.net.xpc.logger.finest("msg sent: " + this.sequence_ + a);
+    this.waitForAck_ = !0
+  }
+};
+goog.net.xpc.IframePollingTransport.prototype.deliverPayload_ = function(a) {
+  var b = a.indexOf(":"), c = a.substr(0, b), a = a.substring(b + 1);
+  this.channel_.isConnected() ? this.channel_.deliver_(c, a) : ((this.deliveryQueue_ || (this.deliveryQueue_ = [])).push({service:c, payload:a}), goog.net.xpc.logger.finest("queued delivery"))
+};
+goog.net.xpc.IframePollingTransport.prototype.MAX_FRAME_LENGTH_ = 3800;
+goog.net.xpc.IframePollingTransport.prototype.send = function(a, b) {
+  var c = a + ":" + b;
+  if(!goog.userAgent.IE || b.length <= this.MAX_FRAME_LENGTH_) {
+    this.sendQueue_.push("|" + c)
+  }else {
+    for(var d = b.length, e = Math.ceil(d / this.MAX_FRAME_LENGTH_), f = 0, g = 1;f < d;) {
+      this.sendQueue_.push("," + g + "/" + e + "|" + c.substr(f, this.MAX_FRAME_LENGTH_)), g++, f += this.MAX_FRAME_LENGTH_
+    }
+  }
+  this.sendNextFrame_()
+};
+goog.net.xpc.IframePollingTransport.prototype.disposeInternal = function() {
+  goog.net.xpc.IframePollingTransport.superClass_.disposeInternal.call(this);
+  var a = goog.net.xpc.IframePollingTransport.receivers_;
+  goog.array.remove(a, this.msgReceiver_);
+  goog.array.remove(a, this.ackReceiver_);
+  this.msgReceiver_ = this.ackReceiver_ = null;
+  goog.dom.removeNode(this.msgIframeElm_);
+  goog.dom.removeNode(this.ackIframeElm_);
+  this.msgWinObj_ = this.ackWinObj_ = this.msgIframeElm_ = this.ackIframeElm_ = null
+};
+goog.net.xpc.IframePollingTransport.receivers_ = [];
+goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_ = 10;
+goog.net.xpc.IframePollingTransport.TIME_POLL_LONG_ = 100;
+goog.net.xpc.IframePollingTransport.TIME_SHORT_POLL_AFTER_ACTIVITY_ = 1E3;
+goog.net.xpc.IframePollingTransport.receive_ = function() {
+  var a = !1;
+  try {
+    for(var b = 0, c = goog.net.xpc.IframePollingTransport.receivers_.length;b < c;b++) {
+      a = a || goog.net.xpc.IframePollingTransport.receivers_[b].receive()
+    }
+  }catch(d) {
+    if(goog.net.xpc.logger.info("receive_() failed: " + d), goog.net.xpc.IframePollingTransport.receivers_[b].transport_.channel_.notifyTransportError_(), !goog.net.xpc.IframePollingTransport.receivers_.length) {
+      return
+    }
+  }
+  b = goog.now();
+  a && (goog.net.xpc.IframePollingTransport.lastActivity_ = b);
+  goog.net.xpc.IframePollingTransport.rcvTimer_ = window.setTimeout(goog.net.xpc.IframePollingTransport.receiveCb_, b - goog.net.xpc.IframePollingTransport.lastActivity_ < goog.net.xpc.IframePollingTransport.TIME_SHORT_POLL_AFTER_ACTIVITY_ ? goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_ : goog.net.xpc.IframePollingTransport.TIME_POLL_LONG_)
+};
+goog.net.xpc.IframePollingTransport.receiveCb_ = goog.bind(goog.net.xpc.IframePollingTransport.receive_, goog.net.xpc.IframePollingTransport);
+goog.net.xpc.IframePollingTransport.startRcvTimer_ = function() {
+  goog.net.xpc.logger.fine("starting receive-timer");
+  goog.net.xpc.IframePollingTransport.lastActivity_ = goog.now();
+  goog.net.xpc.IframePollingTransport.rcvTimer_ && window.clearTimeout(goog.net.xpc.IframePollingTransport.rcvTimer_);
+  goog.net.xpc.IframePollingTransport.rcvTimer_ = window.setTimeout(goog.net.xpc.IframePollingTransport.receiveCb_, goog.net.xpc.IframePollingTransport.TIME_POLL_SHORT_)
+};
+goog.net.xpc.IframePollingTransport.Sender = function(a, b) {
+  this.sendUri_ = a;
+  this.sendFrame_ = b;
+  this.cycle_ = 0
+};
+goog.net.xpc.IframePollingTransport.Sender.prototype.send = function(a) {
+  this.cycle_ = ++this.cycle_ % 2;
+  a = this.sendUri_ + "#" + this.cycle_ + encodeURIComponent(a);
+  try {
+    goog.userAgent.WEBKIT ? this.sendFrame_.location.href = a : this.sendFrame_.location.replace(a)
+  }catch(b) {
+    goog.net.xpc.logger.severe("sending failed", b)
+  }
+  goog.net.xpc.IframePollingTransport.startRcvTimer_()
+};
+goog.net.xpc.IframePollingTransport.Receiver = function(a, b, c) {
+  this.transport_ = a;
+  this.rcvFrame_ = b;
+  this.cb_ = c;
+  this.currentLoc_ = this.rcvFrame_.location.href.split("#")[0] + "#INITIAL";
+  goog.net.xpc.IframePollingTransport.receivers_.push(this);
+  goog.net.xpc.IframePollingTransport.startRcvTimer_()
+};
+goog.net.xpc.IframePollingTransport.Receiver.prototype.receive = function() {
+  var a = this.rcvFrame_.location.href;
+  if(a != this.currentLoc_) {
+    this.currentLoc_ = a;
+    if(a = a.split("#")[1]) {
+      a = a.substr(1), this.cb_(decodeURIComponent(a))
+    }
+    return!0
+  }
+  return!1
+};
+goog.events.EventHandler = function(a) {
+  goog.Disposable.call(this);
+  this.handler_ = a;
+  this.keys_ = []
+};
+goog.inherits(goog.events.EventHandler, goog.Disposable);
+goog.events.EventHandler.typeArray_ = [];
+goog.events.EventHandler.prototype.listen = function(a, b, c, d, e) {
+  goog.isArray(b) || (goog.events.EventHandler.typeArray_[0] = b, b = goog.events.EventHandler.typeArray_);
+  for(var f = 0;f < b.length;f++) {
+    var g = goog.events.listen(a, b[f], c || this, d || !1, e || this.handler_ || this);
+    this.keys_.push(g)
+  }
+  return this
+};
+goog.events.EventHandler.prototype.listenOnce = function(a, b, c, d, e) {
+  if(goog.isArray(b)) {
+    for(var f = 0;f < b.length;f++) {
+      this.listenOnce(a, b[f], c, d, e)
+    }
+  }else {
+    a = goog.events.listenOnce(a, b, c || this, d, e || this.handler_ || this), this.keys_.push(a)
+  }
+  return this
+};
+goog.events.EventHandler.prototype.listenWithWrapper = function(a, b, c, d, e) {
+  b.listen(a, c, d, e || this.handler_ || this, this);
+  return this
+};
+goog.events.EventHandler.prototype.getListenerCount = function() {
+  return this.keys_.length
+};
+goog.events.EventHandler.prototype.unlisten = function(a, b, c, d, e) {
+  if(goog.isArray(b)) {
+    for(var f = 0;f < b.length;f++) {
+      this.unlisten(a, b[f], c, d, e)
+    }
+  }else {
+    if(a = goog.events.getListener(a, b, c || this, d, e || this.handler_ || this)) {
+      a = a.key, goog.events.unlistenByKey(a), goog.array.remove(this.keys_, a)
+    }
+  }
+  return this
+};
+goog.events.EventHandler.prototype.unlistenWithWrapper = function(a, b, c, d, e) {
+  b.unlisten(a, c, d, e || this.handler_ || this, this);
+  return this
+};
+goog.events.EventHandler.prototype.removeAll = function() {
+  goog.array.forEach(this.keys_, goog.events.unlistenByKey);
+  this.keys_.length = 0
+};
+goog.events.EventHandler.prototype.disposeInternal = function() {
+  goog.events.EventHandler.superClass_.disposeInternal.call(this);
+  this.removeAll()
+};
+goog.events.EventHandler.prototype.handleEvent = function() {
+  throw Error("EventHandler.handleEvent not implemented");
+};
+goog.net.xpc.FrameElementMethodTransport = function(a, b) {
+  goog.net.xpc.Transport.call(this, b);
+  this.channel_ = a;
+  this.queue_ = [];
+  this.deliverQueuedCb_ = goog.bind(this.deliverQueued_, this)
+};
+goog.inherits(goog.net.xpc.FrameElementMethodTransport, goog.net.xpc.Transport);
+goog.net.xpc.FrameElementMethodTransport.prototype.transportType = goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD;
+goog.net.xpc.FrameElementMethodTransport.prototype.recursive_ = !1;
+goog.net.xpc.FrameElementMethodTransport.prototype.timer_ = 0;
+goog.net.xpc.FrameElementMethodTransport.outgoing_ = null;
+goog.net.xpc.FrameElementMethodTransport.prototype.connect = function() {
+  this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER ? (this.iframeElm_ = this.channel_.iframeElement_, this.iframeElm_.XPC_toOuter = goog.bind(this.incoming_, this)) : this.attemptSetup_()
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.attemptSetup_ = function() {
+  var a = !0;
+  try {
+    this.iframeElm_ || (this.iframeElm_ = this.getWindow().frameElement), this.iframeElm_ && this.iframeElm_.XPC_toOuter && (this.outgoing_ = this.iframeElm_.XPC_toOuter, this.iframeElm_.XPC_toOuter.XPC_toInner = goog.bind(this.incoming_, this), a = !1, this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_), this.channel_.notifyConnected())
+  }catch(b) {
+    goog.net.xpc.logger.severe("exception caught while attempting setup: " + b)
+  }
+  a && (this.attemptSetupCb_ || (this.attemptSetupCb_ = goog.bind(this.attemptSetup_, this)), this.getWindow().setTimeout(this.attemptSetupCb_, 100))
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.transportServiceHandler = function(a) {
+  if(this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER && !this.channel_.isConnected() && a == goog.net.xpc.SETUP_ACK_) {
+    this.outgoing_ = this.iframeElm_.XPC_toOuter.XPC_toInner, this.channel_.notifyConnected()
+  }else {
+    throw Error("Got unexpected transport message.");
+  }
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.incoming_ = function(a, b) {
+  !this.recursive_ && 0 == this.queue_.length ? this.channel_.deliver_(a, b) : (this.queue_.push({serviceName:a, payload:b}), 1 == this.queue_.length && (this.timer_ = this.getWindow().setTimeout(this.deliverQueuedCb_, 1)))
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.deliverQueued_ = function() {
+  for(;this.queue_.length;) {
+    var a = this.queue_.shift();
+    this.channel_.deliver_(a.serviceName, a.payload)
+  }
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.send = function(a, b) {
+  this.recursive_ = !0;
+  this.outgoing_(a, b);
+  this.recursive_ = !1
+};
+goog.net.xpc.FrameElementMethodTransport.prototype.disposeInternal = function() {
+  goog.net.xpc.FrameElementMethodTransport.superClass_.disposeInternal.call(this);
+  this.iframeElm_ = this.outgoing_ = null
+};
+goog.net.xpc.IframeRelayTransport = function(a, b) {
+  goog.net.xpc.Transport.call(this, b);
+  this.channel_ = a;
+  this.peerRelayUri_ = this.channel_.cfg_[goog.net.xpc.CfgFields.PEER_RELAY_URI];
+  this.peerIframeId_ = this.channel_.cfg_[goog.net.xpc.CfgFields.IFRAME_ID];
+  goog.userAgent.WEBKIT && goog.net.xpc.IframeRelayTransport.startCleanupTimer_()
+};
+goog.inherits(goog.net.xpc.IframeRelayTransport, goog.net.xpc.Transport);
+goog.userAgent.WEBKIT && (goog.net.xpc.IframeRelayTransport.iframeRefs_ = [], goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_ = 1E3, goog.net.xpc.IframeRelayTransport.IFRAME_MAX_AGE_ = 3E3, goog.net.xpc.IframeRelayTransport.cleanupTimer_ = 0, goog.net.xpc.IframeRelayTransport.startCleanupTimer_ = function() {
+  goog.net.xpc.IframeRelayTransport.cleanupTimer_ || (goog.net.xpc.IframeRelayTransport.cleanupTimer_ = window.setTimeout(function() {
+    goog.net.xpc.IframeRelayTransport.cleanup_()
+  }, goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_))
+}, goog.net.xpc.IframeRelayTransport.cleanup_ = function(a) {
+  for(var b = goog.now(), a = a || goog.net.xpc.IframeRelayTransport.IFRAME_MAX_AGE_;goog.net.xpc.IframeRelayTransport.iframeRefs_.length && b - goog.net.xpc.IframeRelayTransport.iframeRefs_[0].timestamp >= a;) {
+    var c = goog.net.xpc.IframeRelayTransport.iframeRefs_.shift().iframeElement;
+    goog.dom.removeNode(c);
+    goog.net.xpc.logger.finest("iframe removed")
+  }
+  goog.net.xpc.IframeRelayTransport.cleanupTimer_ = window.setTimeout(goog.net.xpc.IframeRelayTransport.cleanupCb_, goog.net.xpc.IframeRelayTransport.CLEANUP_INTERVAL_)
+}, goog.net.xpc.IframeRelayTransport.cleanupCb_ = function() {
+  goog.net.xpc.IframeRelayTransport.cleanup_()
+});
+goog.net.xpc.IframeRelayTransport.IE_PAYLOAD_MAX_SIZE_ = 1800;
+goog.net.xpc.IframeRelayTransport.fragmentMap_ = {};
+goog.net.xpc.IframeRelayTransport.prototype.transportType = goog.net.xpc.TransportTypes.IFRAME_RELAY;
+goog.net.xpc.IframeRelayTransport.prototype.connect = function() {
+  this.getWindow().xpcRelay || (this.getWindow().xpcRelay = goog.net.xpc.IframeRelayTransport.receiveMessage_);
+  this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP)
+};
+goog.net.xpc.IframeRelayTransport.receiveMessage_ = function(a, b) {
+  var c = b.indexOf(":"), d = b.substr(0, c), e = b.substr(c + 1);
+  if(!goog.userAgent.IE || -1 == (c = d.indexOf("|"))) {
+    var f = d
+  }else {
+    var f = d.substr(0, c), d = d.substr(c + 1), c = d.indexOf("+"), g = d.substr(0, c), c = parseInt(d.substr(c + 1), 10), h = goog.net.xpc.IframeRelayTransport.fragmentMap_[g];
+    h || (h = goog.net.xpc.IframeRelayTransport.fragmentMap_[g] = {fragments:[], received:0, expected:0});
+    goog.string.contains(d, "++") && (h.expected = c + 1);
+    h.fragments[c] = e;
+    h.received++;
+    if(h.received != h.expected) {
+      return
+    }
+    e = h.fragments.join("");
+    delete goog.net.xpc.IframeRelayTransport.fragmentMap_[g]
+  }
+  goog.net.xpc.channels_[a].deliver_(f, decodeURIComponent(e))
+};
+goog.net.xpc.IframeRelayTransport.prototype.transportServiceHandler = function(a) {
+  a == goog.net.xpc.SETUP ? (this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_), this.channel_.notifyConnected()) : a == goog.net.xpc.SETUP_ACK_ && this.channel_.notifyConnected()
+};
+goog.net.xpc.IframeRelayTransport.prototype.send = function(a, b) {
+  var c = encodeURIComponent(b), d = c.length, e = goog.net.xpc.IframeRelayTransport.IE_PAYLOAD_MAX_SIZE_;
+  if(goog.userAgent.IE && d > e) {
+    for(var f = goog.string.getRandomString(), g = 0, h = 0;g < d;h++) {
+      var i = c.substr(g, e), g = g + e;
+      this.send_(a, i, f + (g >= d ? "++" : "+") + h)
+    }
+  }else {
+    this.send_(a, c)
+  }
+};
+goog.net.xpc.IframeRelayTransport.prototype.send_ = function(a, b, c) {
+  if(goog.userAgent.IE) {
+    var d = this.getWindow().document.createElement("div");
+    d.innerHTML = '<iframe onload="this.xpcOnload()"></iframe>';
+    d = d.childNodes[0];
+    d.xpcOnload = goog.net.xpc.IframeRelayTransport.iframeLoadHandler_
+  }else {
+    d = this.getWindow().document.createElement("iframe"), goog.userAgent.WEBKIT ? goog.net.xpc.IframeRelayTransport.iframeRefs_.push({timestamp:goog.now(), iframeElement:d}) : goog.events.listen(d, "load", goog.net.xpc.IframeRelayTransport.iframeLoadHandler_)
+  }
+  var e = d.style;
+  e.visibility = "hidden";
+  e.width = d.style.height = "0px";
+  e.position = "absolute";
+  e = this.peerRelayUri_;
+  e += "#" + this.channel_.name;
+  this.peerIframeId_ && (e += "," + this.peerIframeId_);
+  e += "|" + a;
+  c && (e += "|" + c);
+  e += ":" + b;
+  d.src = e;
+  this.getWindow().document.body.appendChild(d);
+  goog.net.xpc.logger.finest("msg sent: " + e)
+};
+goog.net.xpc.IframeRelayTransport.iframeLoadHandler_ = function() {
+  goog.net.xpc.logger.finest("iframe-load");
+  goog.dom.removeNode(this);
+  this.xpcOnload = null
+};
+goog.net.xpc.IframeRelayTransport.prototype.disposeInternal = function() {
+  goog.net.xpc.IframeRelayTransport.superClass_.disposeInternal.call(this);
+  goog.userAgent.WEBKIT && goog.net.xpc.IframeRelayTransport.cleanup_(0)
+};
+goog.net.xpc.NativeMessagingTransport = function(a, b, c, d, e) {
+  goog.net.xpc.Transport.call(this, c);
+  this.channel_ = a;
+  this.protocolVersion_ = e || 2;
+  goog.asserts.assert(1 <= this.protocolVersion_);
+  goog.asserts.assert(2 >= this.protocolVersion_);
+  this.peerHostname_ = b || "*";
+  this.eventHandler_ = new goog.events.EventHandler(this);
+  this.maybeAttemptToConnectTimer_ = new goog.Timer(100, this.getWindow());
+  this.oneSidedHandshake_ = !!d;
+  this.setupAckReceived_ = new goog.async.Deferred;
+  this.setupAckSent_ = new goog.async.Deferred;
+  this.connected_ = new goog.async.Deferred;
+  this.endpointId_ = goog.net.xpc.getRandomString(10);
+  this.peerEndpointId_ = null;
+  this.oneSidedHandshake_ ? this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.INNER ? this.connected_.awaitDeferred(this.setupAckReceived_) : this.connected_.awaitDeferred(this.setupAckSent_) : (this.connected_.awaitDeferred(this.setupAckReceived_), 2 == this.protocolVersion_ && this.connected_.awaitDeferred(this.setupAckSent_));
+  this.connected_.addCallback(this.notifyConnected_, this);
+  this.connected_.callback(!0);
+  this.eventHandler_.listen(this.maybeAttemptToConnectTimer_, goog.Timer.TICK, this.maybeAttemptToConnect_);
+  goog.net.xpc.logger.info("NativeMessagingTransport created.  protocolVersion=" + this.protocolVersion_ + ", oneSidedHandshake=" + this.oneSidedHandshake_ + ", role=" + this.channel_.getRole())
+};
+goog.inherits(goog.net.xpc.NativeMessagingTransport, goog.net.xpc.Transport);
+goog.net.xpc.NativeMessagingTransport.CONNECTION_DELAY_MS_ = 200;
+goog.net.xpc.NativeMessagingTransport.prototype.peerProtocolVersion_ = null;
+goog.net.xpc.NativeMessagingTransport.prototype.initialized_ = !1;
+goog.net.xpc.NativeMessagingTransport.prototype.transportType = goog.net.xpc.TransportTypes.NATIVE_MESSAGING;
+goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_ = ",";
+goog.net.xpc.NativeMessagingTransport.activeCount_ = {};
+goog.net.xpc.NativeMessagingTransport.sendTimerId_ = 0;
+goog.net.xpc.NativeMessagingTransport.prototype.couldPeerVersionBe_ = function(a) {
+  return null == this.peerProtocolVersion_ || this.peerProtocolVersion_ == a
+};
+goog.net.xpc.NativeMessagingTransport.initialize_ = function(a) {
+  var b = goog.getUid(a), c = goog.net.xpc.NativeMessagingTransport.activeCount_[b];
+  goog.isNumber(c) || (c = 0);
+  0 == c && goog.events.listen(a.postMessage ? a : a.document, "message", goog.net.xpc.NativeMessagingTransport.messageReceived_, !1, goog.net.xpc.NativeMessagingTransport);
+  goog.net.xpc.NativeMessagingTransport.activeCount_[b] = c + 1
+};
+goog.net.xpc.NativeMessagingTransport.messageReceived_ = function(a) {
+  var b = a.getBrowserEvent().data;
+  if(!goog.isString(b)) {
+    return!1
+  }
+  var c = b.indexOf("|"), d = b.indexOf(":");
+  if(-1 == c || -1 == d) {
+    return!1
+  }
+  var e = b.substring(0, c), c = b.substring(c + 1, d), b = b.substring(d + 1);
+  goog.net.xpc.logger.fine("messageReceived: channel=" + e + ", service=" + c + ", payload=" + b);
+  if(d = goog.net.xpc.channels_[e]) {
+    return d.deliver_(c, b, a.getBrowserEvent().origin), !0
+  }
+  var a = goog.net.xpc.NativeMessagingTransport.parseTransportPayload_(b)[0], f;
+  for(f in goog.net.xpc.channels_) {
+    if(d = goog.net.xpc.channels_[f], d.getRole() == goog.net.xpc.CrossPageChannelRole.INNER && !d.isConnected() && c == goog.net.xpc.TRANSPORT_SERVICE_ && (a == goog.net.xpc.SETUP || a == goog.net.xpc.SETUP_NTPV2)) {
+      return goog.net.xpc.logger.fine("changing channel name to " + e), d.name = e, delete goog.net.xpc.channels_[f], goog.net.xpc.channels_[e] = d, d.deliver_(c, b), !0
+    }
+  }
+  goog.net.xpc.logger.info('channel name mismatch; message ignored"');
+  return!1
+};
+goog.net.xpc.NativeMessagingTransport.prototype.transportServiceHandler = function(a) {
+  var b = goog.net.xpc.NativeMessagingTransport.parseTransportPayload_(a), a = b[1];
+  switch(b[0]) {
+    case goog.net.xpc.SETUP_ACK_:
+      this.setPeerProtocolVersion_(1);
+      this.setupAckReceived_.hasFired() || this.setupAckReceived_.callback(!0);
+      break;
+    case goog.net.xpc.SETUP_ACK_NTPV2:
+      2 == this.protocolVersion_ && (this.setPeerProtocolVersion_(2), this.setupAckReceived_.hasFired() || this.setupAckReceived_.callback(!0));
+      break;
+    case goog.net.xpc.SETUP:
+      this.setPeerProtocolVersion_(1);
+      this.sendSetupAckMessage_(1);
+      break;
+    case goog.net.xpc.SETUP_NTPV2:
+      if(2 == this.protocolVersion_) {
+        b = this.peerProtocolVersion_;
+        this.setPeerProtocolVersion_(2);
+        this.sendSetupAckMessage_(2);
+        if((1 == b || null != this.peerEndpointId_) && this.peerEndpointId_ != a) {
+          goog.net.xpc.logger.info("Sending SETUP and changing peer ID to: " + a), this.sendSetupMessage_()
+        }
+        this.peerEndpointId_ = a
+      }
+  }
+};
+goog.net.xpc.NativeMessagingTransport.prototype.sendSetupMessage_ = function() {
+  goog.asserts.assert(!(1 == this.protocolVersion_ && 2 == this.peerProtocolVersion_));
+  if(2 == this.protocolVersion_ && this.couldPeerVersionBe_(2)) {
+    var a = goog.net.xpc.SETUP_NTPV2, a = a + goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_, a = a + this.endpointId_;
+    this.send(goog.net.xpc.TRANSPORT_SERVICE_, a)
+  }
+  this.couldPeerVersionBe_(1) && this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP)
+};
+goog.net.xpc.NativeMessagingTransport.prototype.sendSetupAckMessage_ = function(a) {
+  goog.asserts.assert(1 != this.protocolVersion_ || 2 != a, "Shouldn't try to send a v2 setup ack in v1 mode.");
+  if(2 == this.protocolVersion_ && this.couldPeerVersionBe_(2) && 2 == a) {
+    this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_NTPV2)
+  }else {
+    if(this.couldPeerVersionBe_(1) && 1 == a) {
+      this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_)
+    }else {
+      return
+    }
+  }
+  this.setupAckSent_.hasFired() || this.setupAckSent_.callback(!0)
+};
+goog.net.xpc.NativeMessagingTransport.prototype.setPeerProtocolVersion_ = function(a) {
+  a > this.peerProtocolVersion_ && (this.peerProtocolVersion_ = a);
+  1 == this.peerProtocolVersion_ && (!this.setupAckSent_.hasFired() && !this.oneSidedHandshake_ && this.setupAckSent_.callback(!0), this.peerEndpointId_ = null)
+};
+goog.net.xpc.NativeMessagingTransport.prototype.connect = function() {
+  goog.net.xpc.NativeMessagingTransport.initialize_(this.getWindow());
+  this.initialized_ = !0;
+  this.maybeAttemptToConnect_()
+};
+goog.net.xpc.NativeMessagingTransport.prototype.maybeAttemptToConnect_ = function() {
+  var a = this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER;
+  this.oneSidedHandshake_ && a || this.channel_.isConnected() || this.isDisposed() ? this.maybeAttemptToConnectTimer_.stop() : (this.maybeAttemptToConnectTimer_.start(), this.sendSetupMessage_())
+};
+goog.net.xpc.NativeMessagingTransport.prototype.send = function(a, b) {
+  var c = this.channel_.peerWindowObject_;
+  c ? (this.send = function(a, b) {
+    var f = this, g = this.channel_.name;
+    this.sendTimerId_ = goog.Timer.callOnce(function() {
+      f.sendTimerId_ = 0;
+      try {
+        var h = c.postMessage ? c : c.document;
+        h.postMessage ? (h.postMessage(g + "|" + a + ":" + b, f.peerHostname_), goog.net.xpc.logger.fine("send(): service=" + a + " payload=" + b + " to hostname=" + f.peerHostname_)) : goog.net.xpc.logger.warning("Peer window had no postMessage function.")
+      }catch(i) {
+        goog.net.xpc.logger.warning("Error performing postMessage, ignoring.", i)
+      }
+    }, 0)
+  }, this.send(a, b)) : goog.net.xpc.logger.fine("send(): window not ready")
+};
+goog.net.xpc.NativeMessagingTransport.prototype.notifyConnected_ = function() {
+  this.channel_.notifyConnected(1 == this.protocolVersion_ || 1 == this.peerProtocolVersion_ ? goog.net.xpc.NativeMessagingTransport.CONNECTION_DELAY_MS_ : void 0)
+};
+goog.net.xpc.NativeMessagingTransport.prototype.disposeInternal = function() {
+  if(this.initialized_) {
+    var a = this.getWindow(), b = goog.getUid(a), c = goog.net.xpc.NativeMessagingTransport.activeCount_[b];
+    goog.net.xpc.NativeMessagingTransport.activeCount_[b] = c - 1;
+    1 == c && goog.events.unlisten(a.postMessage ? a : a.document, "message", goog.net.xpc.NativeMessagingTransport.messageReceived_, !1, goog.net.xpc.NativeMessagingTransport)
+  }
+  this.sendTimerId_ && (goog.Timer.clear(this.sendTimerId_), this.sendTimerId_ = 0);
+  goog.dispose(this.eventHandler_);
+  delete this.eventHandler_;
+  goog.dispose(this.maybeAttemptToConnectTimer_);
+  delete this.maybeAttemptToConnectTimer_;
+  this.setupAckReceived_.cancel();
+  delete this.setupAckReceived_;
+  this.setupAckSent_.cancel();
+  delete this.setupAckSent_;
+  this.connected_.cancel();
+  delete this.connected_;
+  delete this.send;
+  goog.net.xpc.NativeMessagingTransport.superClass_.disposeInternal.call(this)
+};
+goog.net.xpc.NativeMessagingTransport.parseTransportPayload_ = function(a) {
+  a = a.split(goog.net.xpc.NativeMessagingTransport.MESSAGE_DELIMITER_);
+  a[1] = a[1] || null;
+  return a
+};
+goog.net.xpc.NixTransport = function(a, b) {
+  goog.net.xpc.Transport.call(this, b);
+  this.channel_ = a;
+  this.authToken_ = a[goog.net.xpc.CfgFields.AUTH_TOKEN] || "";
+  this.remoteAuthToken_ = a[goog.net.xpc.CfgFields.REMOTE_AUTH_TOKEN] || "";
+  goog.net.xpc.NixTransport.conductGlobalSetup_(this.getWindow());
+  this[goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE] = this.handleMessage_;
+  this[goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL] = this.createChannel_
+};
+goog.inherits(goog.net.xpc.NixTransport, goog.net.xpc.Transport);
+goog.net.xpc.NixTransport.NIX_WRAPPER = "GCXPC____NIXVBS_wrapper";
+goog.net.xpc.NixTransport.NIX_GET_WRAPPER = "GCXPC____NIXVBS_get_wrapper";
+goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE = "GCXPC____NIXJS_handle_message";
+goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL = "GCXPC____NIXJS_create_channel";
+goog.net.xpc.NixTransport.NIX_ID_FIELD = "GCXPC____NIXVBS_container";
+goog.net.xpc.NixTransport.isNixSupported = function() {
+  var a = !1;
+  try {
+    var b = window.opener;
+    window.opener = {};
+    a = goog.reflect.canAccessProperty(window, "opener");
+    window.opener = b
+  }catch(c) {
+  }
+  return a
+};
+goog.net.xpc.NixTransport.conductGlobalSetup_ = function(a) {
+  if(!a.nix_setup_complete) {
+    var b = "Class " + goog.net.xpc.NixTransport.NIX_WRAPPER + "\n Private m_Transport\nPrivate m_Auth\nPublic Sub SetTransport(transport)\nIf isEmpty(m_Transport) Then\nSet m_Transport = transport\nEnd If\nEnd Sub\nPublic Sub SetAuth(auth)\nIf isEmpty(m_Auth) Then\nm_Auth = auth\nEnd If\nEnd Sub\nPublic Function GetAuthToken()\n GetAuthToken = m_Auth\nEnd Function\nPublic Sub SendMessage(service, payload)\n Call m_Transport." + goog.net.xpc.NixTransport.NIX_HANDLE_MESSAGE + "(service, payload)\nEnd Sub\nPublic Sub CreateChannel(channel)\n Call m_Transport." + 
+    goog.net.xpc.NixTransport.NIX_CREATE_CHANNEL + "(channel)\nEnd Sub\nPublic Sub " + goog.net.xpc.NixTransport.NIX_ID_FIELD + "()\n End Sub\nEnd Class\n Function " + goog.net.xpc.NixTransport.NIX_GET_WRAPPER + "(transport, auth)\nDim wrap\nSet wrap = New " + goog.net.xpc.NixTransport.NIX_WRAPPER + "\nwrap.SetTransport transport\nwrap.SetAuth auth\nSet " + goog.net.xpc.NixTransport.NIX_GET_WRAPPER + " = wrap\nEnd Function";
+    try {
+      a.execScript(b, "vbscript"), a.nix_setup_complete = !0
+    }catch(c) {
+      goog.net.xpc.logger.severe("exception caught while attempting global setup: " + c)
+    }
+  }
+};
+goog.net.xpc.NixTransport.prototype.transportType = goog.net.xpc.TransportTypes.NIX;
+goog.net.xpc.NixTransport.prototype.localSetupCompleted_ = !1;
+goog.net.xpc.NixTransport.prototype.nixChannel_ = null;
+goog.net.xpc.NixTransport.prototype.connect = function() {
+  this.channel_.getRole() == goog.net.xpc.CrossPageChannelRole.OUTER ? this.attemptOuterSetup_() : this.attemptInnerSetup_()
+};
+goog.net.xpc.NixTransport.prototype.attemptOuterSetup_ = function() {
+  if(!this.localSetupCompleted_) {
+    var a = this.channel_.iframeElement_;
+    try {
+      a.contentWindow.opener = this.getWindow()[goog.net.xpc.NixTransport.NIX_GET_WRAPPER](this, this.authToken_), this.localSetupCompleted_ = !0
+    }catch(b) {
+      goog.net.xpc.logger.severe("exception caught while attempting setup: " + b)
+    }
+    this.localSetupCompleted_ || this.getWindow().setTimeout(goog.bind(this.attemptOuterSetup_, this), 100)
+  }
+};
+goog.net.xpc.NixTransport.prototype.attemptInnerSetup_ = function() {
+  if(!this.localSetupCompleted_) {
+    try {
+      var a = this.getWindow().opener;
+      if(a && goog.net.xpc.NixTransport.NIX_ID_FIELD in a) {
+        this.nixChannel_ = a;
+        if(this.nixChannel_.GetAuthToken() != this.remoteAuthToken_) {
+          goog.net.xpc.logger.severe("Invalid auth token from other party");
+          return
+        }
+        this.nixChannel_.CreateChannel(this.getWindow()[goog.net.xpc.NixTransport.NIX_GET_WRAPPER](this, this.authToken_));
+        this.localSetupCompleted_ = !0;
+        this.channel_.notifyConnected()
+      }
+    }catch(b) {
+      goog.net.xpc.logger.severe("exception caught while attempting setup: " + b);
+      return
+    }
+    this.localSetupCompleted_ || this.getWindow().setTimeout(goog.bind(this.attemptInnerSetup_, this), 100)
+  }
+};
+goog.net.xpc.NixTransport.prototype.createChannel_ = function(a) {
+  ("unknown" != typeof a || !(goog.net.xpc.NixTransport.NIX_ID_FIELD in a)) && goog.net.xpc.logger.severe("Invalid NIX channel given to createChannel_");
+  this.nixChannel_ = a;
+  this.nixChannel_.GetAuthToken() != this.remoteAuthToken_ ? goog.net.xpc.logger.severe("Invalid auth token from other party") : this.channel_.notifyConnected()
+};
+goog.net.xpc.NixTransport.prototype.handleMessage_ = function(a, b) {
+  this.getWindow().setTimeout(goog.bind(function() {
+    this.channel_.safeDeliver(a, b)
+  }, this), 1)
+};
+goog.net.xpc.NixTransport.prototype.send = function(a, b) {
+  "unknown" !== typeof this.nixChannel_ && goog.net.xpc.logger.severe("NIX channel not connected");
+  this.nixChannel_.SendMessage(a, b)
+};
+goog.net.xpc.NixTransport.prototype.disposeInternal = function() {
+  goog.net.xpc.NixTransport.superClass_.disposeInternal.call(this);
+  this.nixChannel_ = null
+};
+goog.net.xpc.CrossPageChannel = function(a, b) {
+  goog.messaging.AbstractChannel.call(this);
+  for(var c = 0, d;d = goog.net.xpc.UriCfgFields[c];c++) {
+    if(d in a && !/^https?:\/\//.test(a[d])) {
+      throw Error("URI " + a[d] + " is invalid for field " + d);
+    }
+  }
+  this.cfg_ = a;
+  this.name = this.cfg_[goog.net.xpc.CfgFields.CHANNEL_NAME] || goog.net.xpc.getRandomString(10);
+  this.domHelper_ = b || goog.dom.getDomHelper();
+  this.deferredDeliveries_ = [];
+  this.peerLoadHandler_ = new goog.events.EventHandler(this);
+  a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] = a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] || goog.uri.utils.getHost(this.domHelper_.getWindow().location.href) + "/robots.txt";
+  a[goog.net.xpc.CfgFields.PEER_POLL_URI] = a[goog.net.xpc.CfgFields.PEER_POLL_URI] || goog.uri.utils.getHost(a[goog.net.xpc.CfgFields.PEER_URI] || "") + "/robots.txt";
+  goog.net.xpc.channels_[this.name] = this;
+  goog.events.listen(window, "unload", goog.net.xpc.CrossPageChannel.disposeAll_);
+  goog.net.xpc.logger.info("CrossPageChannel created: " + this.name)
+};
+goog.inherits(goog.net.xpc.CrossPageChannel, goog.messaging.AbstractChannel);
+goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_ESCAPE_RE_ = RegExp("^%*" + goog.net.xpc.TRANSPORT_SERVICE_ + "$");
+goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_UNESCAPE_RE_ = RegExp("^%+" + goog.net.xpc.TRANSPORT_SERVICE_ + "$");
+goog.net.xpc.CrossPageChannel.prototype.connectionDelay_ = null;
+goog.net.xpc.CrossPageChannel.prototype.peerWindowDeferred_ = null;
+goog.net.xpc.CrossPageChannel.prototype.transport_ = null;
+goog.net.xpc.CrossPageChannel.prototype.state_ = goog.net.xpc.ChannelStates.NOT_CONNECTED;
+goog.net.xpc.CrossPageChannel.prototype.isConnected = function() {
+  return this.state_ == goog.net.xpc.ChannelStates.CONNECTED
+};
+goog.net.xpc.CrossPageChannel.prototype.peerWindowObject_ = null;
+goog.net.xpc.CrossPageChannel.prototype.iframeElement_ = null;
+goog.net.xpc.CrossPageChannel.prototype.setPeerWindowObject = function(a) {
+  this.peerWindowObject_ = a
+};
+goog.net.xpc.CrossPageChannel.prototype.getPeerWindowObject = function() {
+  return this.peerWindowObject_
+};
+goog.net.xpc.CrossPageChannel.prototype.isPeerAvailable = function() {
+  try {
+    return!!this.peerWindowObject_ && !Boolean(this.peerWindowObject_.closed)
+  }catch(a) {
+    return!1
+  }
+};
+goog.net.xpc.CrossPageChannel.prototype.determineTransportType_ = function() {
+  return goog.isFunction(document.postMessage) || goog.isFunction(window.postMessage) || goog.userAgent.IE && window.postMessage ? goog.net.xpc.TransportTypes.NATIVE_MESSAGING : goog.userAgent.GECKO ? goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD : goog.userAgent.IE && this.cfg_[goog.net.xpc.CfgFields.PEER_RELAY_URI] ? goog.net.xpc.TransportTypes.IFRAME_RELAY : goog.userAgent.IE && goog.net.xpc.NixTransport.isNixSupported() ? goog.net.xpc.TransportTypes.NIX : goog.net.xpc.TransportTypes.IFRAME_POLLING
+};
+goog.net.xpc.CrossPageChannel.prototype.createTransport_ = function() {
+  if(!this.transport_) {
+    this.cfg_[goog.net.xpc.CfgFields.TRANSPORT] || (this.cfg_[goog.net.xpc.CfgFields.TRANSPORT] = this.determineTransportType_());
+    switch(this.cfg_[goog.net.xpc.CfgFields.TRANSPORT]) {
+      case goog.net.xpc.TransportTypes.NATIVE_MESSAGING:
+        this.transport_ = new goog.net.xpc.NativeMessagingTransport(this, this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME], this.domHelper_, !!this.cfg_[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE], this.cfg_[goog.net.xpc.CfgFields.NATIVE_TRANSPORT_PROTOCOL_VERSION] || 2);
+        break;
+      case goog.net.xpc.TransportTypes.NIX:
+        this.transport_ = new goog.net.xpc.NixTransport(this, this.domHelper_);
+        break;
+      case goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD:
+        this.transport_ = new goog.net.xpc.FrameElementMethodTransport(this, this.domHelper_);
+        break;
+      case goog.net.xpc.TransportTypes.IFRAME_RELAY:
+        this.transport_ = new goog.net.xpc.IframeRelayTransport(this, this.domHelper_);
+        break;
+      case goog.net.xpc.TransportTypes.IFRAME_POLLING:
+        this.transport_ = new goog.net.xpc.IframePollingTransport(this, this.domHelper_)
+    }
+    if(this.transport_) {
+      goog.net.xpc.logger.info("Transport created: " + this.transport_.getName())
+    }else {
+      throw Error("CrossPageChannel: No suitable transport found!");
+    }
+  }
+};
+goog.net.xpc.CrossPageChannel.prototype.getTransportType = function() {
+  return this.transport_.getType()
+};
+goog.net.xpc.CrossPageChannel.prototype.getTransportName = function() {
+  return this.transport_.getName()
+};
+goog.net.xpc.CrossPageChannel.prototype.getPeerConfiguration = function() {
+  var a = {};
+  a[goog.net.xpc.CfgFields.CHANNEL_NAME] = this.name;
+  a[goog.net.xpc.CfgFields.TRANSPORT] = this.cfg_[goog.net.xpc.CfgFields.TRANSPORT];
+  a[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE] = this.cfg_[goog.net.xpc.CfgFields.ONE_SIDED_HANDSHAKE];
+  this.cfg_[goog.net.xpc.CfgFields.LOCAL_RELAY_URI] && (a[goog.net.xpc.CfgFields.PEER_RELAY_URI] = this.cfg_[goog.net.xpc.CfgFields.LOCAL_RELAY_URI]);
+  this.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI] && (a[goog.net.xpc.CfgFields.PEER_POLL_URI] = this.cfg_[goog.net.xpc.CfgFields.LOCAL_POLL_URI]);
+  this.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI] && (a[goog.net.xpc.CfgFields.LOCAL_POLL_URI] = this.cfg_[goog.net.xpc.CfgFields.PEER_POLL_URI]);
+  var b = this.cfg_[goog.net.xpc.CfgFields.ROLE];
+  b && (a[goog.net.xpc.CfgFields.ROLE] = b == goog.net.xpc.CrossPageChannelRole.INNER ? goog.net.xpc.CrossPageChannelRole.OUTER : goog.net.xpc.CrossPageChannelRole.INNER);
+  return a
+};
+goog.net.xpc.CrossPageChannel.prototype.createPeerIframe = function(a, b, c) {
+  goog.net.xpc.logger.info("createPeerIframe()");
+  var d = this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID];
+  d || (d = this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID] = "xpcpeer" + goog.net.xpc.getRandomString(4));
+  var e = goog.dom.getDomHelper(a).createElement("IFRAME");
+  e.id = e.name = d;
+  b ? b(e) : e.style.width = e.style.height = "100%";
+  this.cleanUpIncompleteConnection_();
+  this.peerWindowDeferred_ = new goog.async.Deferred(void 0, this);
+  var f = this.getPeerUri(c);
+  this.peerLoadHandler_.listenOnce(e, "load", this.peerWindowDeferred_.callback, !1, this.peerWindowDeferred_);
+  goog.userAgent.GECKO || goog.userAgent.WEBKIT ? window.setTimeout(goog.bind(function() {
+    a.appendChild(e);
+    e.src = f.toString();
+    goog.net.xpc.logger.info("peer iframe created (" + d + ")")
+  }, this), 1) : (e.src = f.toString(), a.appendChild(e), goog.net.xpc.logger.info("peer iframe created (" + d + ")"));
+  return e
+};
+goog.net.xpc.CrossPageChannel.prototype.cleanUpIncompleteConnection_ = function() {
+  this.peerWindowDeferred_ && (this.peerWindowDeferred_.cancel(), this.peerWindowDeferred_ = null);
+  this.deferredDeliveries_.length = 0;
+  this.peerLoadHandler_.removeAll()
+};
+goog.net.xpc.CrossPageChannel.prototype.getPeerUri = function(a) {
+  var b = this.cfg_[goog.net.xpc.CfgFields.PEER_URI];
+  goog.isString(b) && (b = this.cfg_[goog.net.xpc.CfgFields.PEER_URI] = new goog.Uri(b));
+  !1 !== a && b.setParameterValue("xpc", goog.json.serialize(this.getPeerConfiguration()));
+  return b
+};
+goog.net.xpc.CrossPageChannel.prototype.connect = function(a) {
+  this.connectCb_ = a || goog.nullFunction;
+  this.peerWindowDeferred_ ? this.peerWindowDeferred_.addCallback(this.continueConnection_) : this.continueConnection_()
+};
+goog.net.xpc.CrossPageChannel.prototype.continueConnection_ = function() {
+  goog.net.xpc.logger.info("continueConnection_()");
+  this.peerWindowDeferred_ = null;
+  this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID] && (this.iframeElement_ = this.domHelper_.getElement(this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID]));
+  if(this.iframeElement_) {
+    var a = this.iframeElement_.contentWindow;
+    a || (a = window.frames[this.cfg_[goog.net.xpc.CfgFields.IFRAME_ID]]);
+    this.setPeerWindowObject(a)
+  }
+  if(!this.peerWindowObject_) {
+    if(window == window.top) {
+      throw Error("CrossPageChannel: Can't connect, peer window-object not set.");
+    }
+    this.setPeerWindowObject(window.parent)
+  }
+  this.createTransport_();
+  for(this.transport_.connect();0 < this.deferredDeliveries_.length;) {
+    this.deferredDeliveries_.shift()()
+  }
+};
+goog.net.xpc.CrossPageChannel.prototype.close = function() {
+  this.cleanUpIncompleteConnection_();
+  this.state_ = goog.net.xpc.ChannelStates.CLOSED;
+  goog.dispose(this.transport_);
+  this.connectCb_ = this.transport_ = null;
+  goog.dispose(this.connectionDelay_);
+  this.connectionDelay_ = null;
+  goog.net.xpc.logger.info('Channel "' + this.name + '" closed')
+};
+goog.net.xpc.CrossPageChannel.prototype.notifyConnected = function(a) {
+  this.isConnected() || this.connectionDelay_ && this.connectionDelay_.isActive() || (this.state_ = goog.net.xpc.ChannelStates.CONNECTED, goog.net.xpc.logger.info('Channel "' + this.name + '" connected'), goog.dispose(this.connectionDelay_), a ? (this.connectionDelay_ = new goog.async.Delay(this.connectCb_, a), this.connectionDelay_.start()) : (this.connectionDelay_ = null, this.connectCb_()))
+};
+goog.net.xpc.CrossPageChannel.prototype.notifyConnected_ = goog.net.xpc.CrossPageChannel.prototype.notifyConnected;
+goog.net.xpc.CrossPageChannel.prototype.notifyTransportError_ = function() {
+  goog.net.xpc.logger.info("Transport Error");
+  this.close()
+};
+goog.net.xpc.CrossPageChannel.prototype.send = function(a, b) {
+  this.isConnected() ? this.isPeerAvailable() ? (goog.isObject(b) && (b = goog.json.serialize(b)), this.transport_.send(this.escapeServiceName_(a), b)) : (goog.net.xpc.logger.severe("Peer has disappeared."), this.close()) : goog.net.xpc.logger.severe("Can't send. Channel not connected.")
+};
+goog.net.xpc.CrossPageChannel.prototype.safeDeliver = function(a, b, c) {
+  this.deliver_(a, b, c)
+};
+goog.net.xpc.CrossPageChannel.prototype.deliver_ = function(a, b, c) {
+  this.peerWindowDeferred_ ? this.deferredDeliveries_.push(goog.bind(this.deliver_, this, a, b, c)) : this.isMessageOriginAcceptable_(c) ? this.isDisposed() ? goog.net.xpc.logger.warning("CrossPageChannel::deliver_(): Disposed.") : !a || a == goog.net.xpc.TRANSPORT_SERVICE_ ? this.transport_.transportServiceHandler(b) : this.isConnected() ? this.deliver(this.unescapeServiceName_(a), b) : goog.net.xpc.logger.info("CrossPageChannel::deliver_(): Not connected.") : goog.net.xpc.logger.warning('Message received from unapproved origin "' + 
+  c + '" - rejected.')
+};
+goog.net.xpc.CrossPageChannel.prototype.escapeServiceName_ = function(a) {
+  goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_ESCAPE_RE_.test(a) && (a = "%" + a);
+  return a.replace(/[%:|]/g, encodeURIComponent)
+};
+goog.net.xpc.CrossPageChannel.prototype.unescapeServiceName_ = function(a) {
+  a = a.replace(/%[0-9a-f]{2}/gi, decodeURIComponent);
+  return goog.net.xpc.CrossPageChannel.TRANSPORT_SERVICE_UNESCAPE_RE_.test(a) ? a.substring(1) : a
+};
+goog.net.xpc.CrossPageChannel.prototype.getRole = function() {
+  var a = this.cfg_[goog.net.xpc.CfgFields.ROLE];
+  return a ? a : window.parent == this.peerWindowObject_ ? goog.net.xpc.CrossPageChannelRole.INNER : goog.net.xpc.CrossPageChannelRole.OUTER
+};
+goog.net.xpc.CrossPageChannel.prototype.isMessageOriginAcceptable_ = function(a) {
+  var b = this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME];
+  return goog.string.isEmptySafe(a) || goog.string.isEmptySafe(b) || a == this.cfg_[goog.net.xpc.CfgFields.PEER_HOSTNAME]
+};
+goog.net.xpc.CrossPageChannel.prototype.disposeInternal = function() {
+  this.close();
+  this.iframeElement_ = this.peerWindowObject_ = null;
+  delete goog.net.xpc.channels_[this.name];
+  goog.dispose(this.peerLoadHandler_);
+  delete this.peerLoadHandler_;
+  goog.net.xpc.CrossPageChannel.superClass_.disposeInternal.call(this)
+};
+goog.net.xpc.CrossPageChannel.disposeAll_ = function() {
+  for(var a in goog.net.xpc.channels_) {
+    goog.dispose(goog.net.xpc.channels_[a])
+  }
+};
+clojure.browser.net = {};
+clojure.browser.net._STAR_timeout_STAR_ = 1E4;
+clojure.browser.net.event_types = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
+  var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+  return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
+}, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.net.EventType))));
+clojure.browser.net.IConnection = {};
+clojure.browser.net.connect = function() {
+  var a = null, b = function(a) {
+    var b;
+    b = a ? a.clojure$browser$net$IConnection$connect$arity$1 : a;
+    if(b) {
+      return a.clojure$browser$net$IConnection$connect$arity$1(a)
+    }
+    b = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
+    if(!b && (b = clojure.browser.net.connect._, !b)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
+    }
+    return b.call(null, a)
+  }, c = function(a, b) {
+    var c;
+    c = a ? a.clojure$browser$net$IConnection$connect$arity$2 : a;
+    if(c) {
+      return a.clojure$browser$net$IConnection$connect$arity$2(a, b)
+    }
+    c = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
+    if(!c && (c = clojure.browser.net.connect._, !c)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
+    }
+    return c.call(null, a, b)
+  }, d = function(a, b, c) {
+    var d;
+    d = a ? a.clojure$browser$net$IConnection$connect$arity$3 : a;
+    if(d) {
+      return a.clojure$browser$net$IConnection$connect$arity$3(a, b, c)
+    }
+    d = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
+    if(!d && (d = clojure.browser.net.connect._, !d)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
+    }
+    return d.call(null, a, b, c)
+  }, e = function(a, b, c, d) {
+    var e;
+    e = a ? a.clojure$browser$net$IConnection$connect$arity$4 : a;
+    if(e) {
+      return a.clojure$browser$net$IConnection$connect$arity$4(a, b, c, d)
+    }
+    e = clojure.browser.net.connect[goog.typeOf(null == a ? null : a)];
+    if(!e && (e = clojure.browser.net.connect._, !e)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.connect", a);
+    }
+    return e.call(null, a, b, c, d)
+  }, a = function(a, g, h, i) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, g);
+      case 3:
+        return d.call(this, a, g, h);
+      case 4:
+        return e.call(this, a, g, h, i)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  a.cljs$lang$arity$3 = d;
+  a.cljs$lang$arity$4 = e;
+  return a
+}();
+clojure.browser.net.transmit = function() {
+  var a = null, b = function(a, b) {
+    var c;
+    c = a ? a.clojure$browser$net$IConnection$transmit$arity$2 : a;
+    if(c) {
+      return a.clojure$browser$net$IConnection$transmit$arity$2(a, b)
+    }
+    c = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
+    if(!c && (c = clojure.browser.net.transmit._, !c)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
+    }
+    return c.call(null, a, b)
+  }, c = function(a, b, c) {
+    var d;
+    d = a ? a.clojure$browser$net$IConnection$transmit$arity$3 : a;
+    if(d) {
+      return a.clojure$browser$net$IConnection$transmit$arity$3(a, b, c)
+    }
+    d = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
+    if(!d && (d = clojure.browser.net.transmit._, !d)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
+    }
+    return d.call(null, a, b, c)
+  }, d = function(a, b, c, d) {
+    var e;
+    e = a ? a.clojure$browser$net$IConnection$transmit$arity$4 : a;
+    if(e) {
+      return a.clojure$browser$net$IConnection$transmit$arity$4(a, b, c, d)
+    }
+    e = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
+    if(!e && (e = clojure.browser.net.transmit._, !e)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
+    }
+    return e.call(null, a, b, c, d)
+  }, e = function(a, b, c, d, e) {
+    var f;
+    f = a ? a.clojure$browser$net$IConnection$transmit$arity$5 : a;
+    if(f) {
+      return a.clojure$browser$net$IConnection$transmit$arity$5(a, b, c, d, e)
+    }
+    f = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
+    if(!f && (f = clojure.browser.net.transmit._, !f)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
+    }
+    return f.call(null, a, b, c, d, e)
+  }, f = function(a, b, c, d, e, f) {
+    var k;
+    k = a ? a.clojure$browser$net$IConnection$transmit$arity$6 : a;
+    if(k) {
+      return a.clojure$browser$net$IConnection$transmit$arity$6(a, b, c, d, e, f)
+    }
+    k = clojure.browser.net.transmit[goog.typeOf(null == a ? null : a)];
+    if(!k && (k = clojure.browser.net.transmit._, !k)) {
+      throw cljs.core.missing_protocol.call(null, "IConnection.transmit", a);
+    }
+    return k.call(null, a, b, c, d, e, f)
+  }, a = function(a, h, i, j, l, m) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, h);
+      case 3:
+        return c.call(this, a, h, i);
+      case 4:
+        return d.call(this, a, h, i, j);
+      case 5:
+        return e.call(this, a, h, i, j, l);
+      case 6:
+        return f.call(this, a, h, i, j, l, m)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  a.cljs$lang$arity$4 = d;
+  a.cljs$lang$arity$5 = e;
+  a.cljs$lang$arity$6 = f;
+  return a
+}();
+clojure.browser.net.close = function(a) {
+  var b;
+  b = a ? a.clojure$browser$net$IConnection$close$arity$1 : a;
+  if(b) {
+    return a.clojure$browser$net$IConnection$close$arity$1(a)
+  }
+  b = clojure.browser.net.close[goog.typeOf(null == a ? null : a)];
+  if(!b && (b = clojure.browser.net.close._, !b)) {
+    throw cljs.core.missing_protocol.call(null, "IConnection.close", a);
+  }
+  return b.call(null, a)
+};
+goog.net.XhrIo.prototype.clojure$browser$event$EventType$ = !0;
+goog.net.XhrIo.prototype.clojure$browser$event$EventType$event_types$arity$1 = function() {
+  return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
+    var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+    return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
+  }, cljs.core.merge.call(null, cljs.core.js__GT_clj.call(null, goog.net.EventType))))
+};
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$ = !0;
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$2 = function(a, b) {
+  return clojure.browser.net.transmit.call(null, a, b, "GET", null, null, clojure.browser.net._STAR_timeout_STAR_)
+};
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$3 = function(a, b, c) {
+  return clojure.browser.net.transmit.call(null, a, b, c, null, null, clojure.browser.net._STAR_timeout_STAR_)
+};
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$4 = function(a, b, c, d) {
+  return clojure.browser.net.transmit.call(null, a, b, c, d, null, clojure.browser.net._STAR_timeout_STAR_)
+};
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$5 = function(a, b, c, d, e) {
+  return clojure.browser.net.transmit.call(null, a, b, c, d, e, clojure.browser.net._STAR_timeout_STAR_)
+};
+goog.net.XhrIo.prototype.clojure$browser$net$IConnection$transmit$arity$6 = function(a, b, c, d, e, f) {
+  a.setTimeoutInterval(f);
+  return a.send(b, c, d, e)
+};
+clojure.browser.net.xpc_config_fields = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.map.call(null, function(a) {
+  var b = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+  return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null, b.toLowerCase()), a], !0)
+}, cljs.core.js__GT_clj.call(null, goog.net.xpc.CfgFields)));
+clojure.browser.net.xhr_connection = function() {
+  return new goog.net.XhrIo
+};
+clojure.browser.net.ICrossPageChannel = {};
+clojure.browser.net.register_service = function() {
+  var a = null, b = function(a, b, c) {
+    var g;
+    g = a ? a.clojure$browser$net$ICrossPageChannel$register_service$arity$3 : a;
+    if(g) {
+      return a.clojure$browser$net$ICrossPageChannel$register_service$arity$3(a, b, c)
+    }
+    g = clojure.browser.net.register_service[goog.typeOf(null == a ? null : a)];
+    if(!g && (g = clojure.browser.net.register_service._, !g)) {
+      throw cljs.core.missing_protocol.call(null, "ICrossPageChannel.register-service", a);
+    }
+    return g.call(null, a, b, c)
+  }, c = function(a, b, c, g) {
+    var h;
+    h = a ? a.clojure$browser$net$ICrossPageChannel$register_service$arity$4 : a;
+    if(h) {
+      return a.clojure$browser$net$ICrossPageChannel$register_service$arity$4(a, b, c, g)
+    }
+    h = clojure.browser.net.register_service[goog.typeOf(null == a ? null : a)];
+    if(!h && (h = clojure.browser.net.register_service._, !h)) {
+      throw cljs.core.missing_protocol.call(null, "ICrossPageChannel.register-service", a);
+    }
+    return h.call(null, a, b, c, g)
+  }, a = function(a, e, f, g) {
+    switch(arguments.length) {
+      case 3:
+        return b.call(this, a, e, f);
+      case 4:
+        return c.call(this, a, e, f, g)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$3 = b;
+  a.cljs$lang$arity$4 = c;
+  return a
+}();
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$ = !0;
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$1 = function(a) {
+  return clojure.browser.net.connect.call(null, a, null)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$2 = function(a, b) {
+  return a.connect(b)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$3 = function(a, b, c) {
+  return clojure.browser.net.connect.call(null, a, b, c, document.body)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$connect$arity$4 = function(a, b, c, d) {
+  a.createPeerIframe(d, c);
+  return a.connect(b)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$transmit$arity$3 = function(a, b, c) {
+  return a.send(cljs.core.name.call(null, b), c)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$IConnection$close$arity$1 = function(a) {
+  return a.close(cljs.core.List.EMPTY)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$ = !0;
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$register_service$arity$3 = function(a, b, c) {
+  return clojure.browser.net.register_service.call(null, a, b, c, !1)
+};
+goog.net.xpc.CrossPageChannel.prototype.clojure$browser$net$ICrossPageChannel$register_service$arity$4 = function(a, b, c, d) {
+  return a.registerService(cljs.core.name.call(null, b), c, d)
+};
+clojure.browser.net.xpc_connection = function() {
+  var a = null, b = function() {
+    var a = (new goog.Uri(window.location.href)).getParameterValue("xpc");
+    return cljs.core.truth_(a) ? new goog.net.xpc.CrossPageChannel(goog.json.parse(a)) : null
+  }, c = function(a) {
+    return new goog.net.xpc.CrossPageChannel(cljs.core.reduce.call(null, function(a, b) {
+      var c = cljs.core.nth.call(null, b, 0, null), d = cljs.core.nth.call(null, b, 1, null), c = cljs.core._lookup.call(null, clojure.browser.net.xpc_config_fields, c, null);
+      cljs.core.truth_(c) && (a[c] = d);
+      return a
+    }, {}, a))
+  }, a = function(a) {
+    switch(arguments.length) {
+      case 0:
+        return b.call(this);
+      case 1:
+        return c.call(this, a)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$0 = b;
+  a.cljs$lang$arity$1 = c;
+  return a
+}();
+clojure.browser.repl = {};
+clojure.browser.repl.xpc_connection = cljs.core.atom.call(null, null);
+clojure.browser.repl.repl_print = function(a) {
+  var b = cljs.core.deref.call(null, clojure.browser.repl.xpc_connection);
+  return cljs.core.truth_(b) ? clojure.browser.net.transmit.call(null, b, "\ufdd0:print", cljs.core.pr_str.call(null, a)) : null
+};
+clojure.browser.repl.evaluate_javascript = function(a, b) {
+  var c = function() {
+    try {
+      return cljs.core.ObjMap.fromObject(["\ufdd0:status", "\ufdd0:value"], {"\ufdd0:status":"\ufdd0:success", "\ufdd0:value":"" + cljs.core.str(eval(b))})
+    }catch(a) {
+      if(cljs.core.instance_QMARK_.call(null, Error, a)) {
+        return cljs.core.ObjMap.fromObject(["\ufdd0:status", "\ufdd0:value", "\ufdd0:stacktrace"], {"\ufdd0:status":"\ufdd0:exception", "\ufdd0:value":cljs.core.pr_str.call(null, a), "\ufdd0:stacktrace":cljs.core.truth_(a.hasOwnProperty("stack")) ? a.stack : "No stacktrace available."})
+      }
+      throw a;
+    }
+  }();
+  return cljs.core.pr_str.call(null, c)
+};
+clojure.browser.repl.send_result = function(a, b, c) {
+  return clojure.browser.net.transmit.call(null, a, b, "POST", c, null, 0)
+};
+clojure.browser.repl.send_print = function() {
+  var a = null, b = function(b, c) {
+    return a.call(null, b, c, 0)
+  }, c = function(b, c, f) {
+    var g = clojure.browser.net.xhr_connection.call(null);
+    clojure.browser.event.listen.call(null, g, "\ufdd0:error", function() {
+      return 10 > f ? a.call(null, b, c, f + 1) : console.log([cljs.core.str("Could not send "), cljs.core.str(c), cljs.core.str(" after "), cljs.core.str(f), cljs.core.str(" attempts.")].join(""))
+    });
+    return clojure.browser.net.transmit.call(null, g, b, "POST", c, null, 0)
+  }, a = function(a, e, f) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, e);
+      case 3:
+        return c.call(this, a, e, f)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  return a
+}();
+clojure.browser.repl.order = cljs.core.atom.call(null, 0);
+clojure.browser.repl.wrap_message = function(a, b) {
+  return cljs.core.pr_str.call(null, cljs.core.ObjMap.fromObject(["\ufdd0:type", "\ufdd0:content", "\ufdd0:order"], {"\ufdd0:type":a, "\ufdd0:content":b, "\ufdd0:order":cljs.core.swap_BANG_.call(null, clojure.browser.repl.order, cljs.core.inc)}))
+};
+clojure.browser.repl.start_evaluator = function(a) {
+  var b = clojure.browser.net.xpc_connection.call(null);
+  if(cljs.core.truth_(b)) {
+    var c = clojure.browser.net.xhr_connection.call(null);
+    clojure.browser.event.listen.call(null, c, "\ufdd0:success", function(a) {
+      return clojure.browser.net.transmit.call(null, b, "\ufdd0:evaluate-javascript", a.currentTarget.getResponseText(cljs.core.List.EMPTY))
+    });
+    clojure.browser.net.register_service.call(null, b, "\ufdd0:send-result", function(b) {
+      return clojure.browser.repl.send_result.call(null, c, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:result", b))
+    });
+    clojure.browser.net.register_service.call(null, b, "\ufdd0:print", function(b) {
+      return clojure.browser.repl.send_print.call(null, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:print", b))
+    });
+    clojure.browser.net.connect.call(null, b, cljs.core.constantly.call(null, null));
+    return setTimeout(function() {
+      return clojure.browser.repl.send_result.call(null, c, a, clojure.browser.repl.wrap_message.call(null, "\ufdd0:ready", "ready"))
+    }, 50)
+  }
+  return alert("No 'xpc' param provided to child iframe.")
+};
+clojure.browser.repl.connect = function(a) {
+  var b = clojure.browser.net.xpc_connection.call(null, cljs.core.ObjMap.fromObject(["\ufdd0:peer_uri"], {"\ufdd0:peer_uri":a}));
+  cljs.core.swap_BANG_.call(null, clojure.browser.repl.xpc_connection, cljs.core.constantly.call(null, b));
+  clojure.browser.net.register_service.call(null, b, "\ufdd0:evaluate-javascript", function(a) {
+    return clojure.browser.net.transmit.call(null, b, "\ufdd0:send-result", clojure.browser.repl.evaluate_javascript.call(null, b, a))
+  });
+  return clojure.browser.net.connect.call(null, b, cljs.core.constantly.call(null, null), function(a) {
+    return a.style.display = "none"
+  })
+};
+com.ewen.utils_cljs.dev = {};
+com.ewen.utils_cljs.dev.connect_repl = function() {
+  return clojure.browser.repl.connect.call(null, "http://localhost:9000/repl")
+};
+shoreleave.remotes = {};
+shoreleave.remotes.protocols = {};
+shoreleave.remotes.protocols.ITransportData = {};
+shoreleave.remotes.protocols._data_str = function(a) {
+  var b;
+  b = a ? a.shoreleave$remotes$protocols$ITransportData$_data_str$arity$1 : a;
+  if(b) {
+    return a.shoreleave$remotes$protocols$ITransportData$_data_str$arity$1(a)
+  }
+  b = shoreleave.remotes.protocols._data_str[goog.typeOf(null == a ? null : a)];
+  if(!b && (b = shoreleave.remotes.protocols._data_str._, !b)) {
+    throw cljs.core.missing_protocol.call(null, "ITransportData.-data-str", a);
+  }
+  return b.call(null, a)
+};
 shoreleave.remotes.common = {};
 shoreleave.remotes.common.event_types = cljs.core.ObjMap.fromObject(["\ufdd0:on-complete", "\ufdd0:on-success", "\ufdd0:on-error", "\ufdd0:on-timeout", "\ufdd0:on-ready"], {"\ufdd0:on-complete":goog.net.EventType.COMPLETE, "\ufdd0:on-success":goog.net.EventType.SUCCESS, "\ufdd0:on-error":goog.net.EventType.ERROR, "\ufdd0:on-timeout":goog.net.EventType.TIMEOUT, "\ufdd0:on-ready":goog.net.EventType.READY});
 shoreleave.remotes.common._STAR_csrf_token_name_STAR_ = "\ufdd0:__anti-forgery-token";
@@ -21442,9 +21535,13 @@ awl_tour_2013.goog_map.to_coords = function(a) {
     return new google.maps.LatLng((new cljs.core.Keyword("\ufdd0:coord/lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:coord/lng")).call(null, a))
   }, a)))
 };
+awl_tour_2013.goog_map.path = new google.maps.Polyline;
 awl_tour_2013.goog_map.draw_path = function(a) {
   a = awl_tour_2013.goog_map.to_coords.call(null, a);
-  return(new google.maps.Polyline({path:a, strokeColor:"#FF0000", strokeOpacity:1, strokeWeight:2})).setMap(awl_tour_2013.goog_map.map_obj)
+  a = new google.maps.Polyline({path:a, strokeColor:"#FF0000", strokeOpacity:1, strokeWeight:2});
+  awl_tour_2013.goog_map.path.setMap(null);
+  awl_tour_2013.goog_map.path = a;
+  return awl_tour_2013.goog_map.path.setMap(awl_tour_2013.goog_map.map_obj)
 };
 awl_tour_2013.goog_map.make_markers = function(a) {
   for(a = cljs.core.seq.call(null, a);;) {
@@ -21457,11 +21554,79 @@ awl_tour_2013.goog_map.make_markers = function(a) {
     }
   }
 };
+awl_tour_2013.goog_map.maps_coords = cljs.core.atom.call(null, cljs.core.PersistentVector.EMPTY);
+cljs.core.add_watch.call(null, awl_tour_2013.goog_map.maps_coords, null, function(a, b, c, d) {
+  return awl_tour_2013.goog_map.make_markers.call(null, awl_tour_2013.goog_map.draw_path.call(null, d))
+});
+awl_tour_2013.goog_map.filter_tmp_coords = function(a) {
+  return cljs.core.filter.call(null, function(a) {
+    return(new cljs.core.Keyword("\ufdd0:min-dist")).call(null, a)
+  }, a)
+};
 shoreleave.remotes.http_rpc.remote_callback.call(null, "\ufdd0:get-coords", cljs.core.PersistentVector.EMPTY, function(a) {
   a = cljs.reader.read_string.call(null, a);
-  awl_tour_2013.goog_map.draw_path.call(null, a);
-  return awl_tour_2013.goog_map.make_markers.call(null, a)
+  cljs.core.reset_BANG_.call(null, awl_tour_2013.goog_map.maps_coords, a);
+  return console.log("" + cljs.core.str(a))
 });
+awl_tour_2013.goog_map.soc = new goog.net.WebSocket;
+awl_tour_2013.goog_map.configure = function() {
+  var a = null, b = function(b, c, d) {
+    return a.call(null, b, c, d, null)
+  }, c = function(b, c, d, h) {
+    return a.call(null, b, c, d, h, null)
+  }, d = function(a, b, c, d, i) {
+    var j = new goog.events.EventHandler;
+    j.listen(a, goog.net.WebSocket.EventType.OPENED, b);
+    j.listen(a, goog.net.WebSocket.EventType.MESSAGE, c);
+    cljs.core.truth_(d) && j.listen(a, goog.net.WebSocket.EventType.ERROR, d);
+    cljs.core.truth_(i) && j.listen(a, goog.net.WebSocket.EventType.CLOSED, i);
+    return a
+  }, a = function(a, f, g, h, i) {
+    switch(arguments.length) {
+      case 3:
+        return b.call(this, a, f, g);
+      case 4:
+        return c.call(this, a, f, g, h);
+      case 5:
+        return d.call(this, a, f, g, h, i)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$3 = b;
+  a.cljs$lang$arity$4 = c;
+  a.cljs$lang$arity$5 = d;
+  return a
+}();
+awl_tour_2013.goog_map.connect_BANG_ = function(a, b) {
+  try {
+    return a.open(b), a
+  }catch(c) {
+    if(cljs.core.instance_QMARK_.call(null, Error, c)) {
+      return console.log("No WebSocket supported, get a decent browser.")
+    }
+    throw c;
+  }
+};
+awl_tour_2013.goog_map.close_BANG_ = function(a) {
+  return a.close()
+};
+awl_tour_2013.goog_map.emit_BANG_ = function(a, b) {
+  return a.send(b)
+};
+awl_tour_2013.goog_map.handle_msg = function(a) {
+  var b = cljs.reader.read_string.call(null, a.message);
+  return cljs.core.swap_BANG_.call(null, awl_tour_2013.goog_map.maps_coords, function(a) {
+    return cljs.core.vec.call(null, cljs.core.concat.call(null, awl_tour_2013.goog_map.filter_tmp_coords.call(null, a), b))
+  })
+};
+awl_tour_2013.goog_map.configure.call(null, awl_tour_2013.goog_map.soc, function() {
+  return console.log("opened")
+}, awl_tour_2013.goog_map.handle_msg, function() {
+  return console.log("error")
+}, function() {
+  return console.log("closed")
+});
+awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://localhost:3000/ws");
 var browser_repl = {};
 com.ewen.utils_cljs.utils.add_load_event.call(null, function() {
   return google.maps.event.addListenerOnce.call(null, awl_tour_2013.goog_map.map_obj, "idle", com.ewen.utils_cljs.dev.connect_repl)

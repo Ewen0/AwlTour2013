@@ -1,9 +1,11 @@
 (ns awl-tour-2013.gps
   (:require [cemerick.shoreleave.rpc :refer [defremote]]
             [datomic.api :as dat]
-            [lamina.core :refer [channel permanent-channel map* filter* enqueue on-realized close]
-             :as lamina]
-            [lamina.executor :refer [task]]))
+            [lamina.core :refer [channel permanent-channel map* 
+                                 filter* enqueue on-realized close 
+                                 ground siphon] :as lamina]
+            [lamina.executor :refer [task]]
+            [clojure.set :refer [union]]))
 
 (dat/create-database "datomic:free://localhost:4334/coords")
 #_(dat/delete-database "datomic:free://localhost:4334/coords")
@@ -235,16 +237,19 @@
 
 
 
-(defn filter-coord-tx [tx-event]
+(defn filter-coord-tx [trans-type tx-event]
   (let [tx-type-coord? '[:find ?e
-                         :in $ [[?e ?a ?v _ _]]
+                         :in $ ?trans-type [[?e ?a ?v _ _]]
                          :where
                          [?e ?a ?v]
-                         [?e :coord/trans-type "coord"]]]
+                         [?e :coord/trans-type ?trans-type]]]
     (not-empty (dat/q 
                 tx-type-coord?
                 (:db-after tx-event) 
+                trans-type
                 (:tx-data tx-event)))))
+
+
 
 (defn coord-min-dist-id [min-dist]
   (-> (dat/q 
@@ -301,15 +306,110 @@
                       (assoc in-map :db/id 
                              (get-coord-id-min-dist min-distance))
                       in-map)]
-    (dat/transact conn [updated-map])))
+    (dat/transact conn [{:db/id (dat/tempid :db.part/tx)
+                         :coord/trans-type "coord-min-dist"} 
+                        updated-map])))
 
-(defonce cc (->> tx-channel 
-             (filter* filter-coord-tx) 
+(def cc (->> tx-channel 
+             (filter* #(filter-coord-tx "coord" %)) 
              (map* coords-after-last-min-dist)
              (map* #(reduce reduce-min-dist (last-coord-min-dist) %))
              (map* #(-> % rest vec))
              (map* #(dorun (map add-coord-min-dist %)))
              #_(map* prn)))
+
+
+
+
+
+
+
+
+
+
+
+(defn get-coord-added [tx-event]
+  (union 
+   (set (dat/q '[:find ?e ?time
+                 :in $ [[?e _ _ ?tx ?added]]
+                 :where [?e :coord/lat _ ?tx true]
+                 [?tx :db/txInstant ?time]]
+               (:db-after tx-event)
+               (:tx-data tx-event)))
+   (set (dat/q '[:find ?e ?time
+                 :in $ [[?e _ _ ?tx ?added]]
+                 :where [?e :coord/lng _ ?tx true]
+                 [?tx :db/txInstant ?time]]
+               (:db-after tx-event)
+               (:tx-data tx-event)))))
+
+(defn eid-min-dist-time->entity [[eid time]]
+  (let [coord-min-dist (->> 
+                        (dat/q '[:find ?lat ?lng ?orig-time
+                                 :in $ ?eid
+                                 :where [?eid :coord/lat ?lat]
+                                 [?eid :coord/lng ?lng]
+                                 [?eid :coord/orig-tx-inst ?orig-time]]
+                               (-> (dat/db conn) 
+                                   (dat/as-of time)) eid)
+                        (first)
+                        (zipmap [:coord/lat 
+                                 :coord/lng 
+                                 :coord/orig-tx-inst]))]
+    (assoc coord-min-dist :min-dist true 
+           :coord/min-distance 0.35)))
+
+
+
+(def cc-min-dist (->> tx-channel 
+                      (filter* #(filter-coord-tx "coord-min-dist" %))
+                      (map* get-coord-added)
+                      (map* #(map eid-min-dist-time->entity %))
+                      #_(map* prn)))
+
+
+
+
+
+
+
+
+
+(defn eid-time->entity [[eid time]]
+  (let [coord-min-dist (->> 
+                        (dat/q '[:find ?lat ?lng ?time
+                                 :in $ ?eid ?time
+                                 :where [?eid :coord/lat ?lat]
+                                 [?eid :coord/lng ?lng]]
+                               (-> (dat/db conn) 
+                                   (dat/as-of time)) eid time)
+                        (first)
+                        (zipmap [:coord/lat 
+                                 :coord/lng 
+                                 :coord/orig-tx-inst]))]
+    (assoc coord-min-dist :min-dist false)))
+
+(def cc-coord (->> tx-channel 
+                      (filter* #(filter-coord-tx "coord" %))
+                      (map* get-coord-added)
+                      (map* #(map eid-time->entity %))
+                      #_(map* prn)))
+
+
+
+
+#_(def cc-coord (channel))
+
+#_(map* prn cc-coord)
+
+#_(push-coord {"lat" "48.83" "lng" "2.35"})
+#_(push-coord {"lat" "48.71" "lng" "2.19"})
+#_(push-coord {"lat" "48.83" "lng" "6.35"})
+
+(ground cc)
+(ground cc-min-dist)
+(ground cc-coord)
+
 
 
 
@@ -362,7 +462,9 @@
   (let [coord-min-dist (coord-history 
                         (dat/db conn) 
                         (get-coord-id-min-dist min-distance))
-        last-coord (get-last-coord)]
+        coord-min-dist (map #(assoc % :min-dist true) coord-min-dist)
+        last-coord (get-last-coord)
+        last-coord (assoc last-coord :min-dist false)]
     (if-not (compare-coord (last coord-min-dist) last-coord)
       (conj coord-min-dist last-coord)
       coord-min-dist)))
@@ -407,3 +509,15 @@
 
 
 
+(defn clear-coords []
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (get-coord-id)}])
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (get-coord-id-min-dist min-distance)}])
+  (dat/request-index conn))
+
+(defn id-coords []
+  (dat/q '[:find ?id :where [?id :coord/lat]] (dat/db conn)))
+
+#_(push-coord {"lat" "48.83" "lng" "2.35"})
+#_(push-coord {"lat" "48.71" "lng" "2.19"})

@@ -4,3 +4,5 @@
             [awl-tour-2013.goog-map :refer [map-obj]]))
 
 (add-load-event #(google.maps.event/addListenerOnce map-obj "idle" connect-repl))
+
+#_(connect-repl)

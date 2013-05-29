@@ -2,10 +2,13 @@
   (:require [compojure.core :refer [GET POST ANY defroutes]]
             [compojure.handler]
             [compojure.route :as route]
-            [org.httpkit.server :refer [run-server]]
+            [org.httpkit.server :refer [run-server with-channel 
+                                        on-close on-receive
+                                        send!]]
             [awl-tour-2013.template :refer [main-tml]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]
-            [awl-tour-2013.gps :as gps])
+            [awl-tour-2013.gps :as gps]
+            [lamina.core :refer [map* fork close]])
   (:import [java.io.File]
            [java.security KeyStore]))
 
@@ -13,15 +16,25 @@
 (defremote ^{:remote-name :get-coords} remote-get-coords []
   (-> (gps/get-coords) vec str))
 
-#_(defn ws-handler [request]
+(defn ws-handler [request]
   (with-channel request channel
-    (on-close channel (fn [status] (println "channel closed: " status)))
-    (on-receive channel (fn [data] ;; echo it back
-                          (send! channel data)))))
+    (let [cc-min-dist (fork gps/cc-min-dist)
+          cc-coord (fork gps/cc-coord)]
+      (map* #(->> % vec str (send! channel)) 
+            cc-min-dist)
+      (map* #(->> % vec str (send! channel)) 
+            cc-coord)
+      (on-close channel (fn [status] (close cc-min-dist)
+                          (close cc-coord) 
+                          (println "channel closed: " status)))
+      (on-receive channel (fn [data] ;; echo it back
+                            (send! channel data))))))
+
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
   (ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
+  (ANY "/ws" {:as req} (ws-handler req))
   (route/files "/static" {:root "resources/public"})
   (route/not-found "Not Found"))
 
