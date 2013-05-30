@@ -21626,7 +21626,7 @@ awl_tour_2013.goog_map.configure.call(null, awl_tour_2013.goog_map.soc, function
 }, function() {
   return console.log("closed")
 });
-awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://localhost:3000/ws");
+awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://www.awl-tour-2013.com/ws");
 var browser_repl = {};
 com.ewen.utils_cljs.utils.add_load_event.call(null, function() {
   return google.maps.event.addListenerOnce.call(null, awl_tour_2013.goog_map.map_obj, "idle", com.ewen.utils_cljs.dev.connect_repl)

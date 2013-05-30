@@ -138,7 +138,8 @@
            #(.log js/console "error")
            #(.log js/console "closed"))
 
-(connect! soc "ws://localhost:3000/ws")
+(connect! soc "ws://www.awl-tour-2013.com/ws")
+#_(connect! soc "ws://localhost:3000/ws")
 #_(emit! soc "msg")
 
 
