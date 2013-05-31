@@ -85,64 +85,67 @@
 ;;WEB-SOCKETS;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-(def soc (goog.net.WebSocket.))
 
-(defn configure
-  "Configures WebSocket"
-  ([soc opened message]
-     (configure soc opened message nil))
-  ([soc opened message error]
-     (configure soc opened message error nil))
-  ([soc opened message error closed]
-     (let [handler (goog.events/EventHandler.)]
-       (.listen handler soc websocket-event/OPENED opened)
-       (.listen handler soc websocket-event/MESSAGE message)
-       (when error
-         (.listen handler soc websocket-event/ERROR error))
-       (when closed
-         (.listen handler soc websocket-event/CLOSED closed))
-       soc)))
+(when (.-MozWebSocket js/window) (aset js/window "WebSocket" (.-MozWebSocket js/window)))
 
-(defn connect!
-  "Connects WebSocket"
-  [socket url]
-  (try
-    (.open socket url)
-    socket
-    (catch js/Error e
-      (.log js/console "No WebSocket supported, get a decent browser."))))
+(when (.-WebSocket js/window) 
 
-(defn close!
-  "Closes WebSocket"
-  [socket]
-  (.close socket))
+  (def soc (goog.net.WebSocket.))
 
-(defn emit! [socket msg]
-  (.send socket msg))
+  (defn configure
+    "Configures WebSocket"
+    ([soc opened message]
+       (configure soc opened message nil))
+    ([soc opened message error]
+       (configure soc opened message error nil))
+    ([soc opened message error closed]
+       (let [handler (goog.events/EventHandler.)]
+         (.listen handler soc websocket-event/OPENED opened)
+         (.listen handler soc websocket-event/MESSAGE message)
+         (when error
+           (.listen handler soc websocket-event/ERROR error))
+         (when closed
+           (.listen handler soc websocket-event/CLOSED closed))
+         soc)))
 
+  (defn connect!
+    "Connects WebSocket"
+    [socket url]
+    (try
+      (.open socket url)
+      socket
+      (catch js/Error e
+        (.log js/console "No WebSocket supported, get a decent browser."))))
 
+  (defn close!
+    "Closes WebSocket"
+    [socket]
+    (.close socket))
 
-
-
-
-(defn handle-msg [coords-str]
-  #_(.log js/console (.-message coords-str))
-  (let [coords (->> (.-message coords-str) read-string)]
-    (swap! maps-coords #(-> % filter-tmp-coords 
-                            (concat coords) 
-                            vec))))
-
-(configure soc 
-           #(.log js/console "opened")
-           handle-msg
-           #(.log js/console "error")
-           #(.log js/console "closed"))
-
-(connect! soc "ws://www.awl-tour-2013.com/ws")
-#_(connect! soc "ws://localhost:3000/ws")
-#_(emit! soc "msg")
+  (defn emit! [socket msg]
+    (.send socket msg))
 
 
 
 
- 
+
+
+  (defn handle-msg [coords-str]
+    #_(.log js/console (.-message coords-str))
+    (let [coords (->> (.-message coords-str) read-string)]
+      (swap! maps-coords #(-> % filter-tmp-coords 
+                              (concat coords) 
+                              vec))))
+
+  (configure soc 
+             #(.log js/console "opened")
+             handle-msg
+             #(.log js/console "error")
+             #(.log js/console "closed"))
+
+  (connect! soc "ws://www.awl-tour-2013.com/ws")
+  #_(connect! soc "ws://localhost:3000/ws")
+  #_(emit! soc "msg")
+
+
+)  

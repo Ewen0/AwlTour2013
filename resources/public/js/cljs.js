@@ -21568,8 +21568,8 @@ shoreleave.remotes.http_rpc.remote_callback.call(null, "\ufdd0:get-coords", cljs
   cljs.core.reset_BANG_.call(null, awl_tour_2013.goog_map.maps_coords, a);
   return console.log("" + cljs.core.str(a))
 });
-awl_tour_2013.goog_map.soc = new goog.net.WebSocket;
-awl_tour_2013.goog_map.configure = function() {
+cljs.core.truth_(window.MozWebSocket) && (window.WebSocket = window.MozWebSocket);
+cljs.core.truth_(window.WebSocket) && (awl_tour_2013.goog_map.soc = new goog.net.WebSocket, awl_tour_2013.goog_map.configure = function() {
   var a = null, b = function(b, c, d) {
     return a.call(null, b, c, d, null)
   }, c = function(b, c, d, h) {
@@ -21596,8 +21596,7 @@ awl_tour_2013.goog_map.configure = function() {
   a.cljs$lang$arity$4 = c;
   a.cljs$lang$arity$5 = d;
   return a
-}();
-awl_tour_2013.goog_map.connect_BANG_ = function(a, b) {
+}(), awl_tour_2013.goog_map.connect_BANG_ = function(a, b) {
   try {
     return a.open(b), a
   }catch(c) {
@@ -21606,27 +21605,22 @@ awl_tour_2013.goog_map.connect_BANG_ = function(a, b) {
     }
     throw c;
   }
-};
-awl_tour_2013.goog_map.close_BANG_ = function(a) {
+}, awl_tour_2013.goog_map.close_BANG_ = function(a) {
   return a.close()
-};
-awl_tour_2013.goog_map.emit_BANG_ = function(a, b) {
+}, awl_tour_2013.goog_map.emit_BANG_ = function(a, b) {
   return a.send(b)
-};
-awl_tour_2013.goog_map.handle_msg = function(a) {
+}, awl_tour_2013.goog_map.handle_msg = function(a) {
   var b = cljs.reader.read_string.call(null, a.message);
   return cljs.core.swap_BANG_.call(null, awl_tour_2013.goog_map.maps_coords, function(a) {
     return cljs.core.vec.call(null, cljs.core.concat.call(null, awl_tour_2013.goog_map.filter_tmp_coords.call(null, a), b))
   })
-};
-awl_tour_2013.goog_map.configure.call(null, awl_tour_2013.goog_map.soc, function() {
+}, awl_tour_2013.goog_map.configure.call(null, awl_tour_2013.goog_map.soc, function() {
   return console.log("opened")
 }, awl_tour_2013.goog_map.handle_msg, function() {
   return console.log("error")
 }, function() {
   return console.log("closed")
-});
-awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://www.awl-tour-2013.com/ws");
+}), awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://www.awl-tour-2013.com/ws"));
 var browser_repl = {};
 com.ewen.utils_cljs.utils.add_load_event.call(null, function() {
   return google.maps.event.addListenerOnce.call(null, awl_tour_2013.goog_map.map_obj, "idle", com.ewen.utils_cljs.dev.connect_repl)
