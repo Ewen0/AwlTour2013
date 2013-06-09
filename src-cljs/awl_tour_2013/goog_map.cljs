@@ -100,9 +100,14 @@
 
 
 (rpc/remote-callback :get-coords [] 
-                     #(let [coords (->> % read-string)]
-                        (reset! maps-coords coords)
+                     #(let [coords (->> % read-string)
+                            coords (sort (fn [coord1 coord2] 
+                                           (compare (-> coord1 :coord/orig-tx-inst) 
+                                                    (-> coord2 :coord/orig-tx-inst)))
+                                         coords)
+                            coords (vec coords)]
                         (.log js/console (str coords))
+                        (reset! maps-coords coords)
                         #_(draw-path coords)
                         #_(make-markers coords)))
 
