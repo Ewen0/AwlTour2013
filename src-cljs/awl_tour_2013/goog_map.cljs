@@ -7,49 +7,75 @@
             [goog.net.WebSocket :as websocket]
             [goog.net.WebSocket.EventType :as websocket-event]
             [goog.net.WebSocket.MessageEvent :as websocket-message]
-            [goog.events]))
+            [goog.events.EventHandler]))
+
 
 (def map-opts (js-obj "center" (google.maps/LatLng. 48 2.194)
                       "zoom" 6
-                      "mapTypeId" js/google.maps.MapTypeId.ROADMAP))
+                      "mapTypeId" google.maps.MapTypeId/ROADMAP))
 
 
-(def map-obj (js/google.maps.Map.
-              (-> (sel "#map-canvas") (single-node)) 
+(def map-obj (google.maps/Map.
+              (-> (sel "#map-canvas") (single-node))
               map-opts))
 
 (defn to-coords [coords-seq]
   (->> coords-seq
-       (map #(js/google.maps.LatLng. (:coord/lat %1) (:coord/lng %1)))
+       (map #(google.maps/LatLng. (:coord/lat %1) (:coord/lng %1)))
        vec
        clj->js))
 
 ;Polylines
 
-(def path (js/google.maps.Polyline.))
+(def path (google.maps/Polyline.))
 
 (defn draw-path [coords]
   (let [maps-coords (to-coords coords)
-        new-path (js/google.maps.Polyline. 
+        new-path (google.maps/Polyline. 
                   (js-obj "path" maps-coords
                           "strokeColor" "#FF0000"
                           "strokeOpacity" 1.0
                           "strokeWeight" 2))]
     (.setMap path nil)
     (set! path new-path)
-    (.setMap path map-obj)))
+    (.setMap path map-obj)
+    coords))
+
+
+
+
+
+;Dates
+
+(def months ["janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
+(def days ["Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi" "Dimanche"])
+
+(defn format-time [time]
+  (let [time (-> time .getTime (- 7200000) (js/Date.))
+        day (->> time .getDay (get days))
+        month (->> time .getMonth (get months))]
+    (str day " " (.getDate time) " " month ", " 
+         (.getHours time) ":" (.getMinutes time))))
+
 
 
 
 ;Markers
 
-(defn make-markers [coords]
-  (doseq [coord coords]
-    (js/google.maps.Marker.
-     (js-obj "position" (js/google.maps.LatLng. 
-                         (:lat coord) (:lng coord))
+(defn make-marker [coord animate]
+  (when (:min-dist coord)
+    (google.maps/Marker.
+     (js-obj "position" (google.maps/LatLng. 
+                         (:coord/lat coord) (:coord/lng coord))
              "map" map-obj
-             "title" (str (:time coord))))))
+             "title" (format-time (:coord/orig-tx-inst coord))
+             "animation" (if animate google.maps.Animation/DROP nil)))))
+
+(defn make-markers [coords]
+  (when-not (empty? coords)
+    (doseq [coord (pop coords)]
+      (make-marker coord false))
+    (make-marker (last coords) true)))
 
 
 
@@ -86,7 +112,7 @@
 ;;;;;;;;;;;;;;;;;;;;;
 
 
-(when (.-MozWebSocket js/window) (aset js/window "WebSocket" (.-MozWebSocket js/window)))
+(when (.-MozWebSocket js/window) (set! (.-WebSocket js/window) (.-MozWebSocket js/window)))
 
 (when (.-WebSocket js/window) 
 
@@ -107,6 +133,7 @@
          (when closed
            (.listen handler soc websocket-event/CLOSED closed))
          soc)))
+
 
   (defn connect!
     "Connects WebSocket"
@@ -143,9 +170,6 @@
              #(.log js/console "error")
              #(.log js/console "closed"))
 
-  (connect! soc "ws://www.awl-tour-2013.com/ws")
-  #_(connect! soc "ws://localhost:3000/ws")
-  #_(emit! soc "msg")
-
-
-)  
+  #_(connect! soc "ws://www.awl-tour-2013.com/ws")
+  (connect! soc "ws://localhost:3000/ws")
+  #_(emit! soc "msg"))  

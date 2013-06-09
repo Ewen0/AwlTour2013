@@ -1,0 +1,15 @@
+var google = {};
+google.maps = {};
+google.maps.LatLng = function(){};
+google.maps.MapTypeId = {};
+google.maps.MapTypeId.ROADMAP = {};
+google.maps.Map = function(){};
+google.maps.Polyline = function(){};
+google.maps.Polyline.setMap = function(){};
+google.maps.Marker = function(){};
+google.maps.Animation = {};
+google.maps.Animation.DROP = {};
+
+window.WebSocket = {};
+window.MozWebSocket = {};
+

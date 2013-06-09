@@ -13,6 +13,7 @@
 (def conn (dat/connect "datomic:free://localhost:4334/coords"))
 #_(dat/release conn)
 
+
 (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/lat]] (dat/db conn)))
   (dat/transact conn [{:db/id #db/id[:db.part/db]
                        :db/ident :coord/lat

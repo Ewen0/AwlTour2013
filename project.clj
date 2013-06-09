@@ -36,7 +36,8 @@
                         :source-paths ["src-cljs"]
                         :compiler {:output-to "resources/public/js/cljs.js"
                                    :optimizations :advanced
-                                   :pretty-print false}}]}
+                                   :pretty-print false
+                                   :externs ["resources/public/js/google_maps_externs.js"]}}]}
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :ring {:handler awl-tour-2013.handler/app}
   :main awl-tour-2013.handler)
