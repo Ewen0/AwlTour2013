@@ -19916,10 +19916,13 @@ awl_tour_2013.goog_map.draw_path = function(a) {
   awl_tour_2013.goog_map.path.setMap(awl_tour_2013.goog_map.map_obj);
   return a
 };
+awl_tour_2013.goog_map.panoramio_layer = new google.maps.panoramio.PanoramioLayer;
+awl_tour_2013.goog_map.panoramio_layer.setMap(awl_tour_2013.goog_map.map_obj);
+awl_tour_2013.goog_map.panoramio_layer.setUserId("7728826");
 awl_tour_2013.goog_map.months = cljs.core.PersistentVector.fromArray("janvier f\u00e9vrier mars avril mai juin juillet ao\u00fbt septembre octobre novembre d\u00e9cembre".split(" "), !0);
-awl_tour_2013.goog_map.days = cljs.core.PersistentVector.fromArray("Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche".split(" "), !0);
+awl_tour_2013.goog_map.days = cljs.core.PersistentVector.fromArray("Dimanche Lundi Mardi Mercredi Jeudi Vendredi Samedi".split(" "), !0);
 awl_tour_2013.goog_map.format_time = function(a) {
-  var a = new Date(a.getTime() - 72E5), b = cljs.core._lookup.call(null, awl_tour_2013.goog_map.days, a.getDay(), null), c = cljs.core._lookup.call(null, awl_tour_2013.goog_map.months, a.getMonth(), null);
+  var a = new Date(a.getTime()), b = cljs.core._lookup.call(null, awl_tour_2013.goog_map.days, a.getDay(), null), c = cljs.core._lookup.call(null, awl_tour_2013.goog_map.months, a.getMonth(), null);
   return[cljs.core.str(b), cljs.core.str(" "), cljs.core.str(a.getDate()), cljs.core.str(" "), cljs.core.str(c), cljs.core.str(", "), cljs.core.str(a.getHours()), cljs.core.str(":"), cljs.core.str(a.getMinutes())].join("")
 };
 awl_tour_2013.goog_map.make_marker = function(a, b) {

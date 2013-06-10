@@ -43,9 +43,9 @@
 
 
 ;;Panoramio
-#_(def panoramio-layer (google.maps.panoramio.PanoramioLayer.))
-#_(.setMap panoramio-layer map-obj)
-#_(.setUserId panoramio-layer "7728826")
+(def panoramio-layer (google.maps.panoramio.PanoramioLayer.))
+(.setMap panoramio-layer map-obj)
+(.setUserId panoramio-layer "7728826")
 
 
 
@@ -54,10 +54,10 @@
 ;Dates
 
 (def months ["janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
-(def days ["Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi" "Dimanche"])
+(def days ["Dimanche" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi"])
 
 (defn format-time [time]
-  (let [time (-> time .getTime #_(- 7200000) (js/Date.))
+  (let [time (-> time .getTime (js/Date.))
         day (->> time .getDay (get days))
         month (->> time .getMonth (get months))]
     (str day " " (.getDate time) " " month ", " 
