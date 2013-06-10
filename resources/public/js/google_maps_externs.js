@@ -10,6 +10,11 @@ google.maps.Marker = function(){};
 google.maps.Animation = {};
 google.maps.Animation.DROP = {};
 
+google.maps.panoramio = {};
+google.maps.panoramio.PanoramioLayer = function(){};
+google.maps.panoramio.PanoramioLayer.setMap = function(){};
+google.maps.panoramio.PanoramioLayer.setUserId = function(){};
+
 window.WebSocket = {};
 window.MozWebSocket = {};
 
