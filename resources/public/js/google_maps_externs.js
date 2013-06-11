@@ -14,6 +14,7 @@ google.maps.panoramio = {};
 google.maps.panoramio.PanoramioLayer = function(){};
 google.maps.panoramio.PanoramioLayer.setMap = function(){};
 google.maps.panoramio.PanoramioLayer.setUserId = function(){};
+google.maps.panoramio.PanoramioLayer.setTag = function(){};
 
 window.WebSocket = {};
 window.MozWebSocket = {};

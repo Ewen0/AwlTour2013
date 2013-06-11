@@ -1693,18 +1693,18 @@ cljs.core._invoke = function() {
       throw cljs.core.missing_protocol.call(null, "IFn.-invoke", a);
     }
     return v.call(null, a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u)
-  }, J = function(a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u, v) {
-    var L;
-    L = a ? a.cljs$core$IFn$_invoke$arity$21 : a;
-    if(L) {
+  }, M = function(a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u, v) {
+    var O;
+    O = a ? a.cljs$core$IFn$_invoke$arity$21 : a;
+    if(O) {
       return a.cljs$core$IFn$_invoke$arity$21(a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u, v)
     }
-    L = cljs.core._invoke[goog.typeOf(null == a ? null : a)];
-    if(!L && (L = cljs.core._invoke._, !L)) {
+    O = cljs.core._invoke[goog.typeOf(null == a ? null : a)];
+    if(!O && (O = cljs.core._invoke._, !O)) {
       throw cljs.core.missing_protocol.call(null, "IFn.-invoke", a);
     }
-    return L.call(null, a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u, v)
-  }, a = function(a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N, O, P, R, S) {
+    return O.call(null, a, b, c, d, e, f, g, h, i, j, l, m, k, n, r, p, q, s, t, u, v)
+  }, a = function(a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R, S, T, V, W) {
     switch(arguments.length) {
       case 1:
         return b.call(this, a);
@@ -1715,39 +1715,39 @@ cljs.core._invoke = function() {
       case 4:
         return e.call(this, a, x, y, z);
       case 5:
-        return f.call(this, a, x, y, z, A);
+        return f.call(this, a, x, y, z, C);
       case 6:
-        return g.call(this, a, x, y, z, A, B);
+        return g.call(this, a, x, y, z, C, D);
       case 7:
-        return h.call(this, a, x, y, z, A, B, w);
+        return h.call(this, a, x, y, z, C, D, w);
       case 8:
-        return i.call(this, a, x, y, z, A, B, w, D);
+        return i.call(this, a, x, y, z, C, D, w, G);
       case 9:
-        return j.call(this, a, x, y, z, A, B, w, D, C);
+        return j.call(this, a, x, y, z, C, D, w, G, E);
       case 10:
-        return l.call(this, a, x, y, z, A, B, w, D, C, E);
+        return l.call(this, a, x, y, z, C, D, w, G, E, H);
       case 11:
-        return m.call(this, a, x, y, z, A, B, w, D, C, E, F);
+        return m.call(this, a, x, y, z, C, D, w, G, E, H, I);
       case 12:
-        return k.call(this, a, x, y, z, A, B, w, D, C, E, F, G);
+        return k.call(this, a, x, y, z, C, D, w, G, E, H, I, J);
       case 13:
-        return n.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H);
+        return n.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K);
       case 14:
-        return p.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I);
+        return p.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L);
       case 15:
-        return r.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K);
+        return r.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N);
       case 16:
-        return q.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M);
+        return q.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q);
       case 17:
-        return s.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N);
+        return s.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R);
       case 18:
-        return t.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N, O);
+        return t.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R, S);
       case 19:
-        return u.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N, O, P);
+        return u.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R, S, T);
       case 20:
-        return v.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N, O, P, R);
+        return v.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R, S, T, V);
       case 21:
-        return J.call(this, a, x, y, z, A, B, w, D, C, E, F, G, H, I, K, M, N, O, P, R, S)
+        return M.call(this, a, x, y, z, C, D, w, G, E, H, I, J, K, L, N, Q, R, S, T, V, W)
     }
     throw Error("Invalid arity: " + arguments.length);
   };
@@ -1771,7 +1771,7 @@ cljs.core._invoke = function() {
   a.cljs$lang$arity$18 = t;
   a.cljs$lang$arity$19 = u;
   a.cljs$lang$arity$20 = v;
-  a.cljs$lang$arity$21 = J;
+  a.cljs$lang$arity$21 = M;
   return a
 }();
 cljs.core.ICounted = {};
@@ -5603,10 +5603,10 @@ cljs.core.apply_to = function(a, b, c) {
   if(19 === b) {
     return a.cljs$lang$arity$19 ? a.cljs$lang$arity$19(c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u) : a.call(null, c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u)
   }
-  var J = cljs.core._first.call(null, v);
+  var M = cljs.core._first.call(null, v);
   cljs.core._rest.call(null, v);
   if(20 === b) {
-    return a.cljs$lang$arity$20 ? a.cljs$lang$arity$20(c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u, J) : a.call(null, c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u, J)
+    return a.cljs$lang$arity$20 ? a.cljs$lang$arity$20(c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u, M) : a.call(null, c, d, e, f, g, a, h, i, j, l, m, k, n, p, r, q, s, t, u, M)
   }
   throw Error("Only up to 20 arguments supported on functions");
 };
@@ -19019,6 +19019,961 @@ shoreleave.browser.cookies.cookies_enabled_QMARK_ = function() {
 shoreleave.browser.cookies.empty_BANG_ = function(a) {
   return a.clear()
 };
+var F = F || {};
+F.internal_ = {};
+F.dom_ = {};
+F.xhr_ = {};
+F.doNotPropagate = {};
+F.mkArray = function(a) {
+  return Array.prototype.slice.call(a)
+};
+F.internal_.Pulse = function(a, b) {
+  this.stamp = a;
+  this.value = b
+};
+F.internal_.PQ = function() {
+  var a = this;
+  a.val = [];
+  this.insert = function(b) {
+    a.val.push(b);
+    for(var c = a.val.length - 1;0 < c && b.k < a.val[Math.floor((c - 1) / 2)].k;) {
+      var d = c, c = Math.floor((c - 1) / 2);
+      a.val[d] = a.val[c];
+      a.val[c] = b
+    }
+  };
+  this.isEmpty = function() {
+    return 0 === a.val.length
+  };
+  this.pop = function() {
+    if(1 === a.val.length) {
+      return a.val.pop()
+    }
+    var b = a.val.shift();
+    a.val.unshift(a.val.pop());
+    for(var c = 0, d = a.val[0];;) {
+      var e = 2 * c + 1 < a.val.length ? a.val[2 * c + 1].k : d.k + 1, f = 2 * c + 2 < a.val.length ? a.val[2 * c + 2].k : d.k + 1;
+      if(e > d.k && f > d.k) {
+        break
+      }
+      e < f ? (a.val[c] = a.val[2 * c + 1], a.val[2 * c + 1] = d, c = 2 * c + 1) : (a.val[c] = a.val[2 * c + 2], a.val[2 * c + 2] = d, c = 2 * c + 2)
+    }
+    return b
+  }
+};
+F.internal_.lastRank = 0;
+F.internal_.stamp = 1;
+F.internal_.nextStamp = function() {
+  return++F.internal_.stamp
+};
+F.internal_.propagatePulse = function(a, b) {
+  var c = new F.internal_.PQ;
+  for(c.insert({k:b.rank, n:b, v:a});!c.isEmpty();) {
+    var d = c.pop(), e = d.n.updater(new F.internal_.Pulse(d.v.stamp, d.v.value));
+    if(e != F.doNotPropagate) {
+      for(var f = 0;f < d.n.sendsTo.length;f++) {
+        c.insert({k:d.n.sendsTo[f].rank, n:d.n.sendsTo[f], v:e})
+      }
+    }
+  }
+};
+F.EventStream = function(a, b) {
+  this.updater = b;
+  this.sendsTo = [];
+  this.rank = ++F.internal_.lastRank;
+  for(var c = 0;c < a.length;c++) {
+    a[c].attachListener(this)
+  }
+};
+F.EventStream.prototype.attachListener = function(a) {
+  if(!(a instanceof F.EventStream)) {
+    throw"attachListener: expected an F.EventStream";
+  }
+  this.sendsTo.push(a);
+  if(this.rank > a.rank) {
+    for(a = [a];a.length;) {
+      var b = a.splice(0, 1)[0];
+      b.rank = ++F.internal_.lastRank;
+      a = a.concat(b.sendsTo)
+    }
+  }
+};
+F.EventStream.prototype.removeListener = function(a) {
+  if(!(a instanceof F.EventStream)) {
+    throw"removeListener: expected an F.EventStream";
+  }
+  for(var b = !1, c = 0;c < this.sendsTo.length && !b;c++) {
+    this.sendsTo[c] === a && (this.sendsTo.splice(c, 1), b = !0)
+  }
+  return b
+};
+F.internal_.internalE = function(a) {
+  return new F.EventStream(a || [], function(a) {
+    return a
+  })
+};
+F.zeroE = function() {
+  return new F.EventStream([], function(a) {
+    throw"zeroE : received a value; zeroE should not receive a value; the value was " + a.value;
+  })
+};
+F.oneE = function(a) {
+  var b = !1, c = new F.EventStream([], function(a) {
+    if(b) {
+      throw"oneE : received an extra value";
+    }
+    b = !0;
+    return a
+  });
+  window.setTimeout(function() {
+    F.sendEvent(c, a)
+  }, 0);
+  return c
+};
+F.mergeE = function(a) {
+  if(0 === arguments.length) {
+    return F.zeroE()
+  }
+  var b = F.mkArray(arguments);
+  return F.internal_.internalE(b)
+};
+F.EventStream.prototype.mergeE = function() {
+  var a = F.mkArray(arguments);
+  a.push(this);
+  return F.internal_.internalE(a)
+};
+F.EventStream.prototype.constantE = function(a) {
+  return new F.EventStream([this], function(b) {
+    b.value = a;
+    return b
+  })
+};
+F.Behavior = function(a, b, c) {
+  if(!(a instanceof F.EventStream)) {
+    throw"F.Behavior: expected event as second arg";
+  }
+  var d = this;
+  this.last = b;
+  this.underlyingRaw = a;
+  this.underlying = new F.EventStream([a], c ? function(a) {
+    d.last = c(a.value);
+    a.value = d.last;
+    return a
+  } : function(a) {
+    d.last = a.value;
+    return a
+  })
+};
+F.Behavior.prototype.index = function(a) {
+  return this.liftB(function(b) {
+    return b[a]
+  })
+};
+F.receiverE = function() {
+  var a = F.internal_.internalE();
+  a.sendEvent = function(b) {
+    F.internal_.propagatePulse(new F.internal_.Pulse(F.internal_.nextStamp(), b), a)
+  };
+  return a
+};
+F.sendEvent = function(a, b) {
+  if(!(a instanceof F.EventStream)) {
+    throw"sendEvent: expected Event as first arg";
+  }
+  F.internal_.propagatePulse(new F.internal_.Pulse(F.internal_.nextStamp(), b), a)
+};
+F.EventStream.prototype.bindE = function(a) {
+  var b = !1, c = new F.EventStream([], function(a) {
+    return a
+  });
+  c.name = "bind outE";
+  (new F.EventStream([this], function(d) {
+    b && b.removeListener(c, !0);
+    b = a(d.value);
+    if(b instanceof F.EventStream) {
+      b.attachListener(c)
+    }else {
+      throw"bindE : expected F.EventStream";
+    }
+    return F.doNotPropagate
+  })).name = "bind inE";
+  return c
+};
+F.EventStream.prototype.mapE = function(a) {
+  if(!(a instanceof Function)) {
+    throw"mapE : expected a function as the first argument; received " + a;
+  }
+  return new F.EventStream([this], function(b) {
+    b.value = a(b.value);
+    return b
+  })
+};
+F.EventStream.prototype.notE = function() {
+  return this.mapE(function(a) {
+    return!a
+  })
+};
+F.EventStream.prototype.filterE = function(a) {
+  if(!(a instanceof Function)) {
+    throw"filterE : expected predicate; received " + a;
+  }
+  return new F.EventStream([this], function(b) {
+    return a(b.value) ? b : F.doNotPropagate
+  })
+};
+F.EventStream.prototype.onceE = function() {
+  var a = !1;
+  return this.filterE(function() {
+    return!a ? a = !0 : !1
+  })
+};
+F.EventStream.prototype.skipFirstE = function() {
+  var a = !1;
+  return this.filterE(function() {
+    return!a ? (a = !0, !1) : !0
+  })
+};
+F.EventStream.prototype.collectE = function(a, b) {
+  var c = a;
+  return this.mapE(function(a) {
+    return c = a = b(a, c)
+  })
+};
+F.EventStream.prototype.switchE = function() {
+  return this.bindE(function(a) {
+    return a
+  })
+};
+F.recE = function(a) {
+  var b = F.receiverE(), a = a(b);
+  a.mapE(function(a) {
+    b.sendEvent(a)
+  });
+  return a
+};
+F.internal_.delayStaticE = function(a, b) {
+  var c = F.internal_.internalE();
+  new F.EventStream([a], function(a) {
+    setTimeout(function() {
+      F.sendEvent(c, a.value)
+    }, b);
+    return F.doNotPropagate
+  });
+  return c
+};
+F.EventStream.prototype.delayE = function(a) {
+  var b = this;
+  if(a instanceof F.Behavior) {
+    var c = F.internal_.internalE(), d = b, e = F.internal_.delayStaticE(b, a.valueNow()), f = new F.EventStream([a.changes()], function(a) {
+      d.removeListener(e);
+      d = b;
+      e = F.internal_.delayStaticE(b, a.value);
+      F.sendEvent(c, e);
+      return F.doNotPropagate
+    }), g = c.switchE();
+    F.sendEvent(f, a.valueNow());
+    return g
+  }
+  return F.internal_.delayStaticE(b, a)
+};
+F.mapE = function(a) {
+  for(var b = F.mkArray(arguments), c = [], d = 0, e = [], f = 0;f < b.length;f++) {
+    b[f] instanceof F.EventStream ? (e.push(b[f]), c.push(function(a) {
+      return function(b) {
+        return b[a]
+      }
+    }(d)), d++) : c.push(function(a) {
+      return function() {
+        return a
+      }
+    }(b[f]))
+  }
+  var g = c.slice(1);
+  if(0 === e.length) {
+    return F.oneE(a.apply(null, b))
+  }
+  if(1 === e.length && a instanceof Function) {
+    return e[0].mapE(function() {
+      var b = arguments;
+      return a.apply(null, g.map(function(a) {
+        return a(b)
+      }))
+    })
+  }
+  if(1 === e.length) {
+    return a.mapE(function(a) {
+      var b = arguments;
+      return a.apply(null, g.map(function(a) {
+        return a(b)
+      }))
+    })
+  }
+  throw"unknown mapE case";
+};
+F.EventStream.prototype.snapshotE = function(a) {
+  return new F.EventStream([this], function(b) {
+    b.value = a.valueNow();
+    return b
+  })
+};
+F.EventStream.prototype.filterRepeatsE = function(a) {
+  var b = void 0 === a ? !1 : !0, c = a;
+  return this.filterE(function(a) {
+    return!b || c !== a ? (b = !0, c = a, !0) : !1
+  })
+};
+F.EventStream.prototype.calmE = function(a) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  var b = F.internal_.internalE(), c = null;
+  new F.EventStream([this], function(d) {
+    null !== c && clearTimeout(c);
+    c = setTimeout(function() {
+      c = null;
+      F.sendEvent(b, d.value)
+    }, a.valueNow());
+    return F.doNotPropagate
+  });
+  return b
+};
+F.EventStream.prototype.blindE = function(a) {
+  var b = F.EventStream, c = a instanceof F.Behavior ? function() {
+    return a.valueNow()
+  } : function() {
+    return a
+  }, d = (new Date).getTime() - c() - 1;
+  return new b([this], function(a) {
+    var b = (new Date).getTime();
+    return b - d > c() ? (d = b, a) : F.doNotPropagate
+  })
+};
+F.EventStream.prototype.startsWith = function(a) {
+  return new F.Behavior(this, a)
+};
+F.Behavior.prototype.valueNow = function() {
+  return this.last
+};
+F.Behavior.prototype.changes = function() {
+  return this.underlying
+};
+F.Behavior.prototype.switchB = function() {
+  var a = this.valueNow(), b = null, c = F.internal_.internalE(), d = new F.EventStream([this.changes()], function(a) {
+    if(!(a.value instanceof F.Behavior)) {
+      throw"switchB: expected F.Behavior as value of F.Behavior of first argument";
+    }
+    null != b && b.removeListener(c);
+    b = a.value.changes();
+    b.attachListener(c);
+    F.sendEvent(c, a.value.valueNow());
+    return F.doNotPropagate
+  });
+  a instanceof F.Behavior && F.sendEvent(d, a);
+  return c.startsWith(a instanceof F.Behavior ? a.valueNow() : a)
+};
+F.timerB = function(a) {
+  return F.timerE(a).startsWith((new Date).getTime())
+};
+F.Behavior.prototype.delayB = function(a, b) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  return this.changes().delayE(a).startsWith(3 < arguments.length ? b : this.valueNow())
+};
+F.Behavior.prototype.sendBehavior = function(a) {
+  F.sendEvent(this.underlyingRaw, a)
+};
+F.Behavior.prototype.ifB = function(a, b) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  b instanceof F.Behavior || (b = F.constantB(b));
+  return F.liftB(function(a, b, e) {
+    return a ? b : e
+  }, this, a, b)
+};
+F.condB = function(a) {
+  var b = F.mkArray(arguments);
+  return F.liftB.apply({}, [function() {
+    for(var a = 0;a < b.length;a++) {
+      if(arguments[a]) {
+        return arguments[b.length + a]
+      }
+    }
+  }].concat(b.map(function(a) {
+    return a[0]
+  }).concat(b.map(function(a) {
+    return a[1]
+  }))))
+};
+F.constantB = function(a) {
+  return new F.Behavior(F.internal_.internalE(), a)
+};
+F.liftB = function(a, b) {
+  var c = Array.prototype.slice.call(arguments, 1), d = F.mkArray(arguments).filter(function(a) {
+    return a instanceof F.Behavior
+  }).map(function(a) {
+    return a.changes()
+  }), e = function(a) {
+    return a instanceof F.Behavior ? a.last : a
+  }, f = function() {
+    return e(a).apply(null, c.map(e))
+  };
+  if(1 === d.length) {
+    return new F.Behavior(d[0], f(), f)
+  }
+  var g = -1, d = new F.EventStream(d, function(a) {
+    return a.stamp != g ? (g = a.stamp, a) : F.doNotPropagate
+  });
+  return new F.Behavior(d, f(), f)
+};
+F.Behavior.prototype.ap = function(a) {
+  var b = [this].concat(F.mkArray(arguments));
+  return F.liftB.apply(null, b)
+};
+F.Behavior.prototype.liftB = function(a) {
+  return F.liftB(a, this)
+};
+F.Behavior.andB = function(a) {
+  return F.liftB.apply({}, [function() {
+    for(var a = 0;a < arguments.length;a++) {
+      if(!arguments[a]) {
+        return!1
+      }
+    }
+    return!0
+  }].concat(F.mkArray(arguments)))
+};
+F.Behavior.orB = function(a) {
+  return F.liftB.apply({}, [function() {
+    for(var a = 0;a < arguments.length;a++) {
+      if(arguments[a]) {
+        return!0
+      }
+    }
+    return!1
+  }].concat(F.mkArray(arguments)))
+};
+F.Behavior.prototype.notB = function() {
+  return this.liftB(function(a) {
+    return!a
+  })
+};
+F.Behavior.prototype.blindB = function(a) {
+  return this.changes().blindE(a).startsWith(this.valueNow())
+};
+F.Behavior.prototype.calmB = function(a) {
+  return this.changes().calmE(a).startsWith(this.valueNow())
+};
+F.dom_.swapDom = function(a, b) {
+  if(null === a || void 0 === a) {
+    throw"swapDom: expected dom node or id, received: " + a;
+  }
+  var c = F.dom_.getObj(a);
+  if(!(0 < c.nodeType)) {
+    throw"swapDom expected a Dom node as first arg, received " + c;
+  }
+  if(b) {
+    var d = F.dom_.getObj(b);
+    if(!(0 < d.nodeType)) {
+      throw"swapDom: can only swap with a DOM object";
+    }
+    try {
+      if(null === c.parentNode) {
+        return d
+      }
+      d != c && c.parentNode.replaceChild(d, c)
+    }catch(e) {
+      throw"swapDom error in replace call: withMeD: " + d + ", replaceMe Parent: " + c + ", " + e + ", parent: " + c.parentNode;
+    }
+  }else {
+    c.parentNode.removeChild(c)
+  }
+  return c
+};
+F.dom_.getObj = function(a) {
+  if("object" === typeof a) {
+    return a
+  }
+  if("null" === typeof a || "undefined" === typeof a) {
+    throw"getObj: expects a Dom obj or Dom id as first arg";
+  }
+  var b;
+  if(document.getElementById) {
+    b = document.getElementById(a)
+  }else {
+    if(document.all) {
+      b = document.all[a]
+    }else {
+      if(document.layers) {
+        b = document.layers[a]
+      }else {
+        throw"getObj: flapjax: cannot access object";
+      }
+    }
+  }
+  if(null === b || void 0 === b) {
+    throw"getObj: no obj to get: " + a;
+  }
+  return b
+};
+F.$ = F.dom_.getObj;
+F.dom_.getMostDom = function(a, b) {
+  var c = F.dom_.getObj(a);
+  if(!(null === b || void 0 === b || 1 > b.length)) {
+    for(var d = 0;d < b.length - 1;d++) {
+      c = c[b[d]]
+    }
+  }
+  return c
+};
+F.dom_.getDomVal = function(a, b) {
+  var c = F.dom_.getMostDom(a, b);
+  b && 0 < b.length && (c = c[b[b.length - 1]]);
+  return c
+};
+F.timerE = function(a) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  var b = F.receiverE(), c = function() {
+    b.sendEvent((new Date).getTime())
+  }, d = null;
+  a.liftB(function(a) {
+    d && (clearInterval(d), d = null);
+    "number" === typeof a && 0 < a && (d = setInterval(c, a))
+  });
+  return b
+};
+F.dom_.deepEach = function(a, b) {
+  for(var c = 0;c < a.length;c++) {
+    a[c] instanceof Array ? F.dom_.deepEach(a[c], b) : b(a[c])
+  }
+};
+F.dom_.mapWithKeys = function(a, b) {
+  for(var c in a) {
+    Object.prototype && Object.prototype[c] === a[c] || b(c, a[c])
+  }
+};
+F.dom_.insertAfter = function(a, b, c) {
+  "undefined" != typeof c && c.nextSibling ? a.insertBefore(b, c.nextSibling) : a.appendChild(b)
+};
+F.dom_.swapChildren = function(a, b, c) {
+  var d = Math.min(b.length, c.length), e;
+  for(e = 0;e < d;e++) {
+    a.replaceChild(c[e], b[e])
+  }
+  if(d < b.length) {
+    for(e = d;e < b.length;e++) {
+      a.removeChild(b[e])
+    }
+  }else {
+    if(d < c.length) {
+      for(e = d;e < c.length;e++) {
+        F.dom_.insertAfter(a, c[e], c[e - 1])
+      }
+    }
+  }
+};
+F.dom_.elementize = function(a) {
+  return 0 < a.nodeType ? a : document.createTextNode(a.toString())
+};
+F.dom_.staticEnstyle = function(a, b, c) {
+  c instanceof Object || (a[b] = c)
+};
+F.dom_.dynamicEnstyle = function(a, b, c) {
+  c instanceof F.Behavior ? (F.dom_.staticEnstyle(a, b, c.valueNow()), c.liftB(function(c) {
+    F.dom_.staticEnstyle(a, b, c)
+  })) : c instanceof Object ? F.dom_.mapWithKeys(c, function(c, e) {
+    F.dom_.dynamicEnstyle(a[b], c, e)
+  }) : a[b] = c
+};
+F.dom_.makeTagB = function(a) {
+  return function() {
+    var b, c;
+    "object" === typeof arguments[0] && !(0 < arguments[0].nodeType || arguments[0] instanceof F.Behavior || arguments[0] instanceof Array) ? (b = arguments[0], c = Array.prototype.slice.call(arguments, 1)) : (b = {}, c = F.mkArray(arguments));
+    var d = document.createElement(a);
+    F.dom_.mapWithKeys(b, function(a, b) {
+      b instanceof F.Behavior ? (d[a] = b.valueNow(), b.liftB(function(b) {
+        F.dom_.staticEnstyle(d, a, b)
+      })) : F.dom_.dynamicEnstyle(d, a, b)
+    });
+    F.dom_.deepEach(c, function(a) {
+      if(a instanceof F.Behavior) {
+        var b = a.valueNow();
+        b instanceof Array ? (b = b.map(F.dom_.elementize), b.forEach(function(a) {
+          d.appendChild(a)
+        }), a.liftB(function(a) {
+          a = a.map(F.dom_.elementize);
+          F.dom_.swapChildren(d, b, a);
+          b = a
+        })) : (b = F.dom_.elementize(b), d.appendChild(b), a.liftB(function(a) {
+          a = F.dom_.elementize(a);
+          b.parentNode != d ? d.appendChild(a) : d.replaceChild(a, b);
+          b = a
+        }))
+      }else {
+        d.appendChild(F.dom_.elementize(a))
+      }
+    });
+    return d
+  }
+};
+F.elt = function(a, b, c) {
+  return F.dom_.makeTagB(a).apply(null, F.mkArray(arguments).slice(1))
+};
+F.text = function(a) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  return a.changes().mapE(function(a) {
+    return document.createTextNode(a)
+  }).startsWith(document.createTextNode(a.valueNow()))
+};
+var DIV = F.dom_.makeTagB("div"), SPAN = F.dom_.makeTagB("span"), A = F.dom_.makeTagB("a"), TEXTAREA = F.dom_.makeTagB("TEXTAREA"), OPTION = F.dom_.makeTagB("OPTION"), INPUT = F.dom_.makeTagB("INPUT"), SELECT = F.dom_.makeTagB("SELECT"), IMG = F.dom_.makeTagB("IMG"), PRE = F.dom_.makeTagB("pre"), TEXT = function(a) {
+  return document.createTextNode(a)
+};
+F.tagRec = function(a, b) {
+  if(!(a instanceof Array)) {
+    throw"tagRec: expected array of event names as first arg";
+  }
+  if(!(b instanceof Function)) {
+    throw"tagRec: expected function as second arg";
+  }
+  var c = a.length, d = [], e;
+  for(e = 0;e < c;e++) {
+    d.push(F.internal_.internalE())
+  }
+  var f = b.apply(null, d);
+  for(e = 0;e < c;e++) {
+    F.extractEventE(f, a[e]).attachListener(d[e])
+  }
+  return f
+};
+F.dom_.extractEventDynamicE = function(a, b, c) {
+  "undefined" === typeof c && (c = !1);
+  var d = F.receiverE(), e = function(a) {
+    d.sendEvent(a)
+  }, f = !1;
+  a.liftB(function(a) {
+    f && f.removeEventListener(b, e, c);
+    (f = a) && (a.addEventListener && a.removeEventListener) && a.addEventListener(b, e, c)
+  });
+  return d
+};
+F.dom_.extractEventStaticE = function(a, b, c) {
+  "undefined" === typeof c && (c = !1);
+  var d = F.receiverE();
+  a.addEventListener(b, function(a) {
+    d.sendEvent(a)
+  }, c);
+  return d
+};
+F.extractEventE = function(a, b, c) {
+  return a instanceof F.Behavior ? F.dom_.extractEventDynamicE(a, b, c) : F.dom_.extractEventStaticE(a, b, c)
+};
+F.oneEvent = function(a, b) {
+  return F.recE(function(c) {
+    return F.extractEventE(c.constantE(!1).startsWith(a), b)
+  })
+};
+F.extractEventsE = function(a, b) {
+  var c = Array.prototype.slice.call(arguments, 1), c = (0 === c.length ? [] : c).map(function(b) {
+    return F.extractEventE(a, b)
+  });
+  return F.mergeE.apply(null, c)
+};
+F.extractDomFieldOnEventE = function(a, b, c) {
+  if(!(a instanceof F.EventStream)) {
+    throw"extractDomFieldOnEventE: expected Event as first arg";
+  }
+  var d = Array.prototype.slice.call(arguments, 2);
+  return a.mapE(function() {
+    return F.dom_.getDomVal(b, d)
+  })
+};
+F.extractValueE = function(a) {
+  return F.extractValueB.apply(null, arguments).changes()
+};
+F.extractValueOnEventB = function(a, b) {
+  return F.dom_.extractValueStaticB(b, a)
+};
+F.dom_.extractValueStaticB = function(a, b) {
+  var c;
+  try {
+    if(c = F.dom_.getObj(a), "string" === typeof a && c.id != a) {
+      throw"Make a radio group";
+    }
+  }catch(d) {
+    c = {type:"radio-group", name:a}
+  }
+  var e;
+  switch(c.type) {
+    case "checkbox":
+      e = F.extractDomFieldOnEventE(b ? b : F.extractEventsE(c, "click", "keyup", "change"), c, "checked").filterRepeatsE(c.checked).startsWith(c.checked);
+      break;
+    case "select-one":
+      e = function() {
+        return-1 < c.selectedIndex ? c.options[c.selectedIndex].value ? c.options[c.selectedIndex].value : c.options[c.selectedIndex].innerText : void 0
+      };
+      e = (b ? b : F.extractEventsE(c, "click", "keyup", "change")).mapE(e).filterRepeatsE().startsWith(e());
+      break;
+    case "select-multiple":
+      e = function() {
+        for(var a = [], b = 0;b < c.options.length;b++) {
+          c.options[b].selected && a.push(c.options[b].value ? c.options[b].value : c.options[b].innerText)
+        }
+        return a
+      };
+      e = (b ? b : F.extractEventsE(c, "click", "keyup", "change")).mapE(e).startsWith(e());
+      break;
+    case "text":
+    ;
+    case "textarea":
+    ;
+    case "hidden":
+    ;
+    case "password":
+      e = F.extractDomFieldOnEventE(b ? b : F.extractEventsE(c, "click", "keyup", "change"), c, "value").filterRepeatsE(c.value).startsWith(c.value);
+      break;
+    case "button":
+      e = F.extractDomFieldOnEventE(b ? b : F.extractEventsE(c, "click", "keyup", "change"), c, "value").startsWith(c.value);
+      break;
+    case "radio":
+    ;
+    case "radio-group":
+      var f = F.mkArray(document.getElementsByTagName("input")).filter(function(a) {
+        return"radio" === a.type && a.getAttribute("name") === c.name
+      });
+      e = "radio" === c.type ? function() {
+        return c.checked
+      } : function() {
+        for(var a = 0;a < f.length;a++) {
+          if(f[a].checked) {
+            return f[a].value
+          }
+        }
+      };
+      e = (b ? b : F.mergeE.apply(null, f.map(function(a) {
+        return F.extractEventsE(a, "click", "keyup", "change")
+      }))).mapE(e).filterRepeatsE(e()).startsWith(e());
+      break;
+    default:
+      throw'extractValueStaticB: unknown value type "' + c.type + '"';
+  }
+  return e
+};
+F.extractValueB = function(a) {
+  return a instanceof F.Behavior ? a.liftB(function(a) {
+    return F.dom_.extractValueStaticB(a)
+  }).switchB() : F.dom_.extractValueStaticB(a)
+};
+F.$B = F.extractValueB;
+F.dom_.deepStaticUpdate = function(a, b, c) {
+  b = b instanceof F.Behavior ? b.valueNow() : b;
+  if("object" === typeof b) {
+    for(var d in b) {
+      if(!Object.prototype || !Object.prototype[d]) {
+        F.dom_.deepStaticUpdate(c ? a[c] : a, b[d], d)
+      }
+    }
+  }else {
+    a[c] = b
+  }
+};
+F.dom_.deepDynamicUpdate = function(a, b, c) {
+  var d = b instanceof F.Behavior ? b.valueNow() : b;
+  if("object" === typeof d) {
+    if(b instanceof F.Behavior) {
+      throw"deepDynamicUpdate: dynamic collections not supported";
+    }
+    for(var e in d) {
+      if(!Object.prototype || !Object.prototype[e]) {
+        F.dom_.deepDynamicUpdate(c ? a[c] : a, d[e], e)
+      }
+    }
+  }else {
+    b instanceof F.Behavior && new F.EventStream([b.changes()], function(b) {
+      c ? a[c] = b.value : a = b.value;
+      return F.doNotPropagate
+    })
+  }
+};
+F.insertValue = function(a, b) {
+  var c = Array.prototype.slice.call(arguments, 2), d = F.dom_.getMostDom(b, c);
+  F.dom_.deepStaticUpdate(d, a, c ? c[c.length - 1] : void 0)
+};
+F.insertValueE = function(a, b) {
+  if(!(a instanceof F.EventStream)) {
+    throw"insertValueE: expected Event as first arg";
+  }
+  var c = Array.prototype.slice.call(arguments, 2), d = F.dom_.getMostDom(b, c);
+  a.mapE(function(a) {
+    F.dom_.deepStaticUpdate(d, a, c ? c[c.length - 1] : void 0)
+  })
+};
+F.insertValueB = function(a, b, c) {
+  var d = Array.prototype.slice.call(arguments, 2), e = F.dom_.getMostDom(b, d);
+  F.dom_.deepStaticUpdate(e, a, d ? d[d.length - 1] : void 0);
+  F.dom_.deepDynamicUpdate(e, a, d ? d[d.length - 1] : void 0)
+};
+F.insertDomE = function(a, b) {
+  if(!(a instanceof F.EventStream)) {
+    throw"insertDomE: expected Event as first arg";
+  }
+  var c = F.dom_.getObj(b);
+  return a.mapE(function(a) {
+    "object" === typeof a && 1 === a.nodeType || (a = SPAN({}, a));
+    F.dom_.swapDom(c, a);
+    return c = a
+  })
+};
+F.dom_.insertDomInternal = function(a, b, c) {
+  switch(c) {
+    case void 0:
+    ;
+    case null:
+    ;
+    case "over":
+      F.dom_.swapDom(a, b);
+      break;
+    case "before":
+      a.parentNode.insertBefore(b, a);
+      break;
+    case "after":
+      a.nextSibling ? a.parentNode.insertBefore(b, a.nextSibling) : a.parentNode.appendChild(b);
+      break;
+    case "leftMost":
+      a.parentNode.firstChild ? a.parentNode.insertBefore(b, a.parentNode.firstChild) : a.parentNode.appendChild(b);
+      break;
+    case "rightMost":
+      a.parentNode.appendChild(b);
+      break;
+    case "beginning":
+      a.firstChild ? a.insertBefore(b, a.firstChild) : a.appendChild(b);
+      break;
+    case "end":
+      a.appendChild(b);
+      break;
+    default:
+      throw"domInsert: unknown position: " + c;
+  }
+};
+F.insertDom = function(a, b, c) {
+  F.dom_.insertDomInternal(F.dom_.getObj(b), "object" === typeof a && 0 < a.nodeType ? a : document.createTextNode(a), c)
+};
+F.insertDomB = function(a, b, c) {
+  a instanceof F.Behavior || (a = F.constantB(a));
+  var a = a.liftB(function(a) {
+    if("object" === typeof a && 0 < a.nodeType) {
+      return a
+    }
+    var b = document.createElement("span");
+    b.appendChild(document.createTextNode(a));
+    return b
+  }), d = a.valueNow();
+  if(!("object" === typeof d && 1 === d.nodeType)) {
+    throw"insertDomB: initial value conversion failed: " + d;
+  }
+  F.dom_.insertDomInternal(null === b || void 0 === b ? F.dom_.getObj(d.getAttribute("id")) : F.dom_.getObj(b), d, c);
+  return F.insertDomE(a.changes(), d).startsWith(d)
+};
+F.mouseE = function(a) {
+  return F.extractEventE(a, "mousemove").mapE(function(a) {
+    return a.pageX | a.pageY ? {left:a.pageX, top:a.pageY} : a.clientX || a.clientY ? {left:a.clientX + document.body.scrollLeft, top:a.clientY + document.body.scrollTop} : {left:0, top:0}
+  })
+};
+F.mouseB = function(a) {
+  return F.mouseE(a).startsWith({left:0, top:0})
+};
+F.clicksE = function(a) {
+  return F.extractEventE(a, "click")
+};
+F.xhr_.ajaxRequest = function(a, b, c, d, e) {
+  var f = new window.XMLHttpRequest;
+  f.onload = function() {
+    e(f)
+  };
+  f.open(a, b, d);
+  "POST" === a && f.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  f.send(c);
+  return f
+};
+F.xhr_.encodeREST = function(a) {
+  var b = "", c;
+  for(c in a) {
+    "function" !== typeof a[c] && ("" != b && (b += "&"), b += c + "=" + encodeURIComponent(a[c]))
+  }
+  return b
+};
+F.EventStream.prototype.xhrWithBody_ = function(a, b) {
+  var c = F.receiverE();
+  this.mapE(function(d) {
+    var e = new window.XMLHttpRequest;
+    e.onload = function() {
+      4 === e.readyState && c.sendEvent({request:d, response:e.responseText, xhr:e})
+    };
+    e.open(a, b, !0);
+    e.send(d)
+  });
+  return c
+};
+F.EventStream.prototype.POST = function(a) {
+  return this.xhrWithBody_("POST", a)
+};
+F.EventStream.prototype.index = function(a) {
+  return this.mapE(function(b) {
+    if("object" !== typeof b && null !== b) {
+      throw"expected object";
+    }
+    return b[a]
+  })
+};
+F.EventStream.prototype.JSONParse = function() {
+  return this.mapE(function(a) {
+    return JSON.parse(a)
+  })
+};
+F.EventStream.prototype.JSONStringify = function() {
+  return this.mapE(function(a) {
+    return JSON.stringify(a)
+  })
+};
+F.getWebServiceObjectE = function(a) {
+  var b = F.receiverE();
+  a.mapE(function(a) {
+    var d = "", e = "GET", f = a.url;
+    if("get" === a.request) {
+      a.fields && (f += "?" + F.xhr_.encodeREST(a.fields)), d = "", e = "GET"
+    }else {
+      if("post" === a.request) {
+        d = JSON.stringify(a.fields), e = "POST"
+      }else {
+        if("rawPost" === a.request) {
+          d = a.body, e = "POST"
+        }else {
+          if("rest" === a.request) {
+            d = F.xhr_.encodeREST(a.fields), e = "POST"
+          }else {
+            throw"Invalid request type: " + a.request;
+          }
+        }
+      }
+    }
+    var g = !1 !== a.async;
+    if("json" === a.response) {
+      F.xhr_.ajaxRequest(e, f, d, g, function(a) {
+        b.sendEvent(JSON.parse(a.responseText))
+      })
+    }else {
+      if("xml" === a.response) {
+        F.xhr_.ajaxRequest(e, f, d, g, function(a) {
+          b.sendEvent(a.responseXML)
+        })
+      }else {
+        if("plain" === a.response || !a.response) {
+          F.xhr_.ajaxRequest(e, f, d, g, function(a) {
+            b.sendEvent(a.responseText)
+          })
+        }else {
+          throw"Unknown response format: " + a.response;
+        }
+      }
+    }
+    return F.doNotPropagate
+  });
+  return b
+};
 goog.net.WebSocket = function(a, b) {
   goog.events.EventTarget.call(this);
   this.autoReconnect_ = goog.isDef(a) ? a : !0;
@@ -19133,6 +20088,144 @@ com.ewen.utils_cljs.utils.add_load_event = function(a) {
     return a.call(null)
   }
 };
+com.ewen.flapjax_cljs = {};
+A = F.dom_.makeTagB.call(null, "a");
+B = F.dom_.makeTagB.call(null, "b");
+BLOCKQUOTE = F.dom_.makeTagB.call(null, "blockquote");
+BR = F.dom_.makeTagB.call(null, "br");
+BUTTON = F.dom_.makeTagB.call(null, "button");
+CANVAS = F.dom_.makeTagB.call(null, "canvas");
+DIV = F.dom_.makeTagB.call(null, "div");
+FIELDSET = F.dom_.makeTagB.call(null, "fieldset");
+FORM = F.dom_.makeTagB.call(null, "form");
+FONT = F.dom_.makeTagB.call(null, "font");
+H1 = F.dom_.makeTagB.call(null, "h1");
+H2 = F.dom_.makeTagB.call(null, "h2");
+H3 = F.dom_.makeTagB.call(null, "h3");
+H4 = F.dom_.makeTagB.call(null, "h4");
+HR = F.dom_.makeTagB.call(null, "hr");
+IFRAME = F.dom_.makeTagB.call(null, "iframe");
+INPUT = F.dom_.makeTagB.call(null, "input");
+LABEL = F.dom_.makeTagB.call(null, "label");
+LEGEND = F.dom_.makeTagB.call(null, "legend");
+LI = F.dom_.makeTagB.call(null, "li");
+OL = F.dom_.makeTagB.call(null, "ol");
+OPTGROUP = F.dom_.makeTagB.call(null, "optgroup");
+OPTION = F.dom_.makeTagB.call(null, "option");
+P = F.dom_.makeTagB.call(null, "p");
+SELECT = F.dom_.makeTagB.call(null, "select");
+SPAN = F.dom_.makeTagB.call(null, "span");
+STRONG = F.dom_.makeTagB.call(null, "strong");
+TABLE = F.dom_.makeTagB.call(null, "table");
+TBODY = F.dom_.makeTagB.call(null, "tbody");
+TD = F.dom_.makeTagB.call(null, "td");
+TEXTAREA = F.dom_.makeTagB.call(null, "textarea");
+TFOOT = F.dom_.makeTagB.call(null, "tfoot");
+TH = F.dom_.makeTagB.call(null, "th");
+THEAD = F.dom_.makeTagB.call(null, "thead");
+TR = F.dom_.makeTagB.call(null, "tr");
+TT = F.dom_.makeTagB.call(null, "tt");
+UL = F.dom_.makeTagB.call(null, "ul");
+com.ewen.flapjax_cljs.receiverE = void 0;
+com.ewen.flapjax_cljs.EventStream = F.EventStream;
+com.ewen.flapjax_cljs.Behavior = F.Behavior;
+com.ewen.flapjax_cljs.startsWith = function(a, b) {
+  return a.startsWith(b)
+};
+com.ewen.flapjax_cljs.changes = function(a) {
+  return a.changes()
+};
+com.ewen.flapjax_cljs.oneE = F.oneE;
+com.ewen.flapjax_cljs.zeroE = F.zeroE;
+com.ewen.flapjax_cljs.mapE = F.mapE;
+com.ewen.flapjax_cljs.mergeE = F.mergeE;
+com.ewen.flapjax_cljs.switchE = function(a) {
+  return a.switchE()
+};
+com.ewen.flapjax_cljs.filterE = function(a, b) {
+  return a.filterE(b)
+};
+com.ewen.flapjax_cljs.constantE = function(a, b) {
+  return a.constantE(b)
+};
+com.ewen.flapjax_cljs.collectE = function(a, b, c) {
+  return a.collectE(b, c)
+};
+com.ewen.flapjax_cljs.notE = function(a) {
+  return a.notE()
+};
+com.ewen.flapjax_cljs.filterRepeatsE = function(a) {
+  return a.filterRepeatsE()
+};
+com.ewen.flapjax_cljs.receiverE = F.receiverE;
+com.ewen.flapjax_cljs.sendEvent = F.sendEvent;
+com.ewen.flapjax_cljs.snapshotE = function(a, b) {
+  return a.snapshotE(b)
+};
+com.ewen.flapjax_cljs.onceE = function(a) {
+  return a.onceE()
+};
+com.ewen.flapjax_cljs.skipFirstE = function(a) {
+  return a.skipFirstE()
+};
+com.ewen.flapjax_cljs.delayE = function(a, b) {
+  return a.delayE(b)
+};
+com.ewen.flapjax_cljs.blindE = function(a, b) {
+  return a.blindE(b)
+};
+com.ewen.flapjax_cljs.calmE = function(a, b) {
+  return a.calmE(b)
+};
+com.ewen.flapjax_cljs.timerE = F.timerE;
+com.ewen.flapjax_cljs.extractEventE = F.extractEventE;
+com.ewen.flapjax_cljs.extractValueE = F.extractValueE;
+com.ewen.flapjax_cljs.insertValueE = F.insertValueE;
+com.ewen.flapjax_cljs.clicksE = F.clicksE;
+com.ewen.flapjax_cljs.constantB = F.constantB;
+com.ewen.flapjax_cljs.delayB = function(a, b) {
+  return a.delayB(b)
+};
+com.ewen.flapjax_cljs.valueNow = function(a) {
+  return a.valueNow()
+};
+com.ewen.flapjax_cljs.switchB = function(a) {
+  return a.switchB()
+};
+com.ewen.flapjax_cljs.andB = F.Behavior.andB;
+com.ewen.flapjax_cljs.orB = F.Behavior.orB;
+com.ewen.flapjax_cljs.notB = function(a) {
+  return a.notB()
+};
+com.ewen.flapjax_cljs.liftB = F.liftB;
+com.ewen.flapjax_cljs.condB = F.condB;
+com.ewen.flapjax_cljs.ifB = function(a, b, c) {
+  return a.ifB(b, c)
+};
+com.ewen.flapjax_cljs.timerB = F.timerB;
+com.ewen.flapjax_cljs.blindB = function(a, b) {
+  return a.blindB(b)
+};
+com.ewen.flapjax_cljs.calmB = function(a, b) {
+  return a.calmB(b)
+};
+com.ewen.flapjax_cljs.extractValueB = function() {
+  var a = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY), b = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY), c = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY), d = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY), e = cljs.core._lookup.call(null, cljs.core.ObjMap.EMPTY, "\ufdd0:hierarchy", cljs.core.global_hierarchy);
+  return new cljs.core.MultiFn("extractValueB", cljs.core.type, "\ufdd0:default", e, a, b, c, d)
+}();
+cljs.core._add_method.call(null, com.ewen.flapjax_cljs.extractValueB, "\ufdd0:default", function(a) {
+  return F.extractValueB.call(null, a)
+});
+com.ewen.flapjax_cljs.extractValueB_Atom = cljs.core.memoize.call(null, function(a) {
+  var b = com.ewen.flapjax_cljs.receiverE.call(null);
+  cljs.core.add_watch.call(null, a, cljs.core.keyword.call(null, cljs.core.gensym.call(null)), function(a, d, e, f) {
+    return com.ewen.flapjax_cljs.sendEvent.call(null, b, f)
+  });
+  return com.ewen.flapjax_cljs.startsWith.call(null, b, cljs.core.deref.call(null, a))
+});
+cljs.core.swap_BANG_.call(null, com.ewen.flapjax_cljs.extractValueB.method_table, function(a) {
+  return cljs.core.assoc.call(null, a, cljs.core.Atom, com.ewen.flapjax_cljs.extractValueB_Atom)
+});
 goog.functions = {};
 goog.functions.constant = function(a) {
   return function() {
@@ -19455,8 +20548,8 @@ goog.dom.query = function() {
     }));
     !c && !("default" in b) && (c = goog.functions.TRUE);
     return c
-  }, J = {}, Q = function(d) {
-    var e = J[d.query];
+  }, M = {}, U = function(d) {
+    var e = M[d.query];
     if(e) {
       return e
     }
@@ -19466,7 +20559,7 @@ goog.dom.query = function() {
         var n = h, e = function(a, b, c) {
           for(;a = a[l];) {
             if(!j || g(a)) {
-              (!c || C(a, c)) && n(a) && b.push(a);
+              (!c || E(a, c)) && n(a) && b.push(a);
               break
             }
           }
@@ -19477,7 +20570,7 @@ goog.dom.query = function() {
           var p = h, e = function(a, b, c) {
             for(a = a[l];a;) {
               if(k(a)) {
-                if(c && !C(a, c)) {
+                if(c && !E(a, c)) {
                   break
                 }
                 p(a) && b.push(a)
@@ -19490,7 +20583,7 @@ goog.dom.query = function() {
           if(">" == f) {
             var q = h, q = q || goog.functions.TRUE, e = function(a, b, d) {
               for(var e = 0, f = a[c];a = f[e++];) {
-                k(a) && ((!d || C(a, d)) && q(a, e)) && b.push(a)
+                k(a) && ((!d || E(a, d)) && q(a, e)) && b.push(a)
               }
               return b
             }
@@ -19536,11 +20629,11 @@ goog.dom.query = function() {
         }
       }
     }
-    return J[d.query] = e
+    return M[d.query] = e
   }, x = {}, y = {}, z = function(b) {
     var c = e(goog.string.trim(b));
     if(1 == c.length) {
-      var d = Q(c[0]);
+      var d = U(c[0]);
       return function(a) {
         if(a = d(a, [])) {
           a.nozip = !0
@@ -19554,7 +20647,7 @@ goog.dom.query = function() {
         d = c[i];
         e = b.length - 1;
         0 < e && (g = {}, h.nozip = !0);
-        e = Q(d);
+        e = U(d);
         for(var j = 0;d = b[j];j++) {
           e(d, h, g)
         }
@@ -19565,8 +20658,8 @@ goog.dom.query = function() {
       }
       return h
     }
-  }, A = !!goog.dom.getDocument().querySelectorAll && (!goog.userAgent.WEBKIT || goog.userAgent.isVersion("526")), B = function(a, c) {
-    if(A) {
+  }, C = !!goog.dom.getDocument().querySelectorAll && (!goog.userAgent.WEBKIT || goog.userAgent.isVersion("526")), D = function(a, c) {
+    if(C) {
       var d = y[a];
       if(d && !c) {
         return d
@@ -19577,7 +20670,7 @@ goog.dom.query = function() {
     }
     var d = a.charAt(0), e = -1 == a.indexOf(" ");
     0 <= a.indexOf("#") && e && (c = !0);
-    if(A && !c && -1 == ">~+".indexOf(d) && (!goog.userAgent.IE || -1 == a.indexOf(":")) && !(b && 0 <= a.indexOf(".")) && -1 == a.indexOf(":contains") && -1 == a.indexOf("|=")) {
+    if(C && !c && -1 == ">~+".indexOf(d) && (!goog.userAgent.IE || -1 == a.indexOf(":")) && !(b && 0 <= a.indexOf(".")) && -1 == a.indexOf(":contains") && -1 == a.indexOf("|=")) {
       var f = 0 <= ">~+".indexOf(a.charAt(a.length - 1)) ? a + " *" : a;
       return y[a] = function(b) {
         try {
@@ -19588,7 +20681,7 @@ goog.dom.query = function() {
           goog.userAgent.IE ? c.commentStrip = !0 : c.nozip = !0;
           return c
         }catch(d) {
-          return B(a, !0)(b)
+          return D(a, !0)(b)
         }
       }
     }
@@ -19599,17 +20692,17 @@ goog.dom.query = function() {
       }
       return c
     }
-  }, w = 0, D = goog.userAgent.IE ? function(a) {
+  }, w = 0, G = goog.userAgent.IE ? function(a) {
     return d ? a.getAttribute("_uid") || a.setAttribute("_uid", ++w) || w : a.uniqueID
   } : function(a) {
     return a._uid || (a._uid = ++w)
-  }, C = function(a, b) {
+  }, E = function(a, b) {
     if(!b) {
       return 1
     }
-    var c = D(a);
+    var c = G(a);
     return!b[c] ? b[c] = 1 : 0
-  }, E = function(a) {
+  }, H = function(a) {
     if(a && a.nozip) {
       return a
     }
@@ -19644,7 +20737,7 @@ goog.dom.query = function() {
       }
     }
     return b
-  }, F = function(a, b) {
+  }, I = function(a, b) {
     if(!a) {
       return[]
     }
@@ -19659,10 +20752,10 @@ goog.dom.query = function() {
     }
     var b = b || goog.dom.getDocument(), c = b.ownerDocument || b.documentElement;
     d = b.contentType && "application/xml" == b.contentType || goog.userAgent.OPERA && (b.doctype || "[object XMLDocument]" == c.toString()) || !!c && (goog.userAgent.IE ? c.xml : b.xmlVersion || c.xmlVersion);
-    return(c = B(a)(b)) && c.nozip ? c : E(c)
+    return(c = D(a)(b)) && c.nozip ? c : H(c)
   };
-  F.pseudos = t;
-  return F
+  I.pseudos = t;
+  return I
 }();
 goog.exportSymbol("goog.dom.query", goog.dom.query);
 goog.exportSymbol("goog.dom.query.pseudos", goog.dom.query.pseudos);
@@ -19918,12 +21011,15 @@ awl_tour_2013.goog_map.draw_path = function(a) {
 };
 awl_tour_2013.goog_map.panoramio_layer = new google.maps.panoramio.PanoramioLayer;
 awl_tour_2013.goog_map.panoramio_layer.setMap(awl_tour_2013.goog_map.map_obj);
-awl_tour_2013.goog_map.panoramio_layer.setUserId("7728826");
+awl_tour_2013.goog_map.panoramio_layer.setTag("awl-tour-2013");
 awl_tour_2013.goog_map.months = cljs.core.PersistentVector.fromArray("janvier f\u00e9vrier mars avril mai juin juillet ao\u00fbt septembre octobre novembre d\u00e9cembre".split(" "), !0);
 awl_tour_2013.goog_map.days = cljs.core.PersistentVector.fromArray("Dimanche Lundi Mardi Mercredi Jeudi Vendredi Samedi".split(" "), !0);
+awl_tour_2013.goog_map.format_digits = function(a) {
+  return[cljs.core.str("0"), cljs.core.str(a)].join("").slice(-2)
+};
 awl_tour_2013.goog_map.format_time = function(a) {
   var a = new Date(a.getTime()), b = cljs.core._lookup.call(null, awl_tour_2013.goog_map.days, a.getDay(), null), c = cljs.core._lookup.call(null, awl_tour_2013.goog_map.months, a.getMonth(), null);
-  return[cljs.core.str(b), cljs.core.str(" "), cljs.core.str(a.getDate()), cljs.core.str(" "), cljs.core.str(c), cljs.core.str(", "), cljs.core.str(a.getHours()), cljs.core.str(":"), cljs.core.str(a.getMinutes())].join("")
+  return[cljs.core.str(b), cljs.core.str(" "), cljs.core.str(a.getDate()), cljs.core.str(" "), cljs.core.str(c), cljs.core.str(", "), cljs.core.str(awl_tour_2013.goog_map.format_digits.call(null, a.getHours())), cljs.core.str(":"), cljs.core.str(awl_tour_2013.goog_map.format_digits.call(null, a.getMinutes()))].join("")
 };
 awl_tour_2013.goog_map.make_marker = function(a, b) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0:min-dist")).call(null, a)) ? new google.maps.Marker({position:new google.maps.LatLng((new cljs.core.Keyword("\ufdd0:coord/lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:coord/lng")).call(null, a)), map:awl_tour_2013.goog_map.map_obj, title:awl_tour_2013.goog_map.format_time.call(null, (new cljs.core.Keyword("\ufdd0:coord/orig-tx-inst")).call(null, a)), animation:cljs.core.truth_(b) ? google.maps.Animation.DROP : null}) : null
@@ -20014,3 +21110,22 @@ cljs.core.truth_(window.WebSocket) && (awl_tour_2013.goog_map.soc = new goog.net
 }, function() {
   return console.log("closed")
 }), awl_tour_2013.goog_map.connect_BANG_.call(null, awl_tour_2013.goog_map.soc, "ws://localhost:3000/ws"));
+awl_tour_2013.goog_map.floor_B = function(a) {
+  return com.ewen.flapjax_cljs.liftB.call(null, Math.floor, a)
+};
+awl_tour_2013.goog_map.time_second = 1E3;
+awl_tour_2013.goog_map.time_minute = 60 * awl_tour_2013.goog_map.time_second;
+awl_tour_2013.goog_map.time_hour = 60 * awl_tour_2013.goog_map.time_minute;
+awl_tour_2013.goog_map.time_day = 24 * awl_tour_2013.goog_map.time_hour;
+awl_tour_2013.goog_map.start_date = 13723992E5;
+awl_tour_2013.goog_map.countdown = domina.single_node.call(null, domina.css.sel.call(null, "#countdown"));
+awl_tour_2013.goog_map.c_timer = com.ewen.flapjax_cljs.liftB.call(null, cljs.core._, awl_tour_2013.goog_map.start_date, com.ewen.flapjax_cljs.timerB.call(null, 1E3));
+awl_tour_2013.goog_map.c_days = awl_tour_2013.goog_map.floor_B.call(null, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._SLASH_, awl_tour_2013.goog_map.c_timer, awl_tour_2013.goog_map.time_day));
+awl_tour_2013.goog_map.time_c_days = com.ewen.flapjax_cljs.liftB.call(null, cljs.core._STAR_, awl_tour_2013.goog_map.c_days, awl_tour_2013.goog_map.time_day);
+awl_tour_2013.goog_map.c_hours = awl_tour_2013.goog_map.floor_B.call(null, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._SLASH_, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._, awl_tour_2013.goog_map.c_timer, awl_tour_2013.goog_map.time_c_days), awl_tour_2013.goog_map.time_hour));
+awl_tour_2013.goog_map.time_c_hours = com.ewen.flapjax_cljs.liftB.call(null, cljs.core._STAR_, awl_tour_2013.goog_map.c_hours, awl_tour_2013.goog_map.time_hour);
+awl_tour_2013.goog_map.c_minutes = awl_tour_2013.goog_map.floor_B.call(null, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._SLASH_, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._, awl_tour_2013.goog_map.c_timer, awl_tour_2013.goog_map.time_c_days, awl_tour_2013.goog_map.time_c_hours), awl_tour_2013.goog_map.time_minute));
+awl_tour_2013.goog_map.time_c_minutes = com.ewen.flapjax_cljs.liftB.call(null, cljs.core._STAR_, awl_tour_2013.goog_map.c_minutes, awl_tour_2013.goog_map.time_minute);
+awl_tour_2013.goog_map.c_seconds = awl_tour_2013.goog_map.floor_B.call(null, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._SLASH_, com.ewen.flapjax_cljs.liftB.call(null, cljs.core._, awl_tour_2013.goog_map.c_timer, awl_tour_2013.goog_map.time_c_days, awl_tour_2013.goog_map.time_c_hours, awl_tour_2013.goog_map.time_c_minutes), awl_tour_2013.goog_map.time_second));
+awl_tour_2013.goog_map.countdown_str = com.ewen.flapjax_cljs.liftB.call(null, cljs.core.str, awl_tour_2013.goog_map.c_days, " jours ", awl_tour_2013.goog_map.c_hours, " heures ", awl_tour_2013.goog_map.c_minutes, " minutes ", awl_tour_2013.goog_map.c_seconds, " secondes");
+F.insertDomB.call(null, awl_tour_2013.goog_map.countdown_str, awl_tour_2013.goog_map.countdown);

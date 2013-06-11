@@ -1,9 +1,12 @@
 (ns awl-tour-2013.goog-map
   (:require [domina.css :refer [sel]]
-            [domina :refer [single-node]]
+            [domina :refer [single-node] :as domina]
             [com.ewen.utils-cljs.utils :refer [add-load-event]]
             [shoreleave.remotes.http-rpc :as rpc]
             [cljs.reader :refer [read-string]]
+            [com.ewen.flapjax-cljs :refer [timerB insertDomB 
+                                           insertValueB liftB]]
+            [F]
             [goog.net.WebSocket :as websocket]
             [goog.net.WebSocket.EventType :as websocket-event]
             [goog.net.WebSocket.MessageEvent :as websocket-message]
@@ -45,7 +48,8 @@
 ;;Panoramio
 (def panoramio-layer (google.maps.panoramio.PanoramioLayer.))
 (.setMap panoramio-layer map-obj)
-(.setUserId panoramio-layer "7728826")
+#_(.setUserId panoramio-layer "7728826")
+(.setTag panoramio-layer "awl-tour-2013")
 
 
 
@@ -56,12 +60,16 @@
 (def months ["janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
 (def days ["Dimanche" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi"])
 
+(defn format-digits [digit]
+  (.slice (str "0" digit) -2))
+
 (defn format-time [time]
   (let [time (-> time .getTime (js/Date.))
         day (->> time .getDay (get days))
         month (->> time .getMonth (get months))]
     (str day " " (.getDate time) " " month ", " 
-         (.getHours time) ":" (.getMinutes time))))
+         (-> (.getHours time) format-digits) ":"
+         (-> (.getMinutes time) format-digits))))
 
 
 
@@ -183,4 +191,38 @@
 
   #_(connect! soc "ws://www.awl-tour-2013.com/ws")
   (connect! soc "ws://localhost:3000/ws")
-  #_(emit! soc "msg"))  
+  #_(emit! soc "msg")) 
+
+
+
+;;;;;; Countdown
+
+
+
+(defn floor-B [n]
+  (liftB js/Math.floor n))
+
+(def time-second 1000)
+(def time-minute (* time-second 60))
+(def time-hour (* time-minute 60))
+(def time-day (* time-hour 24))
+
+(def start-date 1372399200000)
+(def countdown (-> "#countdown" sel single-node))
+#_(domina/set-text! countdown "test")
+(def c-timer (liftB - start-date (timerB 1000)))
+(def c-days (-> (liftB / c-timer time-day) floor-B))
+(def time-c-days (liftB * c-days time-day))
+(def c-hours (-> (liftB / (liftB - c-timer time-c-days) time-hour) floor-B))
+(def time-c-hours (liftB * c-hours time-hour))
+(def c-minutes (-> (liftB / (liftB - c-timer time-c-days time-c-hours) time-minute) floor-B))
+(def time-c-minutes (liftB * c-minutes time-minute))
+(def c-seconds (-> (liftB / (liftB - c-timer time-c-days time-c-hours time-c-minutes) time-second) floor-B))
+
+(def countdown-str (liftB str 
+                          c-days " jours " 
+                          c-hours " heures " 
+                          c-minutes " minutes " 
+                          c-seconds " secondes"))
+
+(F/insertDomB countdown-str countdown)
