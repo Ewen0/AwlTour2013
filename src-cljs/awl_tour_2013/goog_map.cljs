@@ -48,8 +48,8 @@
 ;;Panoramio
 (def panoramio-layer (google.maps.panoramio.PanoramioLayer.))
 (.setMap panoramio-layer map-obj)
-#_(.setUserId panoramio-layer "7728826")
-(.setTag panoramio-layer "awl-tour-2013")
+(.setUserId panoramio-layer "7728826")
+#_(.setTag panoramio-layer "awl-tour-2013")
 
 
 
