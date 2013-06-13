@@ -16,6 +16,8 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBSLxl6-fJYZrCh9ESKJzRBblwH6Bpjupc&libraries=panoramio&sensor=true"></script>
 
+    <script type="text/javascript" src"/static/js/compatibility.js"></script>
+
   </head>
 
 
@@ -50,24 +52,28 @@
 	      </div>
 	    </div>
 
-	    <header class="head_title hidden-phone">
+	    <div class="head_title hidden-phone">
 	      <div class="container">
 		<img src="/static/img/LogoAtosWorldlineTour2013_3.png"/>
 	      </div>
-	    </header>
+	    </div>
 
 	    <div id="countdown-container">
 	      <div id="countdown"></div>
 	    </div>
 	    
-	    <div id="map-canvas">
+	    <div id="main-div" class="row-fluid">
+	      <div id="map-canvas" class="span8">
+	      </div>
+	      <div class="span4">
+	      </div>
 	    </div>
 
-	    <footer class="footer hidden-phone">
+	    <div class="row-fluid footer hidden-phone">
 	      <div class="container main">
 		AWL Tour 2013
 	      </div>
-	    </footer>
+	    </div>
 
 	  </body>
 

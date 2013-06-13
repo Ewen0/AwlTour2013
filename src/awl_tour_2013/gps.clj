@@ -54,6 +54,14 @@
                        :db.install/_attribute :db.part/db}]))
 
 
+(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/distance]] (dat/db conn)))
+  (dat/transact conn [{:db/id #db/id[:db.part/db]
+                       :db/ident :coord/distance
+                       :db/valueType :db.type/double
+                       :db/cardinality :db.cardinality/one
+                       :db.install/_attribute :db.part/db}]))
+
+
 
 
 
@@ -416,6 +424,57 @@
 
 
 
+(defn get-dist-id [db]
+  (let [dist-id (-> (dat/q '[:find ?dist-id
+                             :where 
+                             [?dist-id :coord/distance]] 
+                           db) 
+                    ffirst)]
+    (if (nil? dist-id) (dat/tempid :db.part/user) dist-id)))
+
+(defn maybe-get-dist-id [db]
+  (let [dist-id (-> (dat/q '[:find ?dist-id
+                             :where 
+                             [?dist-id :coord/distance]] 
+                           db) 
+                    ffirst)]))
+
+(defn get-coords-without-dist [db]
+  (if (nil? (maybe-get-dist-id db)) 
+    (coord-history db (get-coord-id))
+    (coord-history 
+     (dat/since db 
+                (-> (dat/entity dat/db (maybe-get-dist-id)) 
+                    :coord/orig-tx-inst)))))
+
+(defn get-last-distance [db]
+  (if (nil? (maybe-get-dist-id db)) 0
+      (-> (dat/entity dat/db (maybe-get-dist-id)) :coord/distance)))
+
+(defn get-last-coord-with-distance [db]
+  (if (nil? (maybe-get-dist-id db)) {}
+      (dat/touch (dat/entity
+                  (dat/as-of db
+                             (-> (dat/entity dat/db (maybe-get-dist-id)) 
+                                 :coord/orig-tx-inst))
+                  (get-coord-id)))))
+
+(defn reduce-distance []
+)
+
+#_(defn total-dist [])
+
+#_(def cc-dist (->> tx-channel 
+                    (filter* #(filter-coord-tx "coord" %))
+                    (map* get-coord-added)
+                    (map* #(map eid-time->entity %))
+                    #_(map* prn)))
+
+
+
+
+
+
 
 
 
@@ -469,6 +528,8 @@
     (if-not (compare-coord (last coord-min-dist) last-coord)
       (conj coord-min-dist last-coord)
       coord-min-dist)))
+
+
 
 
 

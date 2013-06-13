@@ -126,6 +126,47 @@
                         #_(make-markers coords)))
 
 
+
+
+
+;;;;;; Countdown
+
+
+
+(defn floor-B [n]
+  (liftB js/Math.floor n))
+
+(def time-second 1000)
+(def time-minute (* time-second 60))
+(def time-hour (* time-minute 60))
+(def time-day (* time-hour 24))
+
+(def start-date 1372399200000)
+(def countdown (-> "#countdown" sel single-node))
+#_(domina/set-text! countdown "test")
+(def c-timer (liftB - start-date (timerB 1000)))
+(def c-days (-> (liftB / c-timer time-day) floor-B))
+(def time-c-days (liftB * c-days time-day))
+(def c-hours (-> (liftB / (liftB - c-timer time-c-days) time-hour) floor-B))
+(def time-c-hours (liftB * c-hours time-hour))
+(def c-minutes (-> (liftB / (liftB - c-timer time-c-days time-c-hours) time-minute) floor-B))
+(def time-c-minutes (liftB * c-minutes time-minute))
+(def c-seconds (-> (liftB / (liftB - c-timer time-c-days time-c-hours time-c-minutes) time-second) floor-B))
+
+(def countdown-str (liftB str 
+                          c-days " jours " 
+                          c-hours " heures " 
+                          c-minutes " minutes " 
+                          c-seconds " secondes"))
+
+(F/insertDomB countdown-str countdown)
+
+
+
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;WEB-SOCKETS;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -195,34 +236,3 @@
 
 
 
-;;;;;; Countdown
-
-
-
-(defn floor-B [n]
-  (liftB js/Math.floor n))
-
-(def time-second 1000)
-(def time-minute (* time-second 60))
-(def time-hour (* time-minute 60))
-(def time-day (* time-hour 24))
-
-(def start-date 1372399200000)
-(def countdown (-> "#countdown" sel single-node))
-#_(domina/set-text! countdown "test")
-(def c-timer (liftB - start-date (timerB 1000)))
-(def c-days (-> (liftB / c-timer time-day) floor-B))
-(def time-c-days (liftB * c-days time-day))
-(def c-hours (-> (liftB / (liftB - c-timer time-c-days) time-hour) floor-B))
-(def time-c-hours (liftB * c-hours time-hour))
-(def c-minutes (-> (liftB / (liftB - c-timer time-c-days time-c-hours) time-minute) floor-B))
-(def time-c-minutes (liftB * c-minutes time-minute))
-(def c-seconds (-> (liftB / (liftB - c-timer time-c-days time-c-hours time-c-minutes) time-second) floor-B))
-
-(def countdown-str (liftB str 
-                          c-days " jours " 
-                          c-hours " heures " 
-                          c-minutes " minutes " 
-                          c-seconds " secondes"))
-
-(F/insertDomB countdown-str countdown)
