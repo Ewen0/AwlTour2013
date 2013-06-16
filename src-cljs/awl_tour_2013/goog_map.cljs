@@ -234,7 +234,8 @@
                                     (concat data) 
                                     vec))
             (:coord/distance data)
-            (set-text! (sel "#distance") (format-distance (:coord/distance data))))))
+            (do (set-text! (sel "#distance") (format-distance (:coord/distance data)))
+                (when (= 0 (:coord/distance data)) (reset! maps-coords []))))))
 
   (configure soc 
              #(.log js/console "opened")
