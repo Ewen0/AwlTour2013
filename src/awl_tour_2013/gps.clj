@@ -61,6 +61,12 @@
                        :db/cardinality :db.cardinality/one
                        :db.install/_attribute :db.part/db}]))
 
+(when (nil? (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord/dist-id}]))
+
+
+
 
 
 
@@ -145,6 +151,15 @@
                   (square (- (:coord/lng coord2) 
                              (:coord/lng coord1))))))
 
+(defmethod distance #{:coord/lat :coord/lng 
+                      :coord/orig-tx-inst}
+  [coord1 coord2]
+  (if (or (empty? coord1) (empty? coord2)) 0
+      (square-root (+ (square (- (:coord/lat coord2) 
+                                 (:coord/lat coord1)))
+                      (square (- (:coord/lng coord2) 
+                                 (:coord/lng coord1)))))))
+
 
 (defn above-min-distance? [coord1 coord2]
   (or (and (nil? (:lng coord1)) (nil? (:lat coord1))
@@ -152,6 +167,23 @@
       (and (nil? (:lng coord2)) (nil? (:lat coord2))
            (nil? (:coord/lng coord2)) (nil? (:coor/lng coord2)))
       (>= (distance coord1 coord2) min-distance)))
+
+(defn rad [x]
+  (/ (* x (. Math PI)) 180))
+
+(defn real-distance [coord1 coord2]
+  (if (or (empty? coord1) (empty? coord2)) 0
+      (let [R 6371
+            dLat (rad (- (:coord/lat coord2) (:coord/lat coord1)))
+            dLong (rad (- (:coord/lng coord2) (:coord/lng coord1)))
+            a (+ (* (Math/sin (/ dLat 2)) (Math/sin (/ dLat 2)))
+                 (* (Math/cos (rad (:coord/lat coord1))) (Math/cos (rad (:coord/lat coord2)))
+                    (Math/sin (/ dLong 2)) (Math/sin (/ dLong 2))))
+            c (* 2 (Math/atan2 (Math/sqrt a) (Math/sqrt (- 1 a))))
+            d (* R c)]
+        d)))
+
+
 
 
 
@@ -423,54 +455,91 @@
 
 
 
-
-(defn get-dist-id [db]
-  (let [dist-id (-> (dat/q '[:find ?dist-id
-                             :where 
-                             [?dist-id :coord/distance]] 
-                           db) 
-                    ffirst)]
-    (if (nil? dist-id) (dat/tempid :db.part/user) dist-id)))
+(def dist-id (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
 
 (defn maybe-get-dist-id [db]
-  (let [dist-id (-> (dat/q '[:find ?dist-id
-                             :where 
-                             [?dist-id :coord/distance]] 
-                           db) 
-                    ffirst)]))
+  (-> (dat/q '[:find ?dist-id
+               :where 
+               [?dist-id :coord/distance]] 
+             db) 
+      ffirst))
 
 (defn get-coords-without-dist [db]
   (if (nil? (maybe-get-dist-id db)) 
     (coord-history db (get-coord-id))
     (coord-history 
      (dat/since db 
-                (-> (dat/entity dat/db (maybe-get-dist-id)) 
-                    :coord/orig-tx-inst)))))
+                (-> (dat/entity db (maybe-get-dist-id db)) 
+                    :coord/orig-tx-inst))
+     (get-coord-id))))
 
 (defn get-last-distance [db]
   (if (nil? (maybe-get-dist-id db)) 0
-      (-> (dat/entity dat/db (maybe-get-dist-id)) :coord/distance)))
+      (-> (dat/entity db (maybe-get-dist-id db)) :coord/distance)))
+
+(defn get-last-distance-entity [db]
+  (if (nil? (maybe-get-dist-id db)) []
+      [(-> (dat/entity db (maybe-get-dist-id db)) dat/touch)]))
 
 (defn get-last-coord-with-distance [db]
   (if (nil? (maybe-get-dist-id db)) {}
       (dat/touch (dat/entity
                   (dat/as-of db
-                             (-> (dat/entity dat/db (maybe-get-dist-id)) 
+                             (-> (dat/entity db (maybe-get-dist-id db)) 
                                  :coord/orig-tx-inst))
                   (get-coord-id)))))
 
-(defn reduce-distance []
-)
-
-#_(defn total-dist [])
-
-#_(def cc-dist (->> tx-channel 
-                    (filter* #(filter-coord-tx "coord" %))
-                    (map* get-coord-added)
-                    (map* #(map eid-time->entity %))
-                    #_(map* prn)))
 
 
+(defn reduce-distance [[distances prev-coord db] next-coord]
+  (let [last-dist (if (empty? distances) 0 
+                      (:coord/distance (last distances)))]
+    [(conj distances 
+           {:coord/distance (+ last-dist (real-distance prev-coord next-coord))
+            :coord/orig-tx-inst (:coord/orig-tx-inst next-coord)}) 
+     next-coord db]))
+
+(defn transact-dist [db {dist :coord/distance tx-inst :coord/orig-tx-inst}]
+  (dat/transact conn [{:db/id #db/id[:db.part/tx]
+                       :coord/trans-type "distance"}
+                      {:db/id dist-id 
+                       :coord/distance (.doubleValue dist) 
+                       :coord/orig-tx-inst tx-inst}]))
+
+(->> tx-channel 
+     (filter* #(filter-coord-tx "coord" %))
+     (map* #(reduce reduce-distance 
+                    [(get-last-distance-entity (:db-after %)) 
+                     (get-last-coord-with-distance (:db-after %)) (:db-after %)]
+                    (get-coords-without-dist (:db-after %))))
+     (map* #(dorun (map (partial transact-dist (last %)) (first %)))))
+
+#_(push-coord {"lat" "48.83" "lng" "2.35"})
+#_(push-coord {"lat" "48.71" "lng" "2.19"})
+#_(push-coord {"lat" "48.83" "lng" "6.35"})
+
+
+(defn get-dist-added [tx-event]
+  (dat/q '[:find ?dist ?time
+           :in $ [[?e _ _ ?tx ?added]]
+           :where [?e :coord/distance ?dist ?tx true]
+           [?e :coord/orig-tx-inst ?time ?tx true]]
+         (:db-after tx-event)
+         (:tx-data tx-event)))
+
+(defn dist->entity [datums]
+  (->> (first datums) (zipmap [:coord/distance
+                               :coord/orig-tx-inst])))
+
+(def cc-dist (->> tx-channel 
+                  (filter* #(filter-coord-tx "distance" %))
+                  (map* #(get-dist-added %))
+                  (map* #(dist->entity %))
+                  (filter* not-empty)))
+
+#_(map* prn cc-dist)
+
+(ground cc-dist)
 
 
 
@@ -527,7 +596,13 @@
         last-coord (assoc last-coord :min-dist false)]
     (if-not (compare-coord (last coord-min-dist) last-coord)
       (conj coord-min-dist last-coord)
-      coord-min-dist)))
+      (vec coord-min-dist))))
+
+(defn get-distance []
+  (->> :coord/dist-id (dat/entity (dat/db conn)) dat/touch))
+
+(defn get-data []
+  (conj (get-coords) (get-distance)))
 
 
 
@@ -576,6 +651,11 @@
                        :db/excise (get-coord-id)}])
   (dat/transact conn [{:db/id (dat/tempid :db.part/user)
                        :db/excise (get-coord-id-min-dist min-distance)}])
+  (dat/request-index conn))
+
+(defn clear-dist []
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise dist-id}])
   (dat/request-index conn))
 
 (defn id-coords []

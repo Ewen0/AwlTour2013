@@ -13,20 +13,24 @@
            [java.security KeyStore]))
 
 
-(defremote ^{:remote-name :get-coords} remote-get-coords []
-  (-> (gps/get-coords) vec str))
+(defremote ^{:remote-name :get-data} remote-get-data []
+  (-> (gps/get-data) vec str))
 
 (defn ws-handler [request]
   (with-channel request channel
     (let [cc-min-dist (fork gps/cc-min-dist)
-          cc-coord (fork gps/cc-coord)]
+          cc-coord (fork gps/cc-coord)
+          cc-dist (fork gps/cc-dist)]
       (map* #(->> % vec str (send! channel)) 
             cc-min-dist)
       (map* #(->> % vec str (send! channel)) 
             cc-coord)
+      (map* #(->> % str (send! channel)) 
+            cc-dist)
       (on-close channel (fn [status] (close cc-min-dist)
                           (close cc-coord) 
-                          (println "channel closed: " status)))
+                          (close cc-dist)
+                          #_(println "channel closed: " status)))
       (on-receive channel (fn [data] ;; echo it back
                             (send! channel data))))))
 

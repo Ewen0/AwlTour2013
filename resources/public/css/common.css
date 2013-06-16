@@ -30,6 +30,33 @@ body
 height:100%;
 }
 
+#stats
+{
+height:100%;
+}
+
+#distance-container
+{
+  height:33.3%;
+  font-size: 28px;
+  text-align:center;
+}
+
+#distance
+{
+  margin-top:100px;
+}
+
+#instant-speed-container
+{
+height:33.3%;
+}
+
+#average-speed-container
+{
+height:33.3%;
+}
+
 #map-canvas img
 {
 max-width: inherit;

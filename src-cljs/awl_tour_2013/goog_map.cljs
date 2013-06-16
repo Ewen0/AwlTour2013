@@ -1,6 +1,6 @@
 (ns awl-tour-2013.goog-map
   (:require [domina.css :refer [sel]]
-            [domina :refer [single-node] :as domina]
+            [domina :refer [single-node set-text!] :as domina]
             [com.ewen.utils-cljs.utils :refer [add-load-event]]
             [shoreleave.remotes.http-rpc :as rpc]
             [cljs.reader :refer [read-string]]
@@ -74,6 +74,14 @@
 
 
 
+;;; Distance
+
+(defn format-distance [dist]
+  (str "Distance parcourue : " (Math/floor dist) " kilomètres"))
+
+
+
+
 ;Markers
 
 (defn make-marker [coord animate]
@@ -113,17 +121,18 @@
 
 
 
-(rpc/remote-callback :get-coords [] 
-                     #(let [coords (->> % read-string)
+(rpc/remote-callback :get-data []
+                     #(let [data (->> % read-string)
+                            coords (filter :coord/lat data)
+                            dist (-> (filter :coord/distance data) first)
                             coords (sort (fn [coord1 coord2] 
                                            (compare (-> coord1 :coord/orig-tx-inst) 
                                                     (-> coord2 :coord/orig-tx-inst)))
                                          coords)
                             coords (vec coords)]
-                        (.log js/console (str coords))
+                        (.log js/console (str data))
                         (reset! maps-coords coords)
-                        #_(draw-path coords)
-                        #_(make-markers coords)))
+                        (set-text! (sel "#distance") (format-distance (:coord/distance dist)))))
 
 
 
@@ -217,12 +226,15 @@
 
 
 
-  (defn handle-msg [coords-str]
-    #_(.log js/console (.-message coords-str))
-    (let [coords (->> (.-message coords-str) read-string)]
-      (swap! maps-coords #(-> % filter-tmp-coords 
-                              (concat coords) 
-                              vec))))
+  (defn handle-msg [data-str]
+    (.log js/console (.-message data-str))
+    (let [data (->> (.-message data-str) read-string)]
+      (cond (and (vector? data) (:coord/lat (first data)))
+            (swap! maps-coords #(-> % filter-tmp-coords 
+                                    (concat data) 
+                                    vec))
+            (:coord/distance data)
+            (set-text! (sel "#distance") (format-distance (:coord/distance data))))))
 
   (configure soc 
              #(.log js/console "opened")
