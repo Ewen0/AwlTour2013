@@ -79,6 +79,11 @@
 (defn format-distance [dist]
   (str "Distance parcourue : " (Math/floor dist) " kilomètres"))
 
+;;;; Speed
+
+(defn format-instant-speed [speed]
+  (str "Vitesse instantanée: " (Math/round speed) " km/h"))
+
 
 
 
@@ -125,6 +130,10 @@
                      #(let [data (->> % read-string)
                             coords (filter :coord/lat data)
                             dist (-> (filter :coord/distance data) first)
+                            instant-speed (-> (filter 
+                                               (fn [in] (= :coord/instant-speed-id (:db/ident in)))
+                                               data) 
+                                              first)
                             coords (sort (fn [coord1 coord2] 
                                            (compare (-> coord1 :coord/orig-tx-inst) 
                                                     (-> coord2 :coord/orig-tx-inst)))
@@ -132,7 +141,10 @@
                             coords (vec coords)]
                         (.log js/console (str data))
                         (reset! maps-coords coords)
-                        (set-text! (sel "#distance") (format-distance (:coord/distance dist)))))
+                        (set-text! (sel "#distance") 
+                                   (format-distance (:coord/distance dist)))
+                        (set-text! (sel "#instant-speed") 
+                                   (format-instant-speed (:coord/speed instant-speed)))))
 
 
 
@@ -234,8 +246,10 @@
                                     (concat data) 
                                     vec))
             (:coord/distance data)
-            (do (set-text! (sel "#distance") (format-distance (:coord/distance data)))
-                (when (= 0 (:coord/distance data)) (reset! maps-coords []))))))
+            (set-text! (sel "#distance") (format-distance (:coord/distance data)))
+            (= :coord/instant-speed-id (:db/ident data))
+            (set-text! (sel "#instant-speed") 
+                       (format-instant-speed (:coord/speed data))))))
 
   (configure soc 
              #(.log js/console "opened")

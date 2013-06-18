@@ -61,9 +61,20 @@
                        :db/cardinality :db.cardinality/one
                        :db.install/_attribute :db.part/db}]))
 
+(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/speed]] (dat/db conn)))
+  (dat/transact conn [{:db/id #db/id[:db.part/db]
+                       :db/ident :coord/speed
+                       :db/valueType :db.type/double
+                       :db/cardinality :db.cardinality/one
+                       :db.install/_attribute :db.part/db}]))
+
 (when (nil? (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
   (dat/transact conn [{:db/id #db/id[:db.part/user]
                        :db/ident :coord/dist-id}]))
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord/instant-speed-id}]))
 
 
 
@@ -506,13 +517,18 @@
                        :coord/distance (.doubleValue dist) 
                        :coord/orig-tx-inst tx-inst}]))
 
+(defn single-item-or-rest [in-seq]
+  (cond (or (empty? in-seq) (nil? in-seq)) in-seq
+        (= 1 (count in-seq)) in-seq
+        :else (rest in-seq)))
+
 (->> tx-channel 
      (filter* #(filter-coord-tx "coord" %))
      (map* #(reduce reduce-distance 
                     [(get-last-distance-entity (:db-after %)) 
                      (get-last-coord-with-distance (:db-after %)) (:db-after %)]
                     (get-coords-without-dist (:db-after %))))
-     (map* #(dorun (map (partial transact-dist (last %)) (first %)))))
+     (map* #(dorun (map (partial transact-dist (last %)) (-> (first %) single-item-or-rest)))))
 
 #_(push-coord {"lat" "48.83" "lng" "2.35"})
 #_(push-coord {"lat" "48.71" "lng" "2.19"})
@@ -537,15 +553,60 @@
                   (map* #(dist->entity %))
                   (filter* not-empty)))
 
-#_(map* prn cc-dist)
-
 (ground cc-dist)
 
 
 
 
 
+(defn speed [dist1 dist2]
+  (if (or (empty? dist1) (nil? dist1)) 0
+      (Math/round (* (/ (- (:coord/distance dist2) 
+                           (:coord/distance dist1))
+                        (- (.getTime (:coord/orig-tx-inst dist2)) 
+                           (.getTime (:coord/orig-tx-inst dist1))))
+                     3600000))))
 
+(defn speed-with-time [dist1 dist2]
+    (if (or (empty? dist1) (nil? dist1)) 
+      {:coord/speed 0 
+       :coord/orig-tx-inst (:coord/orig-tx-inst dist2)}
+      {:coord/speed (Math/round (* (/ (- (:coord/distance dist2) 
+                                         (:coord/distance dist1))
+                                      (- (.getTime (:coord/orig-tx-inst dist2)) 
+                                         (.getTime (:coord/orig-tx-inst dist1))))
+                                   3600000))
+       :coord/orig-tx-inst (:coord/orig-tx-inst dist2)}))
+
+(defn transact-instant-speed [{speed :coord/speed time :coord/orig-tx-inst}]
+  (dat/transact conn [{:db/id #db/id[:db.part/tx]
+                       :coord/trans-type "instant-speed"}
+                      {:db/id :coord/instant-speed-id
+                       :coord/speed (.doubleValue speed) 
+                       :coord/orig-tx-inst time}]))
+
+(->> tx-channel
+     (filter* #(filter-coord-tx "distance" %))
+     (map* #(speed-with-time (first (get-last-distance-entity (:db-before %)))
+              (first (get-last-distance-entity (:db-after %)))))
+     (map* transact-instant-speed))
+
+(def cc-instant-speed (->> tx-channel 
+                           (filter* #(filter-coord-tx "instant-speed" %))
+                           (map* #(->> :coord/instant-speed-id 
+                                       (dat/entity (:db-after %)) 
+                                       dat/touch))
+                           (map* #(into {} %))))
+
+
+(ground cc-instant-speed)
+
+#_(push-coord {"lat" "48.83" "lng" "2.35"})
+#_(push-coord {"lat" "48.71" "lng" "2.19"})
+#_(push-coord {"lat" "48.83" "lng" "6.35"})
+
+#_{:db/id 17592186072102, :coord/orig-tx-inst #inst "2013-06-17T00:04:52.997-00:00", :db/ident :coord/dist-id, :coord/distance 7098.7}
+#_{:db/id 17592186072102, :coord/orig-tx-inst #inst "2013-06-17T00:05:52.997-00:00", :db/ident :coord/dist-id, :coord/distance 7099.7}
 
 
 
@@ -601,8 +662,12 @@
 (defn get-distance []
   (->> :coord/dist-id (dat/entity (dat/db conn)) dat/touch))
 
+(defn get-instant-speed []
+  (->> :coord/instant-speed-id (dat/entity (dat/db conn)) dat/touch))
+
 (defn get-data []
-  (conj (get-coords) (get-distance)))
+  (conj (get-coords) (get-distance) (get-instant-speed)))
+
 
 
 
@@ -656,6 +721,11 @@
 (defn clear-dist []
   (dat/transact conn [{:db/id (dat/tempid :db.part/user)
                        :db/excise dist-id}])
+  (dat/request-index conn))
+
+(defn clear-instant-speed []
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id)}])
   (dat/request-index conn))
 
 (defn id-coords []

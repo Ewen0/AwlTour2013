@@ -39,7 +39,6 @@ height:100%;
 {
   height:33.3%;
   font-size: 28px;
-  text-align:center;
 }
 
 #distance
@@ -49,7 +48,12 @@ height:100%;
 
 #instant-speed-container
 {
-height:33.3%;
+  height:33.3%;
+  font-size: 28px;
+}
+#instant-speed
+{
+  margin-top:100px;
 }
 
 #average-speed-container

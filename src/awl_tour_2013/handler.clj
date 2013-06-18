@@ -20,16 +20,21 @@
   (with-channel request channel
     (let [cc-min-dist (fork gps/cc-min-dist)
           cc-coord (fork gps/cc-coord)
-          cc-dist (fork gps/cc-dist)]
+          cc-dist (fork gps/cc-dist)
+          cc-instant-speed (fork gps/cc-instant-speed)]
       (map* #(->> % vec str (send! channel)) 
             cc-min-dist)
       (map* #(->> % vec str (send! channel)) 
             cc-coord)
       (map* #(->> % str (send! channel)) 
             cc-dist)
-      (on-close channel (fn [status] (close cc-min-dist)
+      (map* #(->> % str (send! channel)) 
+            cc-instant-speed)
+      (on-close channel (fn [status] 
+                          (close cc-min-dist)
                           (close cc-coord) 
                           (close cc-dist)
+                          (close cc-instant-speed)
                           #_(println "channel closed: " status)))
       (on-receive channel (fn [data] ;; echo it back
                             (send! channel data))))))
