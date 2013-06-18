@@ -68,6 +68,14 @@
                        :db/cardinality :db.cardinality/one
                        :db.install/_attribute :db.part/db}]))
 
+(when (nil? (-> (dat/entity (dat/db conn) :coord/coord-id) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord/coord-id}]))
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord/coord-min-dist-id) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord/coord-min-dist-id}]))
+
 (when (nil? (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
   (dat/transact conn [{:db/id #db/id[:db.part/user]
                        :db/ident :coord/dist-id}]))
@@ -101,25 +109,10 @@
   (-> (dat/entity db eid) attr not))
 
 (defn get-coord-id []
-  (let [coord-id (-> (dat/q '[:find ?coord-id
-                              :where 
-                              [?coord-id :coord/lat]
-                              [?coord-id :coord/lng]
-                              [(awl-tour-2013.gps/attr-missing? $ ?coord-id :coord/min-distance)]] 
-                            (dat/db conn)) 
-                     ffirst)]
-    (if (nil? coord-id) (dat/tempid :db.part/user) coord-id)))
+  (-> (dat/entity (dat/db conn) :coord/coord-id) :db/id))
 
 (defn get-coord-id-min-dist [min-dist]
-  (let [coord-id (-> (dat/q '[:find ?coord-id
-                              :in $ ?min-dist
-                              :where 
-                              [?coord-id :coord/lat]
-                              [?coord-id :coord/lng]
-                              [?coord-id :coord/min-distance ?min-distance]] 
-                            (dat/db conn) min-dist) 
-                     ffirst)]
-    (if (nil? coord-id) (dat/tempid :db.part/user) coord-id)))
+  (-> (dat/entity (dat/db conn) :coord/coord-min-dist-id) :db/id))
 
 
 
@@ -246,6 +239,7 @@
        (into (sorted-map))
        (map last)
        (map dat-result->coord-maps)
+       (filter #(or (:coord/lat %) (:coord/lng %)))
        (reduce fill-missing-keys [])))
 
 
@@ -349,9 +343,6 @@
   (let [updated-arg (merge (last res) arg)]
     (if (above-min-distance? updated-arg (last res)) 
       (conj res updated-arg) res)))
-
-(defn assoc-min-dist-attrs [in-map]
-  (assoc in-map :db/id (dat/tempid (dat/db conn)) :coord/min-distance min-distance))
 
 (defn add-coord-min-dist [in-map]
   (let [updated-map (if-not (find in-map :db/id) 
@@ -727,6 +718,11 @@
   (dat/transact conn [{:db/id (dat/tempid :db.part/user)
                        :db/excise (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id)}])
   (dat/request-index conn))
+
+(defn clear-all []
+  (clear-coords) (clear-dist) (clear-instant-speed))
+
+
 
 (defn id-coords []
   (dat/q '[:find ?id :where [?id :coord/lat]] (dat/db conn)))
