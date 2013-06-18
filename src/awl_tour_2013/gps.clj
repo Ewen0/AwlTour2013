@@ -481,15 +481,15 @@
 
 (defn get-last-distance-entity [db]
   (if (nil? (maybe-get-dist-id db)) []
-      [(-> (dat/entity db (maybe-get-dist-id db)) dat/touch)]))
+      [(->> (dat/entity db (maybe-get-dist-id db)) dat/touch (into {}))]))
 
 (defn get-last-coord-with-distance [db]
   (if (nil? (maybe-get-dist-id db)) {}
-      (dat/touch (dat/entity
-                  (dat/as-of db
-                             (-> (dat/entity db (maybe-get-dist-id db)) 
-                                 :coord/orig-tx-inst))
-                  (get-coord-id)))))
+      (into {} (dat/touch (dat/entity
+                           (dat/as-of db
+                                      (-> (dat/entity db (maybe-get-dist-id db)) 
+                                          :coord/orig-tx-inst))
+                           (get-coord-id))))))
 
 
 
@@ -513,13 +513,18 @@
         (= 1 (count in-seq)) in-seq
         :else (rest in-seq)))
 
-(->> tx-channel 
-     (filter* #(filter-coord-tx "coord" %))
-     (map* #(reduce reduce-distance 
-                    [(get-last-distance-entity (:db-after %)) 
-                     (get-last-coord-with-distance (:db-after %)) (:db-after %)]
-                    (get-coords-without-dist (:db-after %))))
-     (map* #(dorun (map (partial transact-dist (last %)) (-> (first %) single-item-or-rest)))))
+(def cc-dist-test (->> tx-channel 
+                       (filter* #(filter-coord-tx "coord" %))
+                       (map* #(reduce reduce-distance 
+                                      [(get-last-distance-entity (:db-after %)) 
+                                       (get-last-coord-with-distance (:db-after %)) (:db-after %)]
+                                      (get-coords-without-dist (:db-after %))))
+                       (map* #(dorun (map (partial transact-dist (last %)) 
+                                          (-> (first %) single-item-or-rest))))))
+
+(ground cc-dist-test)
+
+
 
 #_(push-coord {"lat" "48.83" "lng" "2.35"})
 #_(push-coord {"lat" "48.71" "lng" "2.19"})
@@ -576,17 +581,20 @@
                        :coord/speed (.doubleValue speed) 
                        :coord/orig-tx-inst time}]))
 
-(->> tx-channel
-     (filter* #(filter-coord-tx "distance" %))
-     (map* #(speed-with-time (first (get-last-distance-entity (:db-before %)))
-              (first (get-last-distance-entity (:db-after %)))))
-     (map* transact-instant-speed))
+(def cc-instant-speed-test 
+  (->> tx-channel
+       (filter* #(filter-coord-tx "distance" %))
+       (map* #(speed-with-time (first (get-last-distance-entity (:db-before %)))
+                (first (get-last-distance-entity (:db-after %)))))
+       (map* transact-instant-speed)))
+
+(ground cc-instant-speed-test)
 
 (def cc-instant-speed (->> tx-channel 
                            (filter* #(filter-coord-tx "instant-speed" %))
                            (map* #(->> :coord/instant-speed-id 
                                        (dat/entity (:db-after %)) 
-                                       dat/touch))
+                                       dat/touch (into {})))
                            (map* #(into {} %))))
 
 
@@ -651,10 +659,10 @@
       (vec coord-min-dist))))
 
 (defn get-distance []
-  (->> :coord/dist-id (dat/entity (dat/db conn)) dat/touch))
+  (->> :coord/dist-id (dat/entity (dat/db conn)) dat/touch (into {})))
 
 (defn get-instant-speed []
-  (->> :coord/instant-speed-id (dat/entity (dat/db conn)) dat/touch))
+  (->> :coord/instant-speed-id (dat/entity (dat/db conn)) dat/touch (into {})))
 
 (defn get-data []
   (conj (get-coords) (get-distance) (get-instant-speed)))
@@ -720,7 +728,15 @@
   (dat/request-index conn))
 
 (defn clear-all []
-  (clear-coords) (clear-dist) (clear-instant-speed))
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (get-coord-id)}])
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (get-coord-id-min-dist min-distance)}])
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise dist-id}])
+  (dat/transact conn [{:db/id (dat/tempid :db.part/user)
+                       :db/excise (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id)}])
+  (dat/request-index conn))
 
 
 
