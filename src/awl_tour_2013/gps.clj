@@ -522,8 +522,8 @@
                        (map* #(dorun (map (partial transact-dist (last %)) 
                                           (-> (first %) single-item-or-rest))))))
 
-(ground cc-dist-test)
 
+(ground cc-dist-test)
 
 
 #_(push-coord {"lat" "48.83" "lng" "2.35"})
@@ -538,6 +538,9 @@
            [?e :coord/orig-tx-inst ?time ?tx true]]
          (:db-after tx-event)
          (:tx-data tx-event)))
+
+(defn filter-dist [tx-event]
+  (not-empty (get-dist-added tx-event)))
 
 (defn dist->entity [datums]
   (->> (first datums) (zipmap [:coord/distance
@@ -584,9 +587,12 @@
 (def cc-instant-speed-test 
   (->> tx-channel
        (filter* #(filter-coord-tx "distance" %))
+       (filter* filter-dist)
        (map* #(speed-with-time (first (get-last-distance-entity (:db-before %)))
-                (first (get-last-distance-entity (:db-after %)))))
+                  (first (get-last-distance-entity (:db-after %)))))
        (map* transact-instant-speed)))
+
+
 
 (ground cc-instant-speed-test)
 
