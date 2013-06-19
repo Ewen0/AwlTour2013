@@ -176,16 +176,20 @@
   (/ (* x (. Math PI)) 180))
 
 (defn real-distance [coord1 coord2]
-  (if (or (empty? coord1) (empty? coord2)) 0
-      (let [R 6371
-            dLat (rad (- (:coord/lat coord2) (:coord/lat coord1)))
-            dLong (rad (- (:coord/lng coord2) (:coord/lng coord1)))
-            a (+ (* (Math/sin (/ dLat 2)) (Math/sin (/ dLat 2)))
-                 (* (Math/cos (rad (:coord/lat coord1))) (Math/cos (rad (:coord/lat coord2)))
-                    (Math/sin (/ dLong 2)) (Math/sin (/ dLong 2))))
-            c (* 2 (Math/atan2 (Math/sqrt a) (Math/sqrt (- 1 a))))
-            d (* R c)]
-        d)))
+  (if (or (empty? coord1) (empty? coord2)
+          (nil? (:coord/lat coord1))
+          (nil? (:coord/lng coord1))
+          (nil? (:coord/lat coord2))
+          (nil? (:coord/lng coord2))) 0
+          (let [R 6371
+                dLat (rad (- (:coord/lat coord2) (:coord/lat coord1)))
+                dLong (rad (- (:coord/lng coord2) (:coord/lng coord1)))
+                a (+ (* (Math/sin (/ dLat 2)) (Math/sin (/ dLat 2)))
+                     (* (Math/cos (rad (:coord/lat coord1))) (Math/cos (rad (:coord/lat coord2)))
+                        (Math/sin (/ dLong 2)) (Math/sin (/ dLong 2))))
+                c (* 2 (Math/atan2 (Math/sqrt a) (Math/sqrt (- 1 a))))
+                d (* R c)]
+            d)))
 
 
 
@@ -386,6 +390,7 @@
                (:db-after tx-event)
                (:tx-data tx-event)))))
 
+
 (defn eid-min-dist-time->entity [[eid time]]
   (let [coord-min-dist (->> 
                         (dat/q '[:find ?lat ?lng ?orig-time
@@ -516,11 +521,11 @@
 (def cc-dist-test (->> tx-channel 
                        (filter* #(filter-coord-tx "coord" %))
                        (map* #(reduce reduce-distance 
-                                      [(get-last-distance-entity (:db-after %)) 
-                                       (get-last-coord-with-distance (:db-after %)) (:db-after %)]
-                                      (get-coords-without-dist (:db-after %))))
+                                        [(get-last-distance-entity (:db-after %)) 
+                                         (get-last-coord-with-distance (:db-after %)) (:db-after %)]
+                                        (get-coords-without-dist (:db-after %))))
                        (map* #(dorun (map (partial transact-dist (last %)) 
-                                          (-> (first %) single-item-or-rest))))))
+                                            (-> (first %) single-item-or-rest))))))
 
 
 (ground cc-dist-test)
