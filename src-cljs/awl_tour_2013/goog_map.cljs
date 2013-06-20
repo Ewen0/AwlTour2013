@@ -82,7 +82,10 @@
 ;;;; Speed
 
 (defn format-instant-speed [speed]
-  (str "Vitesse instantanée: " (Math/round speed) " km/h"))
+  (str "Vitesse instantanée : " (Math/round speed) " km/h"))
+
+(defn format-average-speed [speed]
+  (str "Vitesse moyenne : " (Math/round speed) " km/h"))
 
 
 
@@ -134,6 +137,10 @@
                                                (fn [in] (= :coord/instant-speed-id (:db/ident in)))
                                                data) 
                                               first)
+                            average-speed (-> (filter 
+                                               (fn [in] (= :coord/average-speed-id (:db/ident in)))
+                                               data) 
+                                              first)
                             coords (sort (fn [coord1 coord2] 
                                            (compare (-> coord1 :coord/orig-tx-inst) 
                                                     (-> coord2 :coord/orig-tx-inst)))
@@ -144,7 +151,9 @@
                         (set-text! (sel "#distance") 
                                    (format-distance (:coord/distance dist)))
                         (set-text! (sel "#instant-speed") 
-                                   (format-instant-speed (:coord/speed instant-speed)))))
+                                   (format-instant-speed (:coord/speed instant-speed)))
+                        (set-text! (sel "#average-speed") 
+                                   (format-average-speed (:coord/speed average-speed)))))
 
 
 
@@ -249,7 +258,10 @@
             (set-text! (sel "#distance") (format-distance (:coord/distance data)))
             (= :coord/instant-speed-id (:db/ident data))
             (set-text! (sel "#instant-speed") 
-                       (format-instant-speed (:coord/speed data))))))
+                       (format-instant-speed (:coord/speed data)))
+            (= :coord/average-speed-id (:db/ident data))
+            (set-text! (sel "#average-speed") 
+                       (format-average-speed (:coord/speed data))))))
 
   (configure soc 
              #(.log js/console "opened")
