@@ -88,6 +88,75 @@
   (dat/transact conn [{:db/id #db/id[:db.part/user]
                        :db/ident :coord/average-speed-id}]))
 
+;;Database functions
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/coord-min-dist) :db/id))
+      (dat/transact conn [{:db/id #db/id[:db.part/user]
+                           :db/ident :coord.dbfn/coord-min-dist
+                           :db/fn (dat/function 
+                                   '{:lang "clojure"
+                                     :params [db updated-map]
+                                     :code (let [min-dist-ent 
+                                                 (datomic.api/entity db :coord/coord-min-dist-id)]
+                                             (if (< (compare (:coord/orig-tx-inst updated-map)
+                                                               (:coord/orig-tx-inst min-dist-ent)) 1)
+                                               (throw (Exception.)) 
+                                               [{:db/id #db/id[:db.part/tx]
+                                                 :coord/trans-type "coord-min-dist"}
+                                                updated-map]))})}]))
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/distance) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord.dbfn/distance
+                       :db/fn (dat/function 
+                               '{:lang "clojure"
+                                 :params [db dist tx-inst]
+                                 :code (let [dist-ent 
+                                             (datomic.api/entity db :coord/dist-id)]
+                                         (if (< (compare tx-inst
+                                                         (:coord/orig-tx-inst dist-ent)) 1)
+                                           (throw (Exception.)) 
+                                           [{:db/id #db/id[:db.part/tx]
+                                             :coord/trans-type "distance"}
+                                            {:db/id :coord/dist-id
+                                             :coord/distance dist
+                                             :coord/orig-tx-inst tx-inst}]))})}]))
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/instant-speed) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord.dbfn/instant-speed
+                       :db/fn (dat/function 
+                               '{:lang "clojure"
+                                 :params [db speed tx-inst]
+                                 :code (let [inst-speed-ent 
+                                             (datomic.api/entity db :coord/instant-speed-id)]
+                                         (if (< (compare tx-inst
+                                                         (:coord/orig-tx-inst inst-speed-ent)) 1)
+                                           (throw (Exception.)) 
+                                           [{:db/id #db/id[:db.part/tx]
+                                             :coord/trans-type "instant-speed"}
+                                            {:db/id :coord/instant-speed-id
+                                             :coord/speed speed
+                                             :coord/orig-tx-inst tx-inst}]))})}]))
+
+(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/average-speed) :db/id))
+  (dat/transact conn [{:db/id #db/id[:db.part/user]
+                       :db/ident :coord.dbfn/average-speed
+                       :db/fn (dat/function 
+                               '{:lang "clojure"
+                                 :params [db speed tx-inst]
+                                 :code (let [av-speed-ent 
+                                             (datomic.api/entity db :coord/average-speed-id)]
+                                         (if (< (compare tx-inst
+                                                         (:coord/orig-tx-inst av-speed-ent)) 1)
+                                           (throw (Exception.)) 
+                                           [{:db/id #db/id[:db.part/tx]
+                                             :coord/trans-type "average-speed"}
+                                            {:db/id :coord/average-speed-id
+                                             :coord/speed speed
+                                             :coord/orig-tx-inst tx-inst}]))})}]))
+
+
 
 
 
@@ -223,6 +292,15 @@
          (-> db-value dat/history) 
          coord-id))
 
+(defn dat-result->min-coord-maps [dat-result]
+  (let [dat-result->coord-map 
+        (fn [init-map dat-result]
+          (assoc init-map
+            (->> (:attr dat-result) 
+                 (dat/ident (dat/db conn))) 
+            (:val dat-result)))]
+    (reduce dat-result->coord-map {} dat-result)))
+
 (defn dat-result->coord-maps [dat-result]
   (let [dat-result->coord-map 
         (fn [init-map dat-result]
@@ -249,6 +327,18 @@
        (map dat-result->coord-maps)
        (filter #(or (:coord/lat %) (:coord/lng %)))
        (reduce fill-missing-keys [])))
+
+(defn min-coord-history [db-value coord-id] 
+  (->> (ent-history db-value coord-id)
+       (map #(zipmap [:attr :val :time] %))
+       (group-by :time)
+       (into (sorted-map))
+       (map last)
+       (map dat-result->min-coord-maps)
+       (filter #(or (:coord/lat %) (:coord/lng %)))
+       (reduce fill-missing-keys [])))
+
+
 
 
 
@@ -357,9 +447,8 @@
                       (assoc in-map :db/id 
                              (get-coord-id-min-dist min-distance))
                       in-map)]
-    (dat/transact conn [{:db/id (dat/tempid :db.part/tx)
-                         :coord/trans-type "coord-min-dist"} 
-                        updated-map])))
+    (dat/transact conn [[:coord.dbfn/coord-min-dist 
+                          updated-map]])))
 
 (declare filter-coords-added)
 
@@ -516,16 +605,22 @@
      next-coord db]))
 
 (defn transact-dist [db {dist :coord/distance tx-inst :coord/orig-tx-inst}]
-  (dat/transact conn [{:db/id #db/id[:db.part/tx]
-                       :coord/trans-type "distance"}
-                      {:db/id dist-id 
-                       :coord/distance (.doubleValue dist) 
-                       :coord/orig-tx-inst tx-inst}]))
+  (dat/transact conn [[:coord.dbfn/distance (.doubleValue dist) tx-inst]]))
 
 (defn single-item-or-rest [in-seq]
   (cond (or (empty? in-seq) (nil? in-seq)) in-seq
         (= 1 (count in-seq)) in-seq
         :else (rest in-seq)))
+
+#_(def cc-dist-test (->> tx-channel 
+                       (filter* #(filter-coord-tx "coord" %))
+                       (filter* filter-coords-added)
+                       (map* #(reduce reduce-distance 
+                                      [(get-last-distance-entity (:db-after %)) 
+                                       (get-last-coord-with-distance (:db-after %)) (:db-after %)]
+                                      (get-coords-without-dist (:db-after %))))
+                       (map* #(dorun (map (partial transact-dist (last %)) 
+                                          (-> (first %) single-item-or-rest))))))
 
 (def cc-dist-test (->> tx-channel 
                        (filter* #(filter-coord-tx "coord" %))
@@ -608,11 +703,7 @@
      :coord/orig-tx-inst (:coord/orig-tx-inst dist2)}))
 
 (defn transact-instant-speed [{speed :coord/speed time :coord/orig-tx-inst}]
-  (dat/transact conn [{:db/id #db/id[:db.part/tx]
-                       :coord/trans-type "instant-speed"}
-                      {:db/id :coord/instant-speed-id
-                       :coord/speed (.doubleValue speed) 
-                       :coord/orig-tx-inst time}]))
+  (dat/transact conn [[:coord.dbfn/instant-speed (.doubleValue speed) time]]))
 
 (def cc-instant-speed-test 
   (->> tx-channel
@@ -666,11 +757,7 @@
         (->> (dat/entity (dat/as-of db time) :coord/dist-id) dat/touch (into {})))))
 
 (defn transact-average-speed [{speed :coord/speed time :coord/orig-tx-inst}]
-  (dat/transact conn [{:db/id #db/id[:db.part/tx]
-                       :coord/trans-type "average-speed"}
-                      {:db/id :coord/average-speed-id
-                       :coord/speed (.doubleValue speed) 
-                       :coord/orig-tx-inst time}]))
+  (dat/transact conn [[:coord.dbfn/average-speed (.doubleValue speed) time]]))
 
 (def cc-average-speed-test 
   (->> tx-channel
