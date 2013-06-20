@@ -447,8 +447,9 @@
                       (assoc in-map :db/id 
                              (get-coord-id-min-dist min-distance))
                       in-map)]
-    (dat/transact conn [[:coord.dbfn/coord-min-dist 
-                          updated-map]])))
+    (try (dat/transact conn [[:coord.dbfn/coord-min-dist 
+                              updated-map]])
+         (catch Exception e))))
 
 (declare filter-coords-added)
 
@@ -605,22 +606,13 @@
      next-coord db]))
 
 (defn transact-dist [db {dist :coord/distance tx-inst :coord/orig-tx-inst}]
-  (dat/transact conn [[:coord.dbfn/distance (.doubleValue dist) tx-inst]]))
+  (try (dat/transact conn [[:coord.dbfn/distance (.doubleValue dist) tx-inst]])
+       (catch Exception e)))
 
 (defn single-item-or-rest [in-seq]
   (cond (or (empty? in-seq) (nil? in-seq)) in-seq
         (= 1 (count in-seq)) in-seq
         :else (rest in-seq)))
-
-#_(def cc-dist-test (->> tx-channel 
-                       (filter* #(filter-coord-tx "coord" %))
-                       (filter* filter-coords-added)
-                       (map* #(reduce reduce-distance 
-                                      [(get-last-distance-entity (:db-after %)) 
-                                       (get-last-coord-with-distance (:db-after %)) (:db-after %)]
-                                      (get-coords-without-dist (:db-after %))))
-                       (map* #(dorun (map (partial transact-dist (last %)) 
-                                          (-> (first %) single-item-or-rest))))))
 
 (def cc-dist-test (->> tx-channel 
                        (filter* #(filter-coord-tx "coord" %))
@@ -631,6 +623,7 @@
                                       (get-coords-without-dist (:db-after %))))
                        (map* #(dorun (map (partial transact-dist (last %)) 
                                           (-> (first %) single-item-or-rest))))))
+
 
 
 (ground cc-dist-test)
@@ -703,7 +696,8 @@
      :coord/orig-tx-inst (:coord/orig-tx-inst dist2)}))
 
 (defn transact-instant-speed [{speed :coord/speed time :coord/orig-tx-inst}]
-  (dat/transact conn [[:coord.dbfn/instant-speed (.doubleValue speed) time]]))
+  (try (dat/transact conn [[:coord.dbfn/instant-speed (.doubleValue speed) time]])
+       (catch Exception e)))
 
 (def cc-instant-speed-test 
   (->> tx-channel
@@ -757,7 +751,8 @@
         (->> (dat/entity (dat/as-of db time) :coord/dist-id) dat/touch (into {})))))
 
 (defn transact-average-speed [{speed :coord/speed time :coord/orig-tx-inst}]
-  (dat/transact conn [[:coord.dbfn/average-speed (.doubleValue speed) time]]))
+  (try (dat/transact conn [[:coord.dbfn/average-speed (.doubleValue speed) time]])
+       (catch Exception e)))
 
 (def cc-average-speed-test 
   (->> tx-channel
