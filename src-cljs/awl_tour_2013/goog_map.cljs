@@ -1,16 +1,23 @@
 (ns awl-tour-2013.goog-map
   (:require [domina.css :refer [sel]]
-            [domina :refer [single-node set-text!] :as domina]
+            [domina :refer [single-node set-text! detach!] :as domina]
             [com.ewen.utils-cljs.utils :refer [add-load-event]]
             [shoreleave.remotes.http-rpc :as rpc]
             [cljs.reader :refer [read-string]]
             [com.ewen.flapjax-cljs :refer [timerB insertDomB 
-                                           insertValueB liftB]]
+                                           insertValueB liftB
+                                           receiverE sendEvent
+                                           mapE changes valueNow
+                                           extractValueB]]
             [F]
             [goog.net.WebSocket :as websocket]
             [goog.net.WebSocket.EventType :as websocket-event]
             [goog.net.WebSocket.MessageEvent :as websocket-message]
             [goog.events.EventHandler]))
+
+(defn filterE
+  [pred streamE]
+  (.filterE streamE pred))
 
 
 (def map-opts (js-obj "center" (google.maps/LatLng. 48 2.194)
@@ -171,25 +178,74 @@
 (def time-hour (* time-minute 60))
 (def time-day (* time-hour 24))
 
-(def start-date 1372399200000)
-(def countdown (-> "#countdown" sel single-node))
-#_(domina/set-text! countdown "test")
-(def c-timer (liftB - start-date (timerB 1000)))
-(def c-days (-> (liftB / c-timer time-day) floor-B))
-(def time-c-days (liftB * c-days time-day))
-(def c-hours (-> (liftB / (liftB - c-timer time-c-days) time-hour) floor-B))
-(def time-c-hours (liftB * c-hours time-hour))
-(def c-minutes (-> (liftB / (liftB - c-timer time-c-days time-c-hours) time-minute) floor-B))
-(def time-c-minutes (liftB * c-minutes time-minute))
-(def c-seconds (-> (liftB / (liftB - c-timer time-c-days time-c-hours time-c-minutes) time-second) floor-B))
+(def start-date-lille 1372399200000) ;28 juin 8h00 
 
-(def countdown-str (liftB str 
-                          c-days " jours " 
-                          c-hours " heures " 
-                          c-minutes " minutes " 
-                          c-seconds " secondes"))
+#_(set! start-date-lille (-> (js/Date.) .getTime (+ 5000)))
 
-(F/insertDomB countdown-str countdown)
+(def start-date-bezons 1372671000000) ;1 juillet 11h30
+(def start-date-blois 1372842000000) ;3 juillet 11h00
+(def start-date-lyon 1373274000000) ;8 juillet 11h00
+
+(def start-date (atom nil))
+
+(defn switch-countdown-div [in-key]
+  (cond (= :lille in-key) (do (reset! start-date start-date-lille)
+                              (set-text! (sel "#countdown-title") "Départ de Lille"))
+        (= :bezons in-key) (do (reset! start-date start-date-bezons)
+                               (set-text! (sel "#countdown-title") "Arrivée à Bezons"))
+        (= :blois in-key) (do (reset! start-date start-date-blois)
+                              (set-text! (sel "#countdown-title") "Arrivée à Blois"))
+        (= :lyon in-key) (do (reset! start-date start-date-lyon)
+                             (set-text! (sel "#countdown-title") "Arrivée à Lyon"))
+        (= :stop in-key) (detach! (sel "#countdown-container"))))
+
+(let [now (-> (js/Date.) .getTime)]
+  (cond (< now start-date-lille) (switch-countdown-div :lille)
+        (< now start-date-bezons) (switch-countdown-div :bezons)
+        (< now start-date-blois) (switch-countdown-div :blois)
+        (< now start-date-lyon) (switch-countdown-div :lyon)))
+
+(when (nil? @start-date) (detach! (sel "#countdown-container")))
+
+(when-not (nil? @start-date)
+
+  (def start-date-B (extractValueB start-date))
+
+  (def countdown (-> "#countdown" sel single-node))
+  (def c-timer (liftB - start-date-B (timerB 1000)))
+  (def c-days (-> (liftB / c-timer time-day) floor-B))
+  (def time-c-days (liftB * c-days time-day))
+  (def c-hours (-> (liftB / (liftB - c-timer time-c-days) time-hour) floor-B))
+  (def time-c-hours (liftB * c-hours time-hour))
+  (def c-minutes (-> (liftB / (liftB - c-timer time-c-days time-c-hours) time-minute) floor-B))
+  (def time-c-minutes (liftB * c-minutes time-minute))
+  (def c-seconds (-> (liftB / (liftB - c-timer time-c-days time-c-hours time-c-minutes) time-second) floor-B))
+
+  (def countdown-str (liftB str 
+                            c-days " jours " 
+                            c-hours " heures " 
+                            c-minutes " minutes " 
+                            c-seconds " secondes"))
+
+  (F/insertDomB countdown-str countdown)
+
+  (def switch-countdown (->> (changes c-timer) 
+                             (filterE #(= 0 (.floor js/Math (/ % 1001)))) 
+                             (mapE #(cond 
+                                     (= start-date-lille @start-date) 
+                                     :bezons
+                                     (= start-date-bezons @start-date)
+                                     :blois
+                                     (= start-date-blois @start-date)
+                                     :lyon
+                                     (= start-date-lyon @start-date)
+                                     :stop))))
+
+
+(mapE switch-countdown-div
+      switch-countdown))
+
+
 
 
 
