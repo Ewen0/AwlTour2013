@@ -20,6 +20,7 @@
   (.filterE streamE pred))
 
 
+(set! google.maps/visualRefresh true)
 (def map-opts (js-obj "center" (google.maps/LatLng. 48 2.194)
                       "zoom" 6
                       "mapTypeId" google.maps.MapTypeId/ROADMAP))
@@ -99,14 +100,20 @@
 
 ;Markers
 
-(defn make-marker [coord animate]
-  (when (:min-dist coord)
-    (google.maps/Marker.
-     (js-obj "position" (google.maps/LatLng. 
-                         (:coord/lat coord) (:coord/lng coord))
-             "map" map-obj
-             "title" (format-time (:coord/orig-tx-inst coord))
-             "animation" (if animate google.maps.Animation/DROP nil)))))
+(def tmp-marker)
+
+(defn make-marker [coord last-coord?]
+  (when (and last-coord? tmp-marker) (.setMap tmp-marker nil))
+  (when (or (:min-dist coord) last-coord?)
+    (let [marker (google.maps/Marker.
+                  (js-obj "position" (google.maps/LatLng. 
+                                      (:coord/lat coord) (:coord/lng coord))
+                          "map" map-obj
+                          "title" (format-time (:coord/orig-tx-inst coord))
+                          "animation" (if (and last-coord? (:min-dist coord)) 
+                                        google.maps.Animation/DROP 
+                                        nil)))]
+      (when-not (:min-dist coord) (set! tmp-marker marker)))))
 
 (defn make-markers [coords]
   (when-not (empty? coords)
