@@ -46,6 +46,7 @@
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
+  (GET "/getdata" [] (-> (gps/get-data) vec str))
   (ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
   (ANY "/ws" {:as req} (ws-handler req))
   (route/files "/static" {:root "resources/public"})
