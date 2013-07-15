@@ -13,26 +13,26 @@
 (def conn (dat/connect "datomic:free://localhost:4334/coords"))
 #_(dat/release conn)
 
+(do
+  (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/lat]] (dat/db conn)))
+    (dat/transact conn [{:db/id #db/id[:db.part/db]
+                         :db/ident :coord/lat
+                         :db/valueType :db.type/double
+                         :db/cardinality :db.cardinality/one
+                         :db/doc "Latitude coordinate"
+                         :db.install/_attribute :db.part/db
+                         :db/noHistory false}
 
-(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/lat]] (dat/db conn)))
-  (dat/transact conn [{:db/id #db/id[:db.part/db]
-                       :db/ident :coord/lat
-                       :db/valueType :db.type/double
-                       :db/cardinality :db.cardinality/one
-                       :db/doc "Latitude coordinate"
-                       :db.install/_attribute :db.part/db
-                       :db/noHistory false}
+                        {:db/id #db/id[:db.part/db]
+                         :db/ident :coord/lng
+                         :db/valueType :db.type/double
+                         :db/cardinality :db.cardinality/one
+                         :db/doc "Longitude coordinate"
+                         :db.install/_attribute :db.part/db
+                         :db/noHistory false}]))
 
-                      {:db/id #db/id[:db.part/db]
-                       :db/ident :coord/lng
-                       :db/valueType :db.type/double
-                       :db/cardinality :db.cardinality/one
-                       :db/doc "Longitude coordinate"
-                       :db.install/_attribute :db.part/db
-                       :db/noHistory false}]))
-
-(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/min-distance]] (dat/db conn)))
-  (dat/transact conn [{:db/id #db/id[:db.part/db]
+  (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/min-distance]] (dat/db conn)))
+    (dat/transact conn [{:db/id #db/id[:db.part/db]
                          :db/ident :coord/min-distance
                          :db/valueType :db.type/double
                          :db/cardinality :db.cardinality/one
@@ -45,116 +45,116 @@
                          :db/doc "The transaction time the original coord was added to the DB."
                          :db.install/_attribute :db.part/db}]))
 
-(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/trans-type]] (dat/db conn)))
-  (dat/transact conn [{:db/id #db/id[:db.part/db]
-                       :db/ident :coord/trans-type
-                       :db/valueType :db.type/string
-                       :db/cardinality :db.cardinality/one
-                       :db/doc "Metadata for a transaction that add a coord object. Usefull to distinguish between transactions that add coordinates with different values for the \"min-distance\" attribute."
-                       :db.install/_attribute :db.part/db}]))
+  (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/trans-type]] (dat/db conn)))
+    (dat/transact conn [{:db/id #db/id[:db.part/db]
+                         :db/ident :coord/trans-type
+                         :db/valueType :db.type/string
+                         :db/cardinality :db.cardinality/one
+                         :db/doc "Metadata for a transaction that add a coord object. Usefull to distinguish between transactions that add coordinates with different values for the \"min-distance\" attribute."
+                         :db.install/_attribute :db.part/db}]))
 
 
-(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/distance]] (dat/db conn)))
-  (dat/transact conn [{:db/id #db/id[:db.part/db]
-                       :db/ident :coord/distance
-                       :db/valueType :db.type/double
-                       :db/cardinality :db.cardinality/one
-                       :db.install/_attribute :db.part/db}]))
+  (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/distance]] (dat/db conn)))
+    (dat/transact conn [{:db/id #db/id[:db.part/db]
+                         :db/ident :coord/distance
+                         :db/valueType :db.type/double
+                         :db/cardinality :db.cardinality/one
+                         :db.install/_attribute :db.part/db}]))
 
-(when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/speed]] (dat/db conn)))
-  (dat/transact conn [{:db/id #db/id[:db.part/db]
-                       :db/ident :coord/speed
-                       :db/valueType :db.type/double
-                       :db/cardinality :db.cardinality/one
-                       :db.install/_attribute :db.part/db}]))
+  (when (empty? (dat/q '[:find ?id :where [?id :db/ident :coord/speed]] (dat/db conn)))
+    (dat/transact conn [{:db/id #db/id[:db.part/db]
+                         :db/ident :coord/speed
+                         :db/valueType :db.type/double
+                         :db/cardinality :db.cardinality/one
+                         :db.install/_attribute :db.part/db}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord/coord-id) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord/coord-id}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord/coord-id) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord/coord-id}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord/coord-min-dist-id) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord/coord-min-dist-id}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord/coord-min-dist-id) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord/coord-min-dist-id}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord/dist-id}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord/dist-id) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord/dist-id}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord/instant-speed-id}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord/instant-speed-id) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord/instant-speed-id}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord/average-speed-id) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord/average-speed-id}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord/average-speed-id) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord/average-speed-id}]))
 
-;;Database functions
+  ;;Database functions
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/coord-min-dist) :db/id))
-      (dat/transact conn [{:db/id #db/id[:db.part/user]
-                           :db/ident :coord.dbfn/coord-min-dist
-                           :db/fn (dat/function 
-                                   '{:lang "clojure"
-                                     :params [db updated-map]
-                                     :code (let [min-dist-ent 
-                                                 (datomic.api/entity db :coord/coord-min-dist-id)]
-                                             (if (< (compare (:coord/orig-tx-inst updated-map)
-                                                               (:coord/orig-tx-inst min-dist-ent)) 1)
-                                               (throw (Exception.)) 
-                                               [{:db/id #db/id[:db.part/tx]
-                                                 :coord/trans-type "coord-min-dist"}
-                                                updated-map]))})}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/coord-min-dist) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord.dbfn/coord-min-dist
+                         :db/fn (dat/function 
+                                 '{:lang "clojure"
+                                   :params [db updated-map]
+                                   :code (let [min-dist-ent 
+                                               (datomic.api/entity db :coord/coord-min-dist-id)]
+                                           (if (< (compare (:coord/orig-tx-inst updated-map)
+                                                           (:coord/orig-tx-inst min-dist-ent)) 1)
+                                             (throw (Exception.)) 
+                                             [{:db/id #db/id[:db.part/tx]
+                                               :coord/trans-type "coord-min-dist"}
+                                              updated-map]))})}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/distance) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord.dbfn/distance
-                       :db/fn (dat/function 
-                               '{:lang "clojure"
-                                 :params [db dist tx-inst]
-                                 :code (let [dist-ent 
-                                             (datomic.api/entity db :coord/dist-id)]
-                                         (if (< (compare tx-inst
-                                                         (:coord/orig-tx-inst dist-ent)) 1)
-                                           (throw (Exception.)) 
-                                           [{:db/id #db/id[:db.part/tx]
-                                             :coord/trans-type "distance"}
-                                            {:db/id :coord/dist-id
-                                             :coord/distance dist
-                                             :coord/orig-tx-inst tx-inst}]))})}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/distance) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord.dbfn/distance
+                         :db/fn (dat/function 
+                                 '{:lang "clojure"
+                                   :params [db dist tx-inst]
+                                   :code (let [dist-ent 
+                                               (datomic.api/entity db :coord/dist-id)]
+                                           (if (< (compare tx-inst
+                                                           (:coord/orig-tx-inst dist-ent)) 1)
+                                             (throw (Exception.)) 
+                                             [{:db/id #db/id[:db.part/tx]
+                                               :coord/trans-type "distance"}
+                                              {:db/id :coord/dist-id
+                                               :coord/distance dist
+                                               :coord/orig-tx-inst tx-inst}]))})}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/instant-speed) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord.dbfn/instant-speed
-                       :db/fn (dat/function 
-                               '{:lang "clojure"
-                                 :params [db speed tx-inst]
-                                 :code (let [inst-speed-ent 
-                                             (datomic.api/entity db :coord/instant-speed-id)]
-                                         (if (< (compare tx-inst
-                                                         (:coord/orig-tx-inst inst-speed-ent)) 1)
-                                           (throw (Exception.)) 
-                                           [{:db/id #db/id[:db.part/tx]
-                                             :coord/trans-type "instant-speed"}
-                                            {:db/id :coord/instant-speed-id
-                                             :coord/speed speed
-                                             :coord/orig-tx-inst tx-inst}]))})}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/instant-speed) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord.dbfn/instant-speed
+                         :db/fn (dat/function 
+                                 '{:lang "clojure"
+                                   :params [db speed tx-inst]
+                                   :code (let [inst-speed-ent 
+                                               (datomic.api/entity db :coord/instant-speed-id)]
+                                           (if (< (compare tx-inst
+                                                           (:coord/orig-tx-inst inst-speed-ent)) 1)
+                                             (throw (Exception.)) 
+                                             [{:db/id #db/id[:db.part/tx]
+                                               :coord/trans-type "instant-speed"}
+                                              {:db/id :coord/instant-speed-id
+                                               :coord/speed speed
+                                               :coord/orig-tx-inst tx-inst}]))})}]))
 
-(when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/average-speed) :db/id))
-  (dat/transact conn [{:db/id #db/id[:db.part/user]
-                       :db/ident :coord.dbfn/average-speed
-                       :db/fn (dat/function 
-                               '{:lang "clojure"
-                                 :params [db speed tx-inst]
-                                 :code (let [av-speed-ent 
-                                             (datomic.api/entity db :coord/average-speed-id)]
-                                         (if (< (compare tx-inst
-                                                         (:coord/orig-tx-inst av-speed-ent)) 1)
-                                           (throw (Exception.)) 
-                                           [{:db/id #db/id[:db.part/tx]
-                                             :coord/trans-type "average-speed"}
-                                            {:db/id :coord/average-speed-id
-                                             :coord/speed speed
-                                             :coord/orig-tx-inst tx-inst}]))})}]))
+  (when (nil? (-> (dat/entity (dat/db conn) :coord.dbfn/average-speed) :db/id))
+    (dat/transact conn [{:db/id #db/id[:db.part/user]
+                         :db/ident :coord.dbfn/average-speed
+                         :db/fn (dat/function 
+                                 '{:lang "clojure"
+                                   :params [db speed tx-inst]
+                                   :code (let [av-speed-ent 
+                                               (datomic.api/entity db :coord/average-speed-id)]
+                                           (if (< (compare tx-inst
+                                                           (:coord/orig-tx-inst av-speed-ent)) 1)
+                                             (throw (Exception.)) 
+                                             [{:db/id #db/id[:db.part/tx]
+                                               :coord/trans-type "average-speed"}
+                                              {:db/id :coord/average-speed-id
+                                               :coord/speed speed
+                                               :coord/orig-tx-inst tx-inst}]))})}])))
 
 
 
@@ -809,7 +809,7 @@
 
 (defn get-last-coord []
   (->> (dat/q 
-        '[:find ?lat ?lng ?time 
+        '[:find ?lat ?lng (max ?time) 
           :where [?coord-id :coord/lat ?lat]
           [?coord-id :coord/lng ?lng]
           [?coord-id _ _ ?tx]
