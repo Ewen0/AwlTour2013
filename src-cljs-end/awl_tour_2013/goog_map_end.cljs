@@ -327,7 +327,7 @@
              #(.log js/console "closed"))
 
   #_(connect! soc "ws://www.awl-tour-2013.com/ws")
-  (connect! soc "ws://localhost:3000/ws")
+  #_(connect! soc "ws://localhost:3000/ws")
   #_(emit! soc "msg")) 
 
 
