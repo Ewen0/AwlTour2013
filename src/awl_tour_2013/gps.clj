@@ -7,10 +7,10 @@
             [lamina.executor :refer [task]]
             [clojure.set :refer [union]]))
 
-(dat/create-database "datomic:free://localhost:4334/coords")
+#_(dat/create-database "datomic:free://localhost:4334/coords")
 #_(dat/delete-database "datomic:free://localhost:4334/coords")
 
-(def conn (dat/connect "datomic:free://localhost:4334/coords"))
+#_(def conn (dat/connect "datomic:free://localhost:4334/coords"))
 #_(dat/release conn)
 
 (do
