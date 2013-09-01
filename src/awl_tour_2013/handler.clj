@@ -7,16 +7,16 @@
                                         send!]]
             [awl-tour-2013.template :refer [main-tml]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]
-            [awl-tour-2013.gps :as gps]
+            #_[awl-tour-2013.gps :as gps]
             [lamina.core :refer [map* fork close]])
   (:import [java.io.File]
            [java.security KeyStore]))
 
 
-(defremote ^{:remote-name :get-data} remote-get-data []
+#_(defremote ^{:remote-name :get-data} remote-get-data []
   (-> (gps/get-data) vec str))
 
-(defn ws-handler [request]
+#_(defn ws-handler [request]
   (with-channel request channel
     (let [cc-min-dist (fork gps/cc-min-dist)
           cc-coord (fork gps/cc-coord)
@@ -46,9 +46,9 @@
 
 (defroutes app-routes
   (GET "/" [] (main-tml) #_(main-tml (java.io.File. "resources/public/main.html")))
-  (GET "/getdata" [] (-> (gps/get-data) vec str))
-  (ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
-  (ANY "/ws" {:as req} (ws-handler req))
+  #_(GET "/getdata" [] (-> (gps/get-data) vec str))
+  #_(ANY "/push-coord" {params :form-params} (do (gps/push-coord params) (str "")))
+  #_(ANY "/ws" {:as req} (ws-handler req))
   (route/files "/static" {:root "resources/public"})
   (route/not-found "Not Found"))
 
